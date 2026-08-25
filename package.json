@@ -4,6 +4,7 @@
   "private": true,
   "description": "五粮液精美印务OA及观星台客户演示原型",
   "scripts": {
-    "build": "cp index.html app.js style.css navigation-v2.css navigation-v2.js dist/"
+    "build": "cp index.html app.js style.css navigation-v2.css navigation-v2.js dist/",
+    "verify:navigation": "node verify-navigation-v2.mjs"
   }
 }
