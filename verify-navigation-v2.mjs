@@ -44,7 +44,7 @@ const result = vm.runInContext(`(() => {
   openAuditMenu(auditKey);
   const auditMapping = {
     page: state.page,
-    department: state.navDeptOpen,
+    department: navDepartmentForPage(state.page),
     process: state.activeNavProcess,
   };
   navNavigate('promotion', 'operations', 'operations:promotion');
@@ -67,8 +67,14 @@ assert.equal(result.firstLevelCount, 7, '一级菜单应为 7 项');
 for (const label of result.firstLevelLabels) {
   assert.ok(result.html.includes(`>${label}<`), `缺少一级菜单：${label}`);
 }
-assert.equal(result.openPrimaryCount, 1, '仅当前一级菜单应展开');
+assert.equal(result.openPrimaryCount, 7, '全部一级部门菜单应默认展开');
 assert.equal(result.allSecondLevelsExpanded, true, '二级菜单应默认全部展开');
+for (const label of ['人力资源部工作台','党政综合办工作台','审计监督部工作台','信息工程部工作台']) {
+  assert.equal(result.html.includes(label), false, `部门工作台不应保留为二级入口：${label}`);
+}
+for (const [label, page] of [['人力资源部','hr'],['党政综合办','admin'],['审计监督部','audit-home'],['信息工程部','itHome']]) {
+  assert.ok(result.html.includes(`navNavigate('`+page), `一级菜单未合并对应部门工作台：${label}`);
+}
 assert.deepEqual(JSON.parse(JSON.stringify(result.processCounts)), {
   hr: 31,
   admin: 29,

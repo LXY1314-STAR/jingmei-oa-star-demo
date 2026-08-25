@@ -1,5 +1,4 @@
 /* Final navigation model: level 1 = workbench/department/star, level 2 = business domain, level 3 = SOW process. */
-state.navDeptOpen = state.navDeptOpen || 'workbench';
 state.navSectionClosed = state.navSectionClosed || {};
 state.activeNavProcess = state.activeNavProcess || 'page:home';
 state.promotionRecord = state.promotionRecord || {
@@ -20,17 +19,15 @@ function navDepartmentForPage(page){
 }
 function navNavigate(page,dept,processKey){
   state.page=page;
-  state.navDeptOpen=dept||navDepartmentForPage(page);
   state.activeNavProcess=processKey||('page:'+page);
   state.auditFilter='全部状态';state.auditQuery='';
   render();window.scrollTo({top:0,behavior:'smooth'});
 }
 function go(page){navNavigate(page,navDepartmentForPage(page),'page:'+page);}
-function toggleNavDepartment(key){state.navDeptOpen=state.navDeptOpen===key?'':key;render();}
 function toggleNavSection(dept,key){const id=dept+':'+key;state.navSectionClosed[id]=!state.navSectionClosed[id];render();}
 function navSectionIsOpen(dept,key){return state.navSectionClosed[dept+':'+key]!==true;}
 function navPrimaryLink(page,label,key){const active=state.page===page;return '<div class="nav-primary"><button class="nav-primary-link '+(active?'active':'')+'" onclick="navNavigate(\''+page+'\',\''+key+'\',\'page:'+page+'\')"><span>'+label+'</span></button></div>';}
-function navPrimaryGroup(key,label,body,count){const open=state.navDeptOpen===key;return '<div class="nav-primary"><button class="nav-primary-button '+(open?'open':'')+'" onclick="toggleNavDepartment(\''+key+'\')"><span>'+label+'</span><span>'+(count?'<b class="nav-count">'+count+'</b>':'')+'<i>'+(open?'⌄':'›')+'</i></span></button><div class="nav-primary-body '+(open?'open':'')+'">'+body+'</div></div>';}
+function navPrimaryGroup(key,label,page,body,count){const active=navDepartmentForPage(state.page)===key;return '<div class="nav-primary"><button class="nav-primary-button open '+(active?'active':'')+'" onclick="navNavigate(\''+page+'\',\''+key+'\',\'page:'+page+'\')"><span>'+label+'</span><span>'+(count?'<b class="nav-count">'+count+'</b>':'')+'</span></button><div class="nav-primary-body open">'+body+'</div></div>';}
 function navSecondLink(page,label,dept){const active=state.page===page;return '<button class="nav-secondary-link '+(active?'active':'')+'" onclick="navNavigate(\''+page+'\',\''+dept+'\',\'page:'+page+'\')"><span>'+label+'</span></button>';}
 function navSection(dept,key,label,items){const open=navSectionIsOpen(dept,key);return '<div class="nav-secondary"><button class="nav-secondary-button '+(open?'open':'')+'" onclick="toggleNavSection(\''+dept+'\',\''+key+'\')"><span>'+label+'</span><i>'+(open?'⌄':'›')+'</i></button><div class="nav-tertiary-list '+(open?'open':'')+'">'+items+'</div></div>';}
 function navProcess(label,action,key){return '<button class="nav-tertiary '+(state.activeNavProcess===key?'active':'')+'" onclick="'+action+'">'+label+'</button>';}
@@ -42,7 +39,7 @@ function openItMenu(key){state.itModule=key;state.itFilter='全部状态';navNav
 
 function workbenchMenu(){return navSecondLink('home','管理工作台','workbench')+navSecondLink('p0','建设与追溯总览','workbench');}
 function auditMenu(){
-  let body=navSecondLink('audit-home','审计监督部工作台','audit');
+  let body='';
   ['合同与履约','合规与法律','风险管理','审计整改','招采监督'].forEach(function(group){
     const items=Object.keys(auditModules).filter(function(k){return auditModules[k].group===group;}).map(function(k){return navProcess(auditModules[k].label,"openAuditMenu('"+k+"')",'audit:'+k);}).join('');
     body+=navSection('audit',group,group,items);
@@ -51,7 +48,7 @@ function auditMenu(){
   return body;
 }
 function hrMenu(){
-  let body=navSecondLink('hr','人力资源部工作台','hr');
+  let body='';
   hrDomains.forEach(function(domain){
     const items=db.hrSamples.filter(function(x){return x.domain===domain.id;}).map(function(x){return navProcess(x.name,"openHrMenu('"+x.id+"')",'hr:'+x.id);}).join('');
     body+=navSection('hr',domain.id,domain.name,items);
@@ -59,7 +56,7 @@ function hrMenu(){
   return body;
 }
 function adminMenu(){
-  let body=navSecondLink('admin','党政综合办工作台','admin');
+  let body='';
   adminTabs().forEach(function(group){
     const items=adminCatalog.filter(function(x){return x[0]===group;}).map(function(x){return navProcess(x[2],"openAdminMenu('"+x[0]+"','"+x[1]+"')",'admin:'+x[0]+':'+x[1]);}).join('');
     body+=navSection('admin',group,group,items);
@@ -67,7 +64,7 @@ function adminMenu(){
   return body;
 }
 function itMenu(){
-  let body=navSecondLink('itHome','信息工程部工作台','it');
+  let body='';
   Array.from(new Set(itModules.map(function(x){return x.group;}))).forEach(function(group){
     const items=itModules.filter(function(x){return x.group===group;}).map(function(x){return navProcess(x.name,"openItMenu('"+x.key+"')",'it:'+x.key);}).join('');
     body+=navSection('it',group,group,items);
@@ -82,13 +79,13 @@ function starMenu(){
 }
 function renderNav(){
   return '<nav class="nav-v2" aria-label="主导航">'+
-    navPrimaryGroup('workbench','工作台',workbenchMenu())+
-    navPrimaryGroup('hr','人力资源部',hrMenu(),'31')+
-    navPrimaryGroup('admin','党政综合办',adminMenu(),'29')+
-    navPrimaryGroup('audit','审计监督部',auditMenu(),'15')+
-    navPrimaryGroup('it','信息工程部',itMenu(),'10')+
-    navPrimaryGroup('operations','经营发展部',operationsMenu(),'1')+
-    navPrimaryGroup('star','观星台',starMenu(),'7')+
+    navPrimaryGroup('workbench','工作台','home',workbenchMenu())+
+    navPrimaryGroup('hr','人力资源部','hr',hrMenu(),'31')+
+    navPrimaryGroup('admin','党政综合办','admin',adminMenu(),'29')+
+    navPrimaryGroup('audit','审计监督部','audit-home',auditMenu(),'15')+
+    navPrimaryGroup('it','信息工程部','itHome',itMenu(),'10')+
+    navPrimaryGroup('operations','经营发展部','promotion',operationsMenu(),'1')+
+    navPrimaryGroup('star','观星台','starOverview',starMenu(),'7')+
     '</nav>';
 }
 
@@ -101,5 +98,4 @@ function approvePromotion(){if(!['operations','admin','manager'].includes(state.
 
 const renderBeforeNavigationV2=render;
 render=function(){if(state.page==='promotion')return $('#app').innerHTML=promotionPage();return renderBeforeNavigationV2();};
-state.navDeptOpen=navDepartmentForPage(state.page);
 render();
