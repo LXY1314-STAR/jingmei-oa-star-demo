@@ -834,7 +834,127 @@ shell=function(content,title,description){
   if(state.page==='p0') content+='<section class="card top-gap"><div class="card-h"><div><h2>SOW 范围与 Demo 追溯台账</h2><span class="meta">用于演示前说明签字范围与真实联调边界</span></div><button class="secondary" onclick="openScopeLedger()">查看台账</button></div><p class="context-label">将 86 项 OA、50 条观星台功能、18 项接口和 7 项待确认能源能力分开管理，避免把 Demo 模拟效果等同于生产系统能力。</p></section>';
   return shellBeforeScopeNotice(content,title,description);
 };
-render();
+/* ===== 审计监督部工作域：15项流程 + ERP/SRM 只读协同 ===== */
+state.auditPage = 1;
+state.auditFilter = '全部状态';
+state.auditQuery = '';
+state.auditCurrent = '';
+state.auditNavOpen = 'audit-home';
+
+const auditModules = {
+  contractTemplate:{group:'合同与履约',label:'模板维护',title:'合同模板维护',subtitle:'维护合同模板、适用范围、必备条款与生效版本。',prefix:'CTM',columns:['模板编号','模板名称','适用合同','版本 / 状态','维护人'],action:'发布版本'},
+  contractReview:{group:'合同与履约',label:'合同评审',title:'合同评审',subtitle:'合同评审以人工结论为准；AI 仅提供条款风险提示与建议。',prefix:'CTR',columns:['合同编号','合同名称','相对方','AI提示','当前节点'],action:'进入人工复核'},
+  contractSeal:{group:'合同与履约',label:'用印签署回传',title:'用印签署回传',subtitle:'登记 OA 用印和签署回传证据，不替代电子签章平台。',prefix:'CTS',columns:['申请编号','关联合同','用印类型','签署回传','状态'],action:'登记回传'},
+  contractChange:{group:'合同与履约',label:'变更补充',title:'合同变更与补充协议',subtitle:'关联原合同、变更事项、审查意见与补充协议版本。',prefix:'CTC',columns:['变更编号','原合同','变更事项','责任部门','状态'],action:'提交评审'},
+  contractTermination:{group:'合同与履约',label:'解除终止',title:'合同解除与终止',subtitle:'以解除依据、结算影响、审批意见和归档材料形成闭环。',prefix:'CTT',columns:['申请编号','关联合同','终止原因','结算影响','状态'],action:'提交终止审查'},
+  contractPerformance:{group:'合同与履约',label:'履约台账协同',title:'合同履约台账协同',subtitle:'OA 关注履约监督和证据；付款及结算仍由 ERP 闭环。',prefix:'CTP',columns:['合同编号','履约事项','履约节点','ERP回传状态','监督状态'],action:'查看ERP回传'},
+  compliance:{group:'合规与法律',label:'合规清单维护及版本审批',title:'合规清单与版本审批',subtitle:'按版本管理合规条目；合同审查固定引用已生效版本。',prefix:'CMP',columns:['清单编号','清单名称','适用范围','版本','审批状态'],action:'提交版本审批'},
+  legal:{group:'合规与法律',label:'法律案件及纠纷',title:'法律案件及纠纷登记结案',subtitle:'围绕案件、对方、影响、责任、处置阶段、结案结论与证据留痕。',prefix:'LEG',columns:['案件编号','案件 / 纠纷事项','相对方','处置阶段','状态'],action:'登记案件'},
+  riskQuarter:{group:'风险管理',label:'季度风险上报评估',title:'季度风险上报与评估',subtitle:'业务部门上报，AI/规则给出建议，审计监督部人工确认最终风险等级。',prefix:'RSQ',columns:['风险编号','风险事项','建议等级','人工评估','状态'],action:'发起风险上报'},
+  riskRectify:{group:'风险管理',label:'整改单下发',title:'风险整改单下发',subtitle:'将经人工确认的风险分派至责任部门、责任人和完成时限。',prefix:'RSR',columns:['整改单号','关联风险','责任部门','完成期限','状态'],action:'下发整改单'},
+  riskFeedback:{group:'风险管理',label:'整改反馈 / 延期 / 关闭',title:'风险整改反馈、延期与关闭',subtitle:'责任部门提交措施与佐证；延期须审批，关闭须审计复核。',prefix:'RSF',columns:['整改单号','整改事项','责任人','整改进度','状态'],action:'提交整改反馈'},
+  riskEvent:{group:'风险管理',label:'重大风险事件报告',title:'重大风险事件报告',subtitle:'独立记录事件等级、影响范围、上报对象、处置时限与持续跟踪。',prefix:'RSE',columns:['事件编号','重大风险事件','事件等级','上报对象','状态'],action:'报告重大事件'},
+  auditRectify:{group:'审计整改',label:'审计问题整改及销账',title:'审计问题整改及销账',subtitle:'审计问题、整改责任、佐证材料、复核意见和销账结论保持同一编号。',prefix:'AUD',columns:['问题编号','审计问题','责任部门','要求完成','状态'],action:'发起整改'},
+  procurement:{group:'招采监督',label:'招采监督管理',title:'招采监督管理',subtitle:'监督 SRM 招采节点、监督意见与回传证据；专业招采流程仍在 SRM 完成。',prefix:'PSM',columns:['监督编号','SRM单号','监督节点','监督意见','状态'],action:'查看SRM流程'},
+  procurementRectify:{group:'招采监督',label:'招采异常整改及销账',title:'招采异常整改及销账',subtitle:'异常发现、责任整改、证据复核与销账在 OA 留痕闭环。',prefix:'PSR',columns:['异常编号','招采异常','责任部门','整改期限','状态'],action:'发起异常整改'}
+};
+
+function auditRecord(id,title,owner,status,extra){
+  return Object.assign({id:id,title:title,owner:owner,status:status, due:'2026-08-29', progress:status==='已关闭'||status==='已销账'||status==='已生效'?100:status==='整改中'||status==='反馈中'?60:20, files:[{name:title+'_支撑材料.pdf',version:'V1.0',uploader:'系统归集',time:'2026-08-25 10:10'}], audit:[{time:'2026-08-25 10:10',actor:'陈欣悦',action:'登记台账',result:'已生成流程、附件与可回看操作轨迹'}]},extra||{});
+}
+db.auditCenter = {
+  contractTemplate:[auditRecord('CTM-2026-006','采购合同标准模板','审计监督部 / 陈欣悦','已生效',{scope:'采购合同',version:'V2.3'}),auditRecord('CTM-2026-007','非标准合同审查要点模板','审计监督部 / 陈欣悦','审批中',{scope:'服务合同',version:'V1.0'})],
+  contractReview:[auditRecord('CTR-202608-029','华东区域包装材料年度采购合同','采购部 / 赵倩','待人工复核',{contractId:'HT-202608-029',party:'四川华彩包装材料有限公司',ai:'高风险条款 1 项'}),auditRecord('CTR-202608-028','纸张原料季度框架采购协议','采购部 / 何峰','部门会签中',{contractId:'HT-202608-028',party:'成都恒丰纸业有限公司',ai:'中风险条款 2 项'})],
+  contractSeal:[auditRecord('CTS-202608-024','信息系统运维服务合同用印','党政综合办 / 何静','待回传',{contractId:'HT-202608-024',seal:'合同专用章',signed:'等待签署版回传'}),auditRecord('CTS-202608-019','原材料运输服务框架协议用印','党政综合办 / 何静','已回传',{contractId:'HT-202608-019',seal:'合同专用章',signed:'签署版 V1.0 已归集'})],
+  contractChange:[auditRecord('CTC-202608-006','包装材料采购数量调整补充协议','采购部 / 赵倩','评审中',{contractId:'HT-202608-029',reason:'年度预测调整，数量增加12%'})],
+  contractTermination:[auditRecord('CTT-202608-003','印刷设备维保服务合同解除申请','设备动力部 / 李超','待审查',{contractId:'HT-202608-027',reason:'服务商连续两次未按期响应'})],
+  contractPerformance:[auditRecord('CTP-202608-029','华东区域包装材料年度采购合同','采购部 / 赵倩','履约监督中',{contractId:'HT-202608-029',milestone:'首批交付验收',erp:'ERP-PO-202608-144 · 待付款条件'})],
+  compliance:[auditRecord('CMP-2026-018','采购合同合规清单','审计监督部 / 陈欣悦','已生效',{scope:'采购 / 框架合同',version:'2026版'}),auditRecord('CMP-2026-021','关联交易合规核查清单','法务合规岗 / 周倩','审批中',{scope:'关联交易',version:'V1.0'})],
+  legal:[auditRecord('LEG-202608-004','供应商质量赔偿争议','四川华彩包装材料有限公司','处理中',{stage:'协商取证',impact:'预计影响 18 万元'}),auditRecord('LEG-202608-002','运输服务违约纠纷','五粮液物流有限公司','待结案',{stage:'结案审批',impact:'已达成和解'})],
+  riskQuarter:[auditRecord('RSQ-2026Q3-012','包装材料供应商交付波动风险','采购部 / 赵倩','待人工评估',{suggestion:'高',level:'待确认',source:'2026年第三季度风险上报'}),auditRecord('RSQ-2026Q3-009','关键模切设备停机影响交付风险','生产管理部 / 刘强','已评估',{suggestion:'高',level:'高',source:'2026年第三季度风险上报'})],
+  riskRectify:[auditRecord('RSR-202608-012','关键模切设备停机风险整改单','生产管理部 / 刘强','已下发',{riskId:'RSQ-2026Q3-009',due:'2026-08-30'})],
+  riskFeedback:[auditRecord('RSF-202608-012','关键模切设备停机风险整改','生产管理部 / 刘强','整改中',{rectifyId:'RSR-202608-012',progress:60,due:'2026-08-30'}),auditRecord('RSF-202608-007','供应商准入资料完整性整改','采购部 / 赵倩','待复核',{rectifyId:'RSR-202608-007',progress:100,due:'2026-08-27'})],
+  riskEvent:[auditRecord('RSE-202608-001','关键设备突发停机重大风险事件','生产管理部 / 刘强','持续跟踪',{level:'一级',reportTo:'总经理 / 分管领导',due:'2小时内完成首报'})],
+  auditRectify:[auditRecord('AUD-202608-006','采购合同履约验收证据不完整','采购部 / 赵倩','待复核',{due:'2026-08-28',progress:100}),auditRecord('AUD-202608-003','授权审批资料归档不及时','党政综合办 / 何静','整改中',{due:'2026-08-30',progress:50})],
+  procurement:[auditRecord('PSM-202608-016','包装材料年度招采监督','采购部 / 赵倩','监督中',{srm:'SRM-RFQ-202608-016',node:'评标定标',opinion:'资格文件需补充核验记录'})],
+  procurementRectify:[auditRecord('PSR-202608-005','供应商资质文件过期异常','采购部 / 赵倩','待反馈',{srm:'SRM-RFQ-202608-016',due:'2026-08-28',progress:20}),auditRecord('PSR-202608-002','评标记录签字不完整异常','采购部 / 赵倩','待复核',{srm:'SRM-RFQ-202608-011',due:'2026-08-26',progress:100})]
+};
+
+function auditRows(key){
+  const rows=db.auditCenter[key]||[], q=(state.auditQuery||'').trim();
+  return rows.filter(function(x){return (state.auditFilter==='全部状态'||x.status===state.auditFilter)&&(!q||[x.id,x.title,x.owner,x.status].join('|').includes(q));});
+}
+function auditModule(key){return auditModules[key];}
+function auditCan(action){return action==='反馈'?['owner','audit','manager'].includes(state.role):['audit','manager'].includes(state.role);}
+function auditNavItems(group){return Object.keys(auditModules).filter(function(k){return auditModules[k].group===group;}).map(function(k){return navButton('audit-'+k,auditModules[k].label);}).join('');}
+function auditGroupForPage(page){if(page==='audit-home')return 'audit-home';if(page.indexOf('audit-')===0)return auditModules[page.slice(6)]?auditModules[page.slice(6)].group:'audit-home';if(page==='erp')return 'audit-contract';if(page==='srm')return 'audit-procurement';return '';}
+function renderNav(){
+  return navGroup('workbench','工作台',navButton('home','管理工作台')+navButton('p0','建设与追溯总览'))+
+    navGroup('audit-home','审计监督部',navButton('audit-home','审计监督部工作台'))+
+    navGroup('合同与履约','合同与履约',auditNavItems('合同与履约'))+
+    navGroup('合规与法律','合规与法律',auditNavItems('合规与法律'))+
+    navGroup('风险管理','风险管理',auditNavItems('风险管理'))+
+    navGroup('审计整改','审计整改',auditNavItems('审计整改'))+
+    navGroup('招采监督','招采监督',auditNavItems('招采监督'))+
+    navGroup('audit-contract','ERP 模拟系统',navButton('erp','合同履约与付款状态'))+
+    navGroup('audit-procurement','SRM 模拟系统',navButton('srm','招采流程与异常'))+
+    navGroup('admin','党政行政',navButton('admin','党政综合办工作中心'))+
+    navGroup('star','观星台',navButton('star','经营驾驶舱')+navButton('metric','指标下钻与血缘')+navButton('problem','问题闭环中心')+navButton('quality','指标与数据质量'))+
+    navGroup('hr','人力资源',navButton('hr','人力资源工作台')+navButton('onboarding','入职协同')+navButton('employee','员工360档案')+navButton('leave','请假考勤')+navButton('qualification','岗位资格中心'))+
+    navGroup('service','信息化服务',navButton('service','服务、发布与补偿'));
+}
+function groupForPage(page){return auditGroupForPage(page)||({home:'workbench',p0:'workbench',contract:'合同与履约',contractDetail:'合同与履约',risk:'风险管理',admin:'admin',star:'star',metric:'star',problem:'star',problemDetail:'star',quality:'star',hr:'hr',onboarding:'hr',onboardingDetail:'hr',employee:'hr',employeeDetail:'hr',leave:'hr',leaveDetail:'hr',qualification:'hr',service:'service'}[page]||'workbench');}
+function go(page){state.page=page;state.navOpen=groupForPage(page);state.auditFilter='全部状态';state.auditQuery='';render();window.scrollTo({top:0,behavior:'smooth'});}
+
+function auditHomePage(){
+  const all=Object.keys(db.auditCenter).reduce(function(a,k){return a.concat(db.auditCenter[k]);},[]);
+  const cards=[['待人工复核',all.filter(function(x){return /待人工复核|待人工评估|待复核/.test(x.status);}).length,'audit-contractReview'],['临期整改',all.filter(function(x){return /整改中|待反馈/.test(x.status);}).length,'audit-riskFeedback'],['重大风险',db.auditCenter.riskEvent.length,'audit-riskEvent'],['招采异常',db.auditCenter.procurementRectify.filter(function(x){return x.status!=='已销账';}).length,'audit-procurementRectify']];
+  const content='<div class="role-banner"><div><span class="eyebrow">审计监督部 · 15项业务闭环</span><h2>监督、评审、整改和销账的统一工作台</h2><p>AI 仅给出风险提示或等级建议；人工复核结论、监督意见与销账结论是唯一有效结论。</p></div><div class="session-note">OA 仅承接评审、监督、台账和整改闭环；ERP/SRM 主流程保持外部系统边界。</div></div><div class="kpis">'+cards.map(function(c){return '<button class="kpi '+(c[0]==='重大风险'?'alert':'')+'" onclick="go(\''+c[2]+'\')"><span class="label">'+c[0]+'</span><strong class="val">'+c[1]+'</strong><span class="hint">点击进入对应台账</span></button>';}).join('')+'</div><div class="story-grid"><article class="story-card"><div class="story-head"><div><span class="story-no">主讲解路径</span><h2>合同风险到履约协同</h2></div>'+badge('待人工复核')+'</div><div class="story-flow"><span class="done">模板与评审</span><i>→</i><span class="current">AI提示</span><i>→</i><span>人工结论</span><i>→</i><span>用印回传</span><i>→</i><span>ERP履约回看</span></div><button class="primary" onclick="go(\'audit-contractReview\')">开始合同评审演示</button></article><article class="story-card"><div class="story-head"><div><span class="story-no">责任事项</span><h2>整改、延期、复核与销账</h2></div>'+badge('整改中')+'</div><p>风险、审计问题和招采异常均采用同一证据规则：反馈与附件 → 延期审批（如需）→ 审计复核 → 关闭/销账。</p><button class="secondary" onclick="go(\'audit-riskFeedback\')">查看整改闭环</button></article></div><section class="card top-gap"><div class="card-h"><h2>审计监督部待办</h2><button class="link" onclick="openTodos()">查看全部待办 →</button></div><div class="todo">'+db.todos.filter(function(t){return t.role==='audit'||/合同|风险|问题/.test(t.type);}).slice(0,5).map(function(t){return '<div class="todo-row"><span class="type">'+t.type+'</span><button class="name as-link" onclick="openObject(\''+t.objectId+'\')">'+t.title+'</button><span class="meta">'+t.due+'</span></div>';}).join('')+'</div></section>';
+  return shell(content,'审计监督部工作台','聚焦人工复核、风险监督、整改销账和跨系统回传证据。');
+}
+
+function auditPage(key){
+  const m=auditModule(key),rows=auditRows(key), statuses=['全部状态'].concat(Array.from(new Set((db.auditCenter[key]||[]).map(function(x){return x.status;}))));
+  const stats=statuses.slice(0,4).map(function(s){return '<button class="stat '+(state.auditFilter===s?'active':'')+'" onclick="state.auditFilter=\''+s+'\';render()"><b>'+((db.auditCenter[key]||[]).filter(function(x){return s==='全部状态'||x.status===s;}).length)+'</b><span>'+s+'</span></button>';}).join('');
+  const cols=m.columns.map(function(c){return '<th>'+c+'</th>';}).join('');
+  const body=rows.map(function(x,i){return '<tr><td>'+(i+1)+'</td><td><a onclick="openAuditDetail(\''+key+'\',\''+x.id+'\')">'+x.id+'</a></td><td><button class="table-link" onclick="openAuditDetail(\''+key+'\',\''+x.id+'\')">'+x.title+'</button></td><td>'+auditColumn(key,x,0)+'</td><td>'+auditColumn(key,x,1)+'</td><td>'+badge(x.status)+'</td><td><button class="link" onclick="openAuditDetail(\''+key+'\',\''+x.id+'\')">'+m.action+'</button></td></tr>';}).join('')||'<tr><td colspan="8"><div class="empty compact">当前筛选条件下暂无记录。</div></td></tr>';
+  const content='<div class="stat-row">'+stats+'</div><div class="toolbar"><input value="'+state.auditQuery+'" oninput="state.auditQuery=this.value;state.auditPage=1;render()" placeholder="搜索编号、事项、责任人或状态"><span class="context-label">'+m.subtitle+'</span><span class="spacer"></span><button class="primary" onclick="openAuditCreate(\''+key+'\')">+ '+m.action+'</button></div><div class="table-card"><table><thead><tr><th>序号</th><th>'+m.columns[0]+'</th><th>'+m.columns[1]+'</th><th>'+m.columns[2]+'</th><th>'+m.columns[3]+'</th><th>状态</th><th>操作</th></tr></thead><tbody>'+body+'</tbody></table><div class="pager"><span>共 '+rows.length+' 条 · 查询、统计、操作轨迹与当前结果同步</span></div></div>';
+  return shell(content,m.title,m.subtitle);
+}
+function auditColumn(key,x,i){
+  const special={contractReview:[x.party||'—',x.ai||'AI提示待返回'],contractSeal:[x.contractId||'—',x.signed||'—'],contractChange:[x.contractId||'—',x.reason||'—'],contractTermination:[x.contractId||'—',x.reason||'—'],contractPerformance:[x.milestone||'—',x.erp||'—'],compliance:[x.scope||'—',x.version||'—'],legal:[x.owner||'—',x.stage||'—'],riskQuarter:[x.suggestion||'—',x.level||'待确认'],riskRectify:[x.riskId||'—',x.owner||'—'],riskFeedback:[x.owner||'—',(x.progress||0)+'%'],riskEvent:[x.level||'—',x.reportTo||'—'],auditRectify:[x.owner||'—',x.due||'—'],procurement:[x.srm||'—',x.node||'—'],procurementRectify:[x.owner||'—',x.due||'—']};
+  if(key==='contractTemplate')return i===0?(x.scope||'—'):(x.version||'—');
+  return (special[key]||[x.owner||'—',x.due||'—'])[i];
+}
+function getAuditItem(key,id){return (db.auditCenter[key]||[]).find(function(x){return x.id===id;});}
+function openAuditDetail(key,id){
+  const m=auditModule(key),x=getAuditItem(key,id),isFeedback=/riskFeedback|auditRectify|procurementRectify/.test(key),isRisk=key==='riskQuarter',external=key==='contractPerformance'||key==='procurement';
+  const flow=['发起/登记',isRisk?'人工评估':'责任处理',isFeedback?'反馈与佐证':'审核确认',isFeedback?'审计复核':'归档/回传'].map(function(n,i){let s=i===0?'已完成':i===1&&x.status!=='已关闭'&&x.status!=='已销账'?'处理中':'待办理';if(x.status==='待复核'&&i===2)s='处理中';if(x.status==='已关闭'||x.status==='已销账')s='已完成';return '<div class="node '+(s==='已完成'?'done':s==='处理中'?'current':'')+'"><div class="n">'+(i+1)+'</div><p>'+n+'</p><span>'+s+'</span></div>';}).join('');
+  const infoHtml=info('责任部门/人',x.owner)+info('当前状态',badge(x.status))+info('完成时限',x.due||'—')+info('关联对象',x.contractId||x.riskId||x.rectifyId||x.srm||'—')+info('附件证据',x.files.length+' 份')+info('操作轨迹',x.audit.length+' 条');
+  const evidence='<section class="card top-gap"><div class="card-h"><h2>附件与操作审计</h2><span class="meta">刷新后恢复演示基线</span></div><div class="split"><div class="file-list">'+x.files.map(function(f){return '<div class="file-row"><b>'+f.name+'</b><span>'+f.version+' · '+f.time+'</span></div>';}).join('')+'</div>'+auditList(x.audit)+'</div></section>';
+  let action='<button class="primary" onclick="advanceAuditItem(\''+key+'\',\''+id+'\')">'+m.action+'</button>';
+  if(key==='contractReview')action='<button class="primary" onclick="openContractReviewFromAudit(\''+id+'\')">打开AI人工复核</button>';
+  if(isRisk&&x.status==='待人工评估')action='<button class="primary" onclick="advanceAuditItem(\''+key+'\',\''+id+'\')">人工确认等级并下发整改</button>';
+  if(isFeedback||key==='auditRectify'||key==='procurementRectify')action='<button class="secondary" onclick="auditFeedback(\''+key+'\',\''+id+'\')">提交反馈 / 延期</button><button class="primary" onclick="auditClose(\''+key+'\',\''+id+'\')">审计复核关闭</button>';
+  if(external)action='<button class="primary" onclick="go(\''+(key==='contractPerformance'?'erp':'srm')+'\');closeModal()">查看外部系统回传</button>';
+  openModal(x.id+' · '+x.title,'<div class="detail-head"><div class="detail-kicker">'+m.group+' / '+m.label+'</div><h2>'+x.title+'</h2><div class="detail-badges">'+badge(x.status)+'</div></div><div class="info-grid">'+infoHtml+'</div><section class="card top-gap"><div class="card-h"><h2>流程轨迹</h2><span class="meta">OA流程模拟</span></div><div class="flow detailed">'+flow+'</div></section>'+evidence,'<button class="secondary" onclick="closeModal()">关闭</button>'+action,true);
+}
+function openAuditCreate(key){const m=auditModule(key);openModal('发起 '+m.label,'<div class="form-grid"><div class="field full"><label>事项主题 <em>*</em></label><input id="auditTitle" value="'+m.label+'示例事项"></div><div class="field"><label>责任部门/人</label><select id="auditOwner"><option>审计监督部 / 陈欣悦</option><option>采购部 / 赵倩</option><option>生产管理部 / 刘强</option></select></div><div class="field"><label>完成期限</label><input id="auditDue" type="date" value="2026-08-31"></div><div class="field full"><label>说明</label><textarea id="auditNote">当前会话创建，提交后生成台账、附件和操作审计；刷新恢复演示基线。</textarea></div><div class="field full"><label>附件</label><div class="upload-box">'+m.label+'_材料.pdf<span>已模拟上传 · 当前会话可见</span></div></div></div>','<button class="secondary" onclick="closeModal()">取消</button><button class="primary" onclick="saveAuditCreate(\''+key+'\')">提交并生成台账</button>');}
+function saveAuditCreate(key){const title=$('#auditTitle').value.trim();if(!title){toast('请填写事项主题');return;}const m=auditModule(key),rows=db.auditCenter[key],x=auditRecord(m.prefix+'-N'+String(rows.length+1).padStart(3,'0'),title,$('#auditOwner').value,'待办理',{due:$('#auditDue').value});audit(x,'发起'+m.label,$('#auditNote').value);rows.unshift(x);closeModal();render();toast('已生成台账、附件和操作轨迹');}
+function openContractReviewFromAudit(id){const x=getAuditItem('contractReview',id);closeModal();if(x.contractId){showContract(x.contractId);setContractTab('ai');}else{toast('该合同评审记录未关联合同详情');}}
+function advanceAuditItem(key,id){const x=getAuditItem(key,id);if(!auditCan('处理')){toast('请切换至审计监督部或公司管理层视角办理');return;}if(key==='riskQuarter'){x.status='已评估';x.level=x.suggestion||'中';audit(x,'人工确认风险等级','审计监督部确认最终等级为'+x.level+'风险，并生成风险整改单');const target=db.auditCenter.riskRectify[0];target.status='已下发';}else if(key==='contractSeal'){x.status='已回传';x.signed='签署版 V1.0 已归集';}else{x.status='已办理';}x.files.unshift({name:x.title+'_办理结果.pdf',version:'V1.0',uploader:currentRole().name,time:'2026-08-25 16:45'});audit(x,'提交办理结果','状态、附件与审计轨迹已同步更新');closeModal();render();toast('处理结果已回写台账');}
+function auditFeedback(key,id){const x=getAuditItem(key,id);if(!auditCan('反馈')&&!['owner','audit','manager'].includes(state.role)){toast('当前角色无权提交整改反馈');return;}openModal('提交整改反馈 / 延期申请','<div class="form-grid"><div class="field"><label>整改进度 <em>*</em></label><input id="auditProgress" type="number" min="0" max="100" value="'+(x.progress||60)+'"></div><div class="field"><label>处理方式</label><select id="auditFeedbackType"><option>提交整改反馈</option><option>申请延期</option></select></div><div class="field full"><label>措施与说明 <em>*</em></label><textarea id="auditFeedbackNote">已完成资料补充与责任核验，提交佐证材料供审计复核。</textarea></div><div class="field full"><label>佐证附件</label><div class="upload-box">整改佐证材料.pdf<span>已模拟上传 · 当前会话可见</span></div></div></div>','<button class="secondary" onclick="closeModal()">取消</button><button class="primary" onclick="saveAuditFeedback(\''+key+'\',\''+id+'\')">提交反馈</button>');}
+function saveAuditFeedback(key,id){const x=getAuditItem(key,id),p=Number($('#auditProgress').value),note=$('#auditFeedbackNote').value.trim(),type=$('#auditFeedbackType').value;if(!note||p<0||p>100){toast('请填写有效的整改进度与说明');return;}x.progress=p;x.status=type==='申请延期'?'延期待审批':p===100?'待复核':'整改中';x.files.unshift({name:x.title+'_整改佐证.pdf',version:'V1.0',uploader:currentRole().name,time:'2026-08-25 16:50'});audit(x,type,note);closeModal();render();toast('整改进度、状态、附件和审计轨迹已同步');}
+function auditClose(key,id){const x=getAuditItem(key,id);if(!['audit','manager'].includes(state.role)){toast('仅审计监督部或公司管理层可复核关闭');return;}if(x.status!=='待复核'||!x.files.length){toast('需先提交完整佐证并进入待复核状态，才能关闭/销账');return;}x.status=key==='auditRectify'||key==='procurementRectify'?'已销账':'已关闭';x.progress=100;x.files.unshift({name:x.title+'_复核结论.pdf',version:'V1.0',uploader:currentRole().name,time:'2026-08-25 16:55'});audit(x,'审计复核关闭','佐证完整，已形成最终复核结论并关闭台账');closeModal();render();toast('已完成审计复核与销账回写');}
+
+function erpPage(){const rows=db.auditCenter.contractPerformance;const content='<div class="role-banner"><div><span class="eyebrow">ERP 模拟系统 · 只读</span><h2>合同履约与付款状态</h2><p>模拟 ERP 回传的合同、履约与付款条件状态；本页不提供付款、结算或凭证操作。</p></div><div class="session-note">数据为 Demo 模拟回传，不代表已连通 ERP。</div></div><div class="table-card"><table><thead><tr><th>序号</th><th>ERP采购订单</th><th>合同编号</th><th>履约里程碑</th><th>付款状态</th><th>同步时间</th><th>OA监督</th></tr></thead><tbody>'+rows.map(function(x,i){return '<tr><td>'+(i+1)+'</td><td>ERP-PO-202608-144</td><td><button class="link" onclick="go(\'audit-contractPerformance\')">'+x.contractId+'</button></td><td>'+x.milestone+'</td><td>'+badge('待付款条件')+'</td><td>2026-08-25 08:30</td><td><button class="link" onclick="go(\'audit-contractPerformance\')">查看OA台账</button></td></tr>';}).join('')+'</tbody></table></div><section class="card top-gap"><div class="card-h"><h2>回传证据</h2><span class="meta">只读模拟</span></div><div class="info-grid">'+info('来源系统','ERP 合同履约模块')+info('回传单号','ERP-PO-202608-144')+info('最近同步','2026-08-25 08:30')+info('付款处理边界','仅 ERP 财务流程可办理')+'</div></section>';return shell(content,'ERP · 合同履约与付款状态','用于演示跨系统查询和证据回传，不替代 ERP 专业流程。');}
+function srmPage(){const rows=db.auditCenter.procurement.concat(db.auditCenter.procurementRectify);const content='<div class="role-banner"><div><span class="eyebrow">SRM 模拟系统 · 只读</span><h2>招采流程与异常状态</h2><p>模拟 SRM 招采节点和异常回传；OA 仅承接监督意见、整改和销账。</p></div><div class="session-note">不提供采购申请、询比价、定标或订单操作。</div></div><div class="table-card"><table><thead><tr><th>序号</th><th>SRM单号</th><th>招采事项</th><th>当前节点 / 异常</th><th>状态</th><th>回传时间</th><th>OA动作</th></tr></thead><tbody>'+rows.map(function(x,i){return '<tr><td>'+(i+1)+'</td><td>'+ (x.srm||'SRM-RFQ-202608-016')+'</td><td>'+x.title+'</td><td>'+ (x.node||'资质文件异常')+'</td><td>'+badge(x.status)+'</td><td>2026-08-25 09:10</td><td><button class="link" onclick="go(\''+(x.id.indexOf('PSR')===0?'audit-procurementRectify':'audit-procurement')+'\')">查看OA闭环</button></td></tr>';}).join('')+'</tbody></table></div><section class="card top-gap"><div class="card-h"><h2>系统边界</h2><span class="meta">只读模拟</span></div><div class="info-grid">'+info('来源系统','SRM 招采管理模块')+info('专业流程','采购申请、询比价、定标、订单')+info('OA职责','监督意见、整改、复核、销账')+info('回传证据','单号、节点、异常、同步时间')+'</div></section>';return shell(content,'SRM · 招采流程与异常','用于演示招采监督与异常整改的跨系统证据链。');}
+
+function render(){
+  const pages={home:homePage,p0:p0Page,contract:contractPage,contractDetail:contractDetailPage,risk:riskPage,admin:adminPage,star:starPage,metric:metricPage,problem:problemPage,problemDetail:problemDetailPage,quality:qualityPage,service:servicePage,hr:hrPage,onboarding:onboardingPage,onboardingDetail:onboardingDetailPage,employee:employeePage,employeeDetail:employeeDetailPage,leave:leavePage,leaveDetail:leaveDetailPage,qualification:qualificationPage,'audit-home':auditHomePage,erp:erpPage,srm:srmPage};
+  Object.keys(auditModules).forEach(function(key){pages['audit-'+key]=function(){return auditPage(key);};});
+  $('#app').innerHTML=(pages[state.page]||homePage)();
+}
 
 /* ===== V1.1 HR 31项功能样例：六域台账、员工自助与脱敏边界 ===== */
 state.hrDomain='recruit';
@@ -914,6 +1034,206 @@ const openObjectBeforeHr31=openObject;
 openObject=function(id){if(String(id).indexOf('HR-')===0){showHrSample(id);return;}return openObjectBeforeHr31(id);};
 render();
 
+/* ===== 观星台 V2：七条主线、经营分析会与规则优化 ===== */
+state.meetingTab='agenda';
+state.starBatchFilter='全部';
+
+db.starCenter={
+  batches:[
+    {id:'COL-20260820-01',name:'8月经营主题增量采集',sources:'ERP / MES / QMS',time:'08:00–08:20',records:'12,486 条',quality:'99.8%',status:'已发布',version:'PUB-20260820-01',note:'完成主数据匹配、质量校验和指标计算。'},
+    {id:'COL-20260825-01',name:'生产报工质量复跑',sources:'MES / QMS',time:'10:30–10:42',records:'3,286 条',quality:'100%',status:'已发布',version:'PUB-20260825-01',note:'组织编码缺失修复后复跑，已解除受影响指标的数据质量提示。'},
+    {id:'COL-20260826-01',name:'供应链风险候选采集',sources:'ERP / SRM / AI',time:'待运行',records:'—',quality:'待校验',status:'待发布',version:'—',note:'仅生成候选风险与批次日志，需人工核实后进入风险台账。'}
+  ],
+  meeting:{id:'MTG-202608-011',title:'2026年8月经营分析会',period:'2026年8月',snapshot:'STAR-SNAPSHOT-202608-01',status:'进行中',host:'经营发展部 / 周敏',heldAt:'2026-08-20 09:00',agenda:[
+    {id:'AGD-01',title:'产值完成率低于计划 6.2%',metricId:'MET-002',org:'生产管理部',finding:'两台模切设备停机，重点订单换版次数增加。',decision:'调整排产并完成二号模切机专项点检。',status:'已形成决议',problemId:'WT-202608-021'},
+    {id:'AGD-02',title:'生产报工组织编码缺失',metricId:'MET-002',org:'信息工程部',finding:'3 条报工记录未匹配组织编码，影响产值归集。',decision:'完成数据修复后复跑质量校验。',status:'已闭环',problemId:'DQ-202608-003'},
+    {id:'AGD-03',title:'供应商交付波动风险',metricId:'MET-003',org:'采购部',finding:'供应商交付预警与人工风险上报存在同一业务键。',decision:'合并双源证据，审计监督部人工定级。',status:'待分派',riskId:'RSK-202608-014'}
+  ],actions:[
+    {id:'ACT-01',title:'提交产值追回进展',owner:'生产管理部 / 刘强',due:'2026-08-25',status:'整改中',objectId:'WT-202608-021',type:'问题整改'},
+    {id:'ACT-02',title:'复跑生产报工组织编码质量校验',owner:'信息工程部 / 王晓雨',due:'2026-08-22',status:'已完成',objectId:'DQ-202608-003',type:'数据质量'},
+    {id:'ACT-03',title:'核实供应商交付双源风险',owner:'采购部 / 赵倩',due:'2026-08-26',status:'待分派',objectId:'RSK-202608-014',type:'风险核实'}
+  ],audit:[{time:'2026-08-20 09:00',actor:'经营发展部 / 周敏',action:'冻结会议数据快照',result:'引用 STAR-SNAPSHOT-202608-01，实时驾驶舱不覆盖会议依据。'}]},
+  ruleVersions:[
+    {id:'RISK-RULE-2026.08.3',name:'供应商交付与合规风险规则',scope:'采购 / 供应商 / 生产经营',status:'已生效',hit:28,confirmed:'88.6%',effective:'2026-08-01',feedback:12},
+    {id:'RISK-RULE-2026.08.4-D',name:'供应商交付波动识别优化草案',scope:'供应商交付延迟 + 质量异常组合',status:'待回测',hit:'—',confirmed:'—',effective:'—',feedback:3}
+  ],
+  feedback:[
+    {id:'FB-001',risk:'RSK-202608-014',signal:'连续两批到货延期 + 质量异常',result:'人工确认',owner:'审计监督部 / 陈欣悦',note:'保留为高风险候选，并纳入组合规则回测。'},
+    {id:'FB-002',risk:'RSK-202608-009',signal:'单次交期波动',result:'误报',owner:'采购部 / 赵倩',note:'已确认属已批准的计划调整，不计入风险命中。'},
+    {id:'FB-003',risk:'RSK-202608-006',signal:'供应商舆情关键词',result:'待标注',owner:'审计监督部 / 陈欣悦',note:'等待业务核实与证据补充。'}
+  ]
+};
+
+function starManageable(){return ['operations','audit','manager'].includes(state.role);}
+function starOverviewPage(){
+  const s=db.starCenter,open=s.meeting.actions.filter(function(x){return x.status!=='已完成';}).length;
+  const lines=[
+    ['指标全生命周期','metric','3 个指标 · 1 项预警','口径、血缘、质量、发布与下游影响'],
+    ['数据采集与发布','collection','3 个采集批次 · 1 个待发布','ERP、MES、QMS 的权威数据汇聚'],
+    ['会议场景运行','meeting','1 场经营分析会 · '+open+' 项待办','冻结快照、议题、决议与责任事项'],
+    ['问题快发闭环','problem','2 项未关闭','观星台识别，OA 承接整改与验收'],
+    ['数据质量闭环','quality','1 项待修复','异常、分派、复跑与指标恢复'],
+    ['双源风险采集与闭环','risk','3 条风险台账','人工上报与 AI 候选合并核实'],
+    ['AI 风险规则优化','ruleLab','2 个规则版本 · 3 条反馈','人工标注、回测、审批和版本留痕']
+  ];
+  const content='<div class="star-hero"><div><span class="eyebrow">观星台 · 跨系统经营洞察</span><h2>数据汇聚、指标分析、风险识别与责任闭环</h2><p>ERP、MES、QMS 保持专业与权威数据职责；OA 仅承接责任事项协同、整改、验收和归档。</p></div><div class="session-note">当前：'+currentRole().label+'<br>数据为 Demo 模拟，刷新后恢复基线。</div></div><div class="star-boundary"><b>数据边界</b><span>ERP / MES / QMS：数据权威来源</span><i>→</i><span>观星台：汇聚、分析、识别与跟踪</span><i>→</i><span>OA：责任协同、整改、验收与归档</span></div><div class="star-line-grid">'+lines.map(function(x,i){return '<button class="star-line '+(i===2?'featured':'')+'" onclick="go(\''+x[1]+'\')"><span>0'+(i+1)+'</span><h3>'+x[0]+'</h3><b>'+x[2]+'</b><small>'+x[3]+'</small><em>进入主线 →</em></button>';}).join('')+'</div>';
+  return shell(content,'观星台全景','以七条可回看的业务主线组织跨系统经营管理演示。','<button class="primary" onclick="go(\'meeting\')">进入经营分析会主线</button>');
+}
+
+function collectionPage(){
+  const rows=db.starCenter.batches.filter(function(x){return state.starBatchFilter==='全部'||x.status===state.starBatchFilter;});
+  const stats=['全部','已发布','待发布'].map(function(s){return '<button class="stat '+(state.starBatchFilter===s?'active':'')+'" onclick="state.starBatchFilter=\''+s+'\';render()"><b>'+db.starCenter.batches.filter(function(x){return s==='全部'||x.status===s;}).length+'</b><span>'+s+'批次</span></button>';}).join('');
+  const table=rows.map(function(x,i){return '<tr><td>'+(i+1)+'</td><td><b>'+x.id+'</b><small>'+x.name+'</small></td><td>'+x.sources+'</td><td>'+x.records+'</td><td>'+x.quality+'</td><td>'+x.version+'</td><td>'+badge(x.status)+'</td><td><button class="link" onclick="openBatch(\''+x.id+'\')">查看过程</button></td></tr>';}).join('');
+  const content='<div class="period-bar"><div><span class="eyebrow">观星台数据运行</span><b>从采集、校验到发布，保留批次与影响对象</b><small>源系统继续负责业务处理和权威数据；观星台不修改源系统记录。</small></div><div>'+badge('模拟运行')+'</div></div><div class="stat-row">'+stats+'</div><div class="toolbar"><span class="context-label">每次发布均绑定采集范围、质量结果、指标版本和下游使用场景。</span><span class="spacer"></span><button class="primary" onclick="runCollectionBatch()">运行供应链风险采集</button></div><div class="table-card"><table><thead><tr><th>序号</th><th>采集批次</th><th>来源系统</th><th>记录数</th><th>质量结果</th><th>发布版本</th><th>状态</th><th>操作</th></tr></thead><tbody>'+table+'</tbody></table></div>';
+  return shell(content,'数据采集与发布','采集批次、质量校验、发布版本和下游影响在同一台账中可追溯。');
+}
+function openBatch(id){const x=db.starCenter.batches.find(function(b){return b.id===id;});openModal(x.id+' · '+x.name,'<div class="info-grid">'+info('来源系统',x.sources)+info('运行时间',x.time)+info('采集记录',x.records)+info('质量结果',x.quality)+info('发布版本',x.version)+info('当前状态',badge(x.status))+'</div><div class="context-tip"><b>批次说明：</b>'+x.note+'</div><div class="source-chain"><div><b>源系统</b><span>'+x.sources+'</span></div><i>→</i><div><b>质量校验</b><span>完整性、唯一性、业务键匹配</span></div><i>→</i><div><b>主题加工</b><span>经营主题模型 V2.4</span></div><i>→</i><div><b>观星台发布</b><span>'+x.version+'</span></div></div>','<button class="primary" onclick="closeModal()">关闭</button>',true);}
+function runCollectionBatch(){if(!starManageable()){toast('仅经营发展部、审计监督部或公司管理层可运行模拟采集。');return;}const x=db.starCenter.batches[2];x.time='2026-08-25 14:00–14:08';x.records='486 条';x.quality='99.6%';x.status='已发布';x.version='PUB-20260825-02';x.note='生成供应商交付风险候选 2 条，等待人工核实，不改变 ERP/SRM 原始数据。';db.messages.unshift({id:'MSG-COL-01',title:'供应链风险采集批次已发布，生成2条待核实候选',time:'14:08',read:false,objectId:x.id});render();toast('采集批次、发布版本和候选风险提示已同步更新。');}
+
+function meetingPage(){
+  const m=db.starCenter.meeting,agenda=m.agenda.map(function(a){return '<article class="meeting-agenda"><div><span>'+a.id+' · '+a.org+'</span><h3>'+a.title+'</h3><p>'+a.finding+'</p><b>会议决议：'+a.decision+'</b></div><aside>'+badge(a.status)+'<button class="link" onclick="openMeetingObject(\''+(a.problemId||a.riskId)+'\')">查看关联对象 →</button></aside></article>';}).join('');
+  const tasks=m.actions.map(function(a){return '<div class="meeting-task"><div><span>'+a.type+' · OA 联动任务</span><b>'+a.title+'</b><small>'+a.owner+' · 完成期限 '+a.due+'</small></div><div>'+badge(a.status)+'<button class="link" onclick="openMeetingObject(\''+a.objectId+'\')">查看处理</button></div></div>';}).join('');
+  const tabs='<div class="tabs"><button class="'+(state.meetingTab==='agenda'?'active':'')+'" onclick="state.meetingTab=\'agenda\';render()">会议议题 <i class="tab-count">'+m.agenda.length+'</i></button><button class="'+(state.meetingTab==='tasks'?'active':'')+'" onclick="state.meetingTab=\'tasks\';render()">责任事项 <i class="tab-count">'+m.actions.length+'</i></button><button class="'+(state.meetingTab==='audit'?'active':'')+'" onclick="state.meetingTab=\'audit\';render()">运行留痕</button></div>';
+  let body=state.meetingTab==='agenda'?'<section class="meeting-board">'+agenda+'</section>':state.meetingTab==='tasks'?'<section class="card"><div class="card-h"><h2>OA 联动责任任务</h2><span class="meta">观星台保留上下文，OA 承接协同闭环</span></div><div class="meeting-task-list">'+tasks+'</div></section>':'<section class="card"><div class="card-h"><h2>会议运行与数据快照</h2><span class="meta">'+m.snapshot+'</span></div>'+auditList(m.audit)+'<div class="context-tip"><b>快照规则：</b>会议决策引用冻结快照；驾驶舱实时指标可更新，但不会改写本次会议的原始判断依据。</div></section>';
+  const head='<button class="back-link" onclick="go(\'starOverview\')">← 返回观星台全景</button><div class="meeting-hero"><span>'+m.id+' · '+m.period+'</span><h1>'+m.title+'</h1><p>主持：'+m.host+'　·　召开时间：'+m.heldAt+'　·　数据快照：'+m.snapshot+'</p><div>'+badge(m.status)+' <span class="version-chip">冻结依据可回看</span></div></div>';
+  return shell(head+tabs+body,'会议场景运行','围绕冻结经营快照形成议题、决议和 OA 联动责任事项。','<button class="primary" onclick="createMeetingAction()">生成会议责任事项</button>');
+}
+function openMeetingObject(id){if(String(id).indexOf('WT-')===0){showProblem(id);return;}if(String(id).indexOf('DQ-')===0){go('quality');return;}if(String(id).indexOf('RSK-')===0){go('risk');return;}toast('该对象已在对应专业台账中保留。');}
+function createMeetingAction(){if(!starManageable()){toast('仅经营发展部、审计监督部或公司管理层可生成会议责任事项。');return;}const m=db.starCenter.meeting,a=m.actions.find(function(x){return x.id==='ACT-03';});if(a.status!=='待分派'){toast('该会议责任事项已生成，可查看关联风险处理。');return;}a.status='待核实';m.agenda[2].status='已分派';m.audit.unshift({time:'2026-08-20 09:35',actor:currentRole().name,action:'生成会议责任事项',result:'已向 OA 推送供应商交付双源风险核实任务 OA-RSK-202608-014。'});db.todos.unshift({id:'OA-RSK-202608-014',objectId:'RSK-202608-014',type:'风险核实',title:'供应商交付波动风险—提交双源核实意见',role:'owner',due:'2026-08-26',status:'待处理'});state.meetingTab='tasks';render();toast('会议决议、OA 责任任务、待办和运行留痕已同步。');}
+
+function ruleLabPage(){
+  const rules=db.starCenter.ruleVersions.map(function(r){return '<article class="rule-card '+(r.status==='已生效'?'active':'')+'"><div><span>'+r.id+'</span>'+badge(r.status)+'</div><h3>'+r.name+'</h3><p>'+r.scope+'</p><footer><b>命中 '+r.hit+'</b><b>人工确认率 '+r.confirmed+'</b><small>'+r.feedback+' 条反馈</small></footer></article>';}).join('');
+  const feedback=db.starCenter.feedback.map(function(x){return '<div class="feedback-row"><div><b>'+x.risk+' · '+x.signal+'</b><small>'+x.owner+' · '+x.note+'</small></div><div>'+badge(x.result)+(x.result==='待标注'?'<button class="link" onclick="openRuleFeedback(\''+x.id+'\')">完成标注</button>':'')+'</div></div>';}).join('');
+  const content='<div class="rule-hero"><div><span class="eyebrow">AI 风险规则治理</span><h2>人工结论驱动规则迭代，历史依据不可覆盖</h2><p>AI 提供候选与命中证据；审计监督部确认结论，规则草案通过回测和审批后才可发布。</p></div><div class="session-note">当前有效规则<br><b>RISK-RULE-2026.08.3</b></div></div><section class="rule-grid">'+rules+'</section><div class="split top-gap"><section class="card"><div class="card-h"><h2>人工反馈池</h2><span class="meta">确认 / 误报 / 待标注</span></div><div class="feedback-list">'+feedback+'</div></section><section class="card"><div class="card-h"><h2>优化闭环</h2><span class="meta">规则版本可追溯</span></div><div class="rule-flow"><span class="done">命中证据</span><i>→</i><span class="done">人工标注</span><i>→</i><span class="current">规则草案</span><i>→</i><span>回测对比</span><i>→</i><span>审批发布</span></div><div class="context-tip">草案回测：预期将供应商交付组合风险的人工确认率由 <b>88.6%</b> 提升至 <b>93.1%</b>，历史风险仍保留原始规则版本。</div></section></div>';
+  return shell(content,'AI 风险规则优化','通过人工反馈、规则草案、回测和审批，形成可追溯的 AI 风险治理闭环。','<button class="primary" onclick="advanceRuleDraft()">生成草案并回测</button>');
+}
+function openRuleFeedback(id){const x=db.starCenter.feedback.find(function(f){return f.id===id;});openModal('人工标注 · '+x.risk,'<div class="info-grid">'+info('风险信号',x.signal)+info('当前状态',badge(x.result))+info('责任人',x.owner)+info('关联规则','RISK-RULE-2026.08.3')+'</div><div class="field"><label>人工结论</label><select id="ruleFeedbackResult"><option>人工确认</option><option>误报</option></select></div><div class="field"><label>结论说明</label><textarea id="ruleFeedbackNote">已核验供应商交付明细与质量异常证据。</textarea></div>','<button class="secondary" onclick="closeModal()">取消</button><button class="primary" onclick="saveRuleFeedback(\''+id+'\')">保存人工结论</button>');}
+function saveRuleFeedback(id){if(!['audit','manager'].includes(state.role)){toast('仅审计监督部或公司管理层可确认 AI 风险反馈。');return;}const x=db.starCenter.feedback.find(function(f){return f.id===id;});x.result=$('#ruleFeedbackResult').value;x.note=$('#ruleFeedbackNote').value.trim()||'已完成核实。';closeModal();render();toast('人工结论已归入反馈池，可用于下一版规则回测。');}
+function advanceRuleDraft(){if(!['audit','manager'].includes(state.role)){toast('仅审计监督部或公司管理层可生成和审批规则草案。');return;}const r=db.starCenter.ruleVersions[1];if(r.status==='待回测'){r.status='待审批';r.hit=31;r.confirmed='93.1%';r.effective='拟于 2026-09-01 生效';render();toast('已完成模拟回测：31 个样例，人工确认率 93.1%，等待审批发布。');return;}if(r.status==='待审批'){r.status='已生效';r.id='RISK-RULE-2026.08.4';r.effective='2026-09-01';db.starCenter.ruleVersions[0].status='历史版本';render();toast('新规则版本已发布；历史风险仍保留原版本依据。');return;}toast('当前最新规则已生效，可继续查看历史版本与人工反馈。');}
+
+const starV2GroupForPage=groupForPage;
+groupForPage=function(page){if(['starOverview','collection','meeting','ruleLab'].includes(page))return 'star';return starV2GroupForPage(page);};
+renderNav=function(){return navGroup('workbench','工作台',navButton('home','管理工作台')+navButton('p0','建设与追溯总览'))+navGroup('risk','合同 · 风险 · 审计',navButton('contract','合同管理中心')+navButton('risk','双源风险与审计'))+navGroup('admin','党政行政',navButton('admin','党政综合办工作中心'))+navGroup('star','观星台 · 七条主线',navButton('starOverview','观星台全景')+navButton('star','经营驾驶舱')+navButton('metric','① 指标全生命周期')+navButton('collection','② 数据采集与发布')+navButton('meeting','③ 会议场景运行')+navButton('problem','④ 问题快发闭环')+navButton('quality','⑤ 数据质量闭环')+navButton('risk','⑥ 双源风险闭环')+navButton('ruleLab','⑦ AI风险规则优化'))+navGroup('hr','人力资源',navButton('hr','人力资源工作台')+navButton('hrCatalog','31项功能样例')+navButton('onboarding','入职协同')+navButton('employee','员工360档案')+navButton('leave','请假考勤')+navButton('qualification','岗位资格中心'))+navGroup('service','信息化服务',navButton('service','服务、发布与补偿'));};
+render=function(){const pages={home:homePage,p0:p0Page,contract:contractPage,contractDetail:contractDetailPage,risk:riskPage,admin:adminPage,starOverview:starOverviewPage,star:starPage,metric:metricPage,collection:collectionPage,meeting:meetingPage,problem:problemPage,problemDetail:problemDetailPage,quality:qualityPage,ruleLab:ruleLabPage,service:servicePage,hr:hrPage,hrCatalog:hrCatalogPage,hrDomain:hrDomainPage,hrSample:hrSamplePage,onboarding:onboardingPage,onboardingDetail:onboardingDetailPage,employee:employeePage,employeeDetail:employeeDetailPage,leave:leavePage,leaveDetail:leaveDetailPage,qualification:qualificationPage};$('#app').innerHTML=(pages[state.page]||homePage)();};
+render();
+
+/* ===== 信息工程部工作台：10 条流程目录与重点闭环 ===== */
+state.itFilter = '全部状态';
+state.itModule = 'all';
+
+const itModules = [
+  {key:'account',group:'权限治理',name:'账号权限',prefix:'IAM',risk:'中',action:'审批并授权'},
+  {key:'delegate',group:'权限治理',name:'临时授权 / 流程代理',prefix:'DGT',risk:'低',action:'查看授权范围'},
+  {key:'process',group:'流程治理',name:'流程配置变更',prefix:'WFC',risk:'中',action:'查看变更评估'},
+  {key:'sso',group:'集成服务',name:'系统接入及单点登录',prefix:'SSO',risk:'中',action:'查看接入方案'},
+  {key:'interface',group:'集成服务',name:'接口变更',prefix:'API',risk:'高',action:'评估并发布'},
+  {key:'report',group:'权限治理',name:'报表授权',prefix:'RPT',risk:'低',action:'查看授权范围'},
+  {key:'repair',group:'运行服务',name:'报修服务',prefix:'REP',risk:'中',action:'查看处置记录'},
+  {key:'release',group:'运行服务',name:'发布变更',prefix:'REL',risk:'高',action:'验证并发布'},
+  {key:'master',group:'数据治理',name:'主数据管理',prefix:'MDM',risk:'中',action:'查看维护版本'},
+  {key:'masterException',group:'数据治理',name:'主数据异常处理',prefix:'MDE',risk:'高',action:'分派修复'}
+];
+function itAudit(actor,action,result){return {time:'2026-08-25 14:20',actor:actor,action:action,result:result};}
+function itItem(data){return Object.assign({owner:'信息工程部 / 尚椿琳',requester:'业务部门 / 申请人',risk:'中',status:'处理中',window:'2026-08-28 20:00–21:00',system:'OA及观星台',related:'MET-002',version:'V1.0',run:'—',rollback:'已定义回退点',files:[{name:'申请与评估材料.pdf',version:'V1.0',uploader:'系统归集',time:'2026-08-25 14:20'}],audit:[itAudit('系统动作流','登记台账','已关联申请人、业务对象、责任人和审批规则')]},data);}
+db.itCenter = {
+  account:[itItem({id:'IAM-202608-031',title:'采购部合同评审账号权限申请',requester:'采购部 / 赵倩',risk:'中',status:'待审批',system:'OA合同管理',related:'HT-202608-029',scope:'合同评审与附件查看',window:'授权期限：长期',version:'角色包 V2.4'})],
+  delegate:[itItem({id:'DGT-202608-008',title:'生产保障期间流程代理申请',requester:'生产管理部 / 刘强',risk:'低',status:'已生效',system:'OA流程中心',related:'WT-202608-021',scope:'生产管理部审批代理',window:'2026-08-26 至 2026-08-30',version:'代理规则 V1.0'})],
+  process:[itItem({id:'WFC-202608-012',title:'合同会签节点与时限配置变更',requester:'党政综合办 / 何静',risk:'中',status:'评审中',system:'OA流程引擎',related:'HT-202608-029',scope:'会签节点、处理时限与提醒规则',version:'流程版本 V2.2'})],
+  sso:[itItem({id:'SSO-202608-004',title:'SRM 系统接入与单点登录申请',requester:'采购部 / 赵倩',risk:'中',status:'待联调',system:'OA ↔ SRM',related:'PSM-202608-016',scope:'SSO、组织与账号映射',version:'接入方案 V1.1',run:'RUN-SSO-20260825-01'})],
+  interface:[itItem({id:'API-202608-016',title:'ERP 组织编码同步接口字段变更',requester:'人力资源部 / 吴欣',risk:'高',status:'待评估',system:'OA ↔ ERP',related:'ONB-202608-006',scope:'组织编码、岗位编码、失败补偿',version:'接口契约 V1.7',run:'RUN-API-20260825-01',rollback:'回退至接口契约 V1.6'})],
+  report:[itItem({id:'RPT-202608-009',title:'经营驾驶舱指标明细报表授权',requester:'经营发展部 / 周敏',risk:'低',status:'已生效',system:'观星台',related:'MET-002',scope:'指标下钻、来源明细与导出',window:'授权期限：2026年12月31日',version:'报表权限 V1.0'})],
+  repair:[itItem({id:'REP-202608-021',title:'生产报工页面无法提交报修',requester:'生产管理部 / 刘强',risk:'中',status:'处理中',system:'MES 报工门户',related:'WT-202608-021',scope:'页面报错与会话日志',run:'RUN-REP-20260825-03',version:'工单处置 V1.0'})],
+  release:[itItem({id:'REL-202608-014',title:'经营驾驶舱指标模型 V1.7 发布变更',requester:'经营发展部 / 周敏',risk:'高',status:'待发布',system:'观星台',related:'MET-002',scope:'指标模型、血缘与数据质量规则',version:'发布包 V1.7',run:'RUN-REL-20260825-01',rollback:'回退至指标模型 V1.6'})],
+  master:[itItem({id:'MDM-202608-010',title:'供应商主数据维护申请',requester:'采购部 / 赵倩',risk:'中',status:'待数据确认',system:'主数据管理',related:'HT-202608-029',scope:'供应商名称、统一社会信用代码、结算属性',version:'主数据版本 V3.2'})],
+  masterException:[itItem({id:'MDE-202608-006',title:'员工组织编码缺失异常处理',requester:'人力资源部 / 吴欣',risk:'高',status:'异常待修复',system:'HR 主数据 ↔ ERP',related:'ONB-202608-006',scope:'组织编码完整性、同步补偿与数据对账',version:'质量规则 DQ-202608-002',run:'BATCH-20260825-02',rollback:'保留修复前快照'})]
+};
+function itModule(key){return itModules.find(function(x){return x.key===key;});}
+function itRecords(){return itModules.reduce(function(rows,m){return rows.concat((db.itCenter[m.key]||[]).map(function(x){return Object.assign({module:m.key,moduleName:m.name,group:m.group},x);}));},[]);}
+function itRecord(id){
+  for(var i=0;i<itModules.length;i++){
+    var m=itModules[i],rows=db.itCenter[m.key]||[],x=rows.find(function(row){return row.id===id;});
+    if(x){x.module=m.key;x.moduleName=m.name;x.group=m.group;return x;}
+  }
+}
+function itMayAct(){return ['it','manager'].includes(state.role);}
+function itStatusCount(status){return itRecords().filter(function(x){return status==='全部状态'||x.status===status;}).length;}
+function itFlow(x){
+  const high=x.risk==='高';
+  const current=x.status==='已生效'||x.status==='已发布'||x.status==='已关闭'?4:x.status==='待审批'||x.status==='待评估'||x.status==='评审中'?1:x.status==='已修复待核验'||x.status==='待发布'?3:2;
+  const steps=['申请与风险识别',high?'业务/数据负责人审核':'信息工程部评估',high?'管理层变更审批':'执行与验证','生效 / 回退 / 归档'];
+  return '<section class="card top-gap"><div class="card-h"><h2>处理流程</h2><span class="meta">'+(high?'高风险：增加业务负责人及管理层审批':'低/中风险：信息工程部闭环')+'</span></div><div class="flow detailed">'+steps.map(function(s,i){var st=i<current?'已完成':i===current?'处理中':'待办理';return '<div class="node '+(st==='已完成'?'done':st==='处理中'?'current':'')+'"><div class="n">'+(i+1)+'</div><p>'+s+'</p><b>'+([x.requester,x.owner,high?'公司管理层 / 王总':x.owner,'系统动作流'][i])+'</b><span>'+st+'</span></div>';}).join('')+'</div></section>';
+}
+function itHomePage(){
+  const all=itRecords(), groups=Array.from(new Set(itModules.map(function(x){return x.group;})));
+  const cards=[['待处理',all.filter(function(x){return !['已生效','已发布','已关闭'].includes(x.status);}).length,'全部状态'],['待审批 / 评审',all.filter(function(x){return /待审批|待评估|评审中/.test(x.status);}).length,'待审批'],['高风险变更',all.filter(function(x){return x.risk==='高'&&!['已发布','已关闭'].includes(x.status);}).length,'高风险'],['主数据异常',all.filter(function(x){return x.module==='masterException'&&x.status!=='已关闭';}).length,'主数据异常']];
+  const content='<div class="role-banner it-banner"><div><span class="eyebrow">信息工程部 · 10 条流程</span><h2>权限、变更、运行与主数据治理统一工作台</h2><p>以申请事项、审批规则、版本、运行证据、回退点和审计轨迹组织演示，不复刻老 OA 大表单。</p></div><div class="session-note">Demo 使用模拟账号、接口和主数据；不触发真实生产系统、SSO 或发布操作。</div></div><div class="kpis">'+cards.map(function(c){return '<button class="kpi '+(c[0]==='高风险变更'?'alert':'')+'" onclick="itQuickFilter(\''+c[2]+'\')"><span class="label">'+c[0]+'</span><strong class="val">'+c[1]+'</strong><span class="hint">点击查看对应台账</span></button>';}).join('')+'</div><section class="card top-gap"><div class="card-h"><div><h2>信息工程部流程目录</h2><span class="meta">10 条流程 · '+groups.join(' / ')+'</span></div><button class="secondary" onclick="go(\'itCatalog\')">查看统一台账</button></div><div class="it-module-grid">'+itModules.map(function(m){var x=(db.itCenter[m.key]||[])[0];return '<button class="it-module-card" onclick="showItModule(\''+m.key+'\')"><span>'+m.group+'</span><b>'+m.name+'</b><small>'+x.id+' · '+badge(x.status)+'</small><i>风险：'+m.risk+' · 进入台账 →</i></button>';}).join('')+'</div></section><div class="story-grid top-gap"><article class="story-card"><div class="story-head"><div><span class="story-no">重点闭环 01</span><h2>权限申请到授权生效</h2></div>'+badge('待审批')+'</div><p>申请、范围、审批、角色包版本和授权审计同源可回看。</p><button class="primary" onclick="openItDetail(\'IAM-202608-031\')">进入权限链路</button></article><article class="story-card"><div class="story-head"><div><span class="story-no">重点闭环 02</span><h2>接口 / 发布变更</h2></div>'+badge('待评估')+'</div><p>高风险接口变更保留评估、审批、发布批次和回退点。</p><button class="primary" onclick="openItDetail(\'API-202608-016\')">进入接口链路</button></article><article class="story-card"><div class="story-head"><div><span class="story-no">重点闭环 03</span><h2>主数据异常修复</h2></div>'+badge('异常待修复')+'</div><p>异常分派、修复、复跑、核验和影响对象回看形成闭环。</p><button class="primary" onclick="openItDetail(\'MDE-202608-006\')">进入异常链路</button></article></div>';
+  return shell(content,'信息工程部工作台','以统一对象台账承接权限、集成、变更、运行服务和主数据治理。');
+}
+function itQuickFilter(filter){state.itFilter=filter==='高风险'?'全部状态':filter;state.itModule=filter==='主数据异常'?'masterException':'all';go('itCatalog');}
+function showItModule(key){state.itModule=key;state.itFilter='全部状态';go('itCatalog');}
+function itCatalogPage(){
+  const modules=state.itModule==='all'?itModules:[itModule(state.itModule)], rows=itRecords().filter(function(x){return (state.itModule==='all'||x.module===state.itModule)&&(state.itFilter==='全部状态'||x.status===state.itFilter);});
+  const statuses=['全部状态','待审批','待评估','待发布','异常待修复','已生效','已发布','已关闭'];
+  const content='<div class="period-bar it-period"><div><span class="eyebrow">信息工程部流程台账</span><b>'+modules.length+' 类流程 · '+rows.length+' 条当前记录</b><small>选择流程查看字段、审批链、版本、运行批次、回退点和审计轨迹。</small></div><div>'+badge('模拟运行边界')+'</div></div><div class="it-module-tabs">'+[{key:'all',name:'全部流程'}].concat(itModules).map(function(m){return '<button class="'+(state.itModule===m.key?'active':'')+'" onclick="showItModule(\''+m.key+'\')">'+m.name+'</button>';}).join('')+'</div><div class="stat-row">'+statuses.slice(0,4).map(function(s){return '<button class="stat '+(state.itFilter===s?'active':'')+'" onclick="state.itFilter=\''+s+'\';render()"><b>'+itStatusCount(s)+'</b><span>'+s+'</span></button>';}).join('')+'</div><div class="toolbar"><span class="context-label">高风险变更必须经过业务负责人、数据责任人或管理层审批；详情保留审批依据与回退点。</span><span class="spacer"></span><button class="primary" onclick="openItCreate()">+ 发起信息化申请</button></div><div class="table-card"><table><thead><tr><th>序号</th><th>编号</th><th>流程类型</th><th>事项名称</th><th>关联对象</th><th>风险</th><th>版本 / 批次</th><th>状态</th></tr></thead><tbody>'+rows.map(function(x,i){return '<tr><td>'+(i+1)+'</td><td><a onclick="openItDetail(\''+x.id+'\')">'+x.id+'</a></td><td>'+x.moduleName+'</td><td><button class="table-link" onclick="openItDetail(\''+x.id+'\')">'+x.title+'</button></td><td><button class="link" onclick="openObject(\''+x.related+'\')">'+x.related+'</button></td><td>'+badge(x.risk+'风险')+'</td><td>'+x.version+' / '+x.run+'</td><td>'+badge(x.status)+'</td></tr>';}).join('')+'</tbody></table><div class="pager"><span>共 '+rows.length+' 条 · 与服务、发布、数据质量及业务对象关联展示</span></div></div>';
+  return shell(content,'信息工程部流程目录','十类流程统一采用台账—详情—流程—证据的演示结构。');
+}
+function openItDetail(id){
+  const x=itRecord(id); if(!x){toast('未找到信息工程部流程记录');return;} const m=itModule(x.module);
+  let action='';
+  if(x.module==='account'&&x.status==='待审批') action='<button class="primary" '+(!itMayAct()?'disabled':'')+' onclick="approveItAccess(\''+id+'\')">审批并授权生效</button>';
+  if(['interface','release'].includes(x.module)&&['待评估','待发布'].includes(x.status)) action='<button class="primary" '+(!itMayAct()?'disabled':'')+' onclick="advanceItChange(\''+id+'\')">'+(x.status==='待评估'?'完成评估并进入发布':'验证并发布')+'</button>';
+  if(x.module==='masterException'&&['异常待修复','已修复待核验'].includes(x.status)) action='<button class="primary" '+(!itMayAct()?'disabled':'')+' onclick="advanceItMasterException(\''+id+'\')">'+(x.status==='异常待修复'?'分派修复并复跑':'核验结果并关闭')+'</button>';
+  const fields=[['流程类型',m.name],['申请部门 / 人',x.requester],['处理责任人',x.owner],['风险等级',badge(x.risk+'风险')],['业务对象','<button class="link" onclick="closeModal();openObject(\''+x.related+'\')">'+x.related+'</button>'],['关联系统',x.system],['处理范围',x.scope],['计划窗口',x.window],['版本 / 运行批次',x.version+' / '+x.run],['回退策略',x.rollback],['当前状态',badge(x.status)],['证据数量',x.files.length+' 份附件 / '+x.audit.length+' 条轨迹']];
+  const auditRows=x.audit.map(function(a){return '<div class="audit-row"><time>'+a.time+'</time><div><b>'+a.actor+' · '+a.action+'</b><small>'+a.result+'</small></div></div>';}).join('');
+  openModal(x.id+' · '+x.title,'<div class="detail-head it-detail-head"><div class="detail-kicker">'+m.group+' / '+m.name+'</div><h2>'+x.title+'</h2><div class="detail-meta"><span>'+x.system+'</span><span>关联：'+x.related+'</span><span>'+x.window+'</span></div><div class="detail-badges">'+badge(x.status)+'<span class="version-chip">'+x.version+'</span></div></div><div class="context-tip"><b>演示边界：</b>不触发真实账号、SSO、接口或生产发布；仅模拟审批、运行证据、回退点和状态回写。</div><section class="card"><div class="card-h"><h2>业务与运行信息</h2><span class="meta">字段按流程选择，不复刻老 OA 大表单</span></div><div class="info-grid">'+fields.map(function(f){return info(f[0],f[1]);}).join('')+'</div></section>'+itFlow(x)+'<section class="card top-gap"><div class="card-h"><h2>附件与操作轨迹</h2><span class="meta">'+x.files.length+' 份附件 / '+x.audit.length+' 条</span></div><div class="sample-relation"><div><span>最新附件</span><b>'+x.files[0].name+'</b><small>'+x.files[0].version+' · '+x.files[0].uploader+' · '+x.files[0].time+'</small></div></div><div class="audit-list">'+auditRows+'</div></section>','<button class="secondary" onclick="closeModal()">关闭</button>'+action,true);
+}
+function approveItAccess(id){const x=itRecord(id);if(!itMayAct()){denied('servicePublish');return;}x.status='已生效';x.version='角色包 V2.5';x.files.unshift({name:'授权生效确认单.pdf',version:'V1.0',uploader:currentRole().name,time:'2026-08-25 14:35'});x.audit.push(itAudit(currentRole().name,'审批并授权生效','已授予合同评审角色；授权范围、角色包版本和审批依据已留痕'));db.todos.unshift({id:'WF-'+x.id,objectId:x.related,type:'权限授权通知',title:x.title+'—已生效',role:'operations',due:'今日',status:'已完成'});closeModal();render();toast('权限状态、角色包版本、授权证据和待办通知已同步更新');}
+function advanceItChange(id){const x=itRecord(id);if(!itMayAct()){denied('servicePublish');return;}if(x.status==='待评估'){x.status='待发布';x.audit.push(itAudit(currentRole().name,'完成变更评估','高风险变更已完成业务与数据影响评估，生成发布审批依据和回退点'));}else{x.status='已发布';x.run='RUN-'+x.module.toUpperCase()+'-20260825-02';x.files.unshift({name:'发布验证与回退记录.pdf',version:'V1.0',uploader:currentRole().name,time:'2026-08-25 14:42'});x.audit.push(itAudit(currentRole().name,'验证并发布','验证通过，已保留发布批次、版本、回退点与结果证据'));}closeModal();render();toast('变更状态、版本、运行批次、回退点和审计轨迹已同步更新');}
+function advanceItMasterException(id){const x=itRecord(id);if(!itMayAct()){denied('qualityRepair');return;}if(x.status==='异常待修复'){x.status='已修复待核验';x.run='BATCH-20260825-03';x.audit.push(itAudit(currentRole().name,'分派修复并复跑','已补齐缺失组织编码，生成复跑批次并等待数据责任人核验'));}else{x.status='已关闭';x.files.unshift({name:'主数据异常核验结论.pdf',version:'V1.0',uploader:currentRole().name,time:'2026-08-25 14:48'});x.audit.push(itAudit(currentRole().name,'核验结果并关闭','复跑通过，已完成 HR 主数据与 ERP 组织编码对账并关闭异常'));}closeModal();render();toast('异常状态、复跑批次、核验证据和关联对象影响已同步更新');}
+function openItCreate(){if(!itMayAct()){toast('请切换至信息工程部或公司管理层视角发起服务申请');return;}openModal('发起信息工程部申请','<div class="form-grid"><div class="field full"><label>申请事项 <em>*</em></label><input id="itTitle" value="临时项目成员报表授权申请"></div><div class="field"><label>流程类型</label><select id="itType">'+itModules.map(function(m){return '<option value="'+m.key+'">'+m.name+'</option>';}).join('')+'</select></div><div class="field"><label>关联对象</label><select id="itRelated"><option>MET-002</option><option>HT-202608-029</option><option>ONB-202608-006</option></select></div><div class="field full"><label>模拟边界</label><div class="readonly-box">提交后生成申请台账、风险等级、审批节点与审计轨迹；不影响真实账号、接口、报表或主数据。</div></div></div>','<button class="secondary" onclick="closeModal()">取消</button><button class="primary" onclick="createItRequest()">提交申请</button>');}
+function createItRequest(){const title=$('#itTitle').value.trim(),key=$('#itType').value,m=itModule(key);if(!title){toast('请填写申请事项');return;}const id=m.prefix+'-N'+String((db.itCenter[key]||[]).length+1).padStart(3,'0');const x=itItem({id:id,title:title,requester:currentRole().label+' / '+currentRole().name,risk:m.risk,status:'待审批',system:'当前会话模拟系统',related:$('#itRelated').value,scope:'待信息工程部评估',version:'V0.1草稿'});db.itCenter[key].unshift(x);closeModal();state.itModule=key;render();toast('申请台账、审批节点和审计轨迹已生成；刷新后恢复 Demo 基线');}
+
+const renderNavBeforeIT10 = renderNav;
+renderNav = function(){return navGroup('workbench','工作台',navButton('home','管理工作台')+navButton('p0','建设与追溯总览'))+navGroup('it','信息工程部',navButton('itHome','信息工程部工作台')+navButton('itCatalog','10条流程目录'))+navGroup('risk','合同 · 风险 · 审计',navButton('contract','合同管理中心')+navButton('risk','双源风险与审计'))+navGroup('admin','党政行政',navButton('admin','党政综合办工作中心'))+navGroup('star','观星台',navButton('star','经营驾驶舱')+navButton('metric','指标下钻与血缘')+navButton('problem','问题闭环中心')+navButton('quality','指标与数据质量'))+navGroup('hr','人力资源',navButton('hr','人力资源工作台')+navButton('hrCatalog','31项功能样例')+navButton('onboarding','入职协同')+navButton('employee','员工360档案')+navButton('leave','请假考勤')+navButton('qualification','岗位资格中心'))+navGroup('service','信息化服务',navButton('service','服务、发布与补偿'));};
+const groupForPageBeforeIT10 = groupForPage;
+groupForPage = function(page){if(['itHome','itCatalog'].includes(page))return 'it';return groupForPageBeforeIT10(page);};
+const renderBeforeIT10 = render;
+render = function(){const pages={home:homePage,p0:p0Page,contract:contractPage,contractDetail:contractDetailPage,risk:riskPage,admin:adminPage,star:starPage,metric:metricPage,problem:problemPage,problemDetail:problemDetailPage,quality:qualityPage,service:servicePage,itHome:itHomePage,itCatalog:itCatalogPage,hr:hrPage,hrCatalog:hrCatalogPage,hrDomain:hrDomainPage,hrSample:hrSamplePage,onboarding:onboardingPage,onboardingDetail:onboardingDetailPage,employee:employeePage,employeeDetail:employeeDetailPage,leave:leavePage,leaveDetail:leaveDetailPage,qualification:qualificationPage};$('#app').innerHTML=(pages[state.page]||homePage)();};
+const homePageBeforeIT10 = homePage;
+homePage = function(){const base=homePageBeforeIT10();return base.replace('</div>\n    <div class="split top-gap">','</div><div class="story-grid full-story-grid"><article class="story-card it-story"><div class="story-head"><div><span class="story-no">信息工程部 · 10条流程</span><h2>权限、变更、运行与主数据治理</h2></div>'+badge('3条重点闭环')+'</div><p>权限授权、接口/发布变更、主数据异常均可模拟回写；其余流程以台账、详情、审批和证据统一呈现。</p><div class="story-evidence"><b>'+itRecords().length+' 条流程样例</b><span>风险分级</span><span>版本/批次</span><span>回退点</span><span>审计轨迹</span></div><button class="primary" onclick="go(\'itHome\')">进入信息工程部工作台</button></article></div>\n    <div class="split top-gap">');};
+const p0PageBeforeIT10 = p0Page;
+p0Page = function(){const base=p0PageBeforeIT10();return base.replace('8 条端到端主线','9 条端到端主线').replace('8</b><span>演示主线','9</b><span>演示主线').replace('</div><section class="card top-gap">','</div><article class="trace-card"><div><span>D09</span>'+badge('本次新增')+'</div><h2>信息工程部 10 条流程治理</h2><p>权限、变更、运行服务与主数据异常统一追溯</p><footer><b>P0</b><button class="link" onclick="go(\'itHome\')">进入场景 →</button></footer></article></div><section class="card top-gap">');};
+render();
+
+/* 审计监督部导航在既有业务域初始化完成后作为最终入口覆盖。 */
+function renderNav(){
+  return navGroup('workbench','工作台',navButton('home','管理工作台')+navButton('p0','建设与追溯总览'))+
+    navGroup('audit-home','审计监督部',navButton('audit-home','审计监督部工作台'))+
+    navGroup('合同与履约','合同与履约',auditNavItems('合同与履约'))+
+    navGroup('合规与法律','合规与法律',auditNavItems('合规与法律'))+
+    navGroup('风险管理','风险管理',auditNavItems('风险管理'))+
+    navGroup('审计整改','审计整改',auditNavItems('审计整改'))+
+    navGroup('招采监督','招采监督',auditNavItems('招采监督'))+
+    navGroup('audit-contract','ERP 模拟系统',navButton('erp','合同履约与付款状态'))+
+    navGroup('audit-procurement','SRM 模拟系统',navButton('srm','招采流程与异常'))+
+    navGroup('admin','党政行政',navButton('admin','党政综合办工作中心'))+
+    navGroup('star','观星台',navButton('star','经营驾驶舱')+navButton('metric','指标下钻与血缘')+navButton('problem','问题闭环中心')+navButton('quality','指标与数据质量'))+
+    navGroup('hr','人力资源',navButton('hr','人力资源工作台')+navButton('onboarding','入职协同')+navButton('employee','员工360档案')+navButton('leave','请假考勤')+navButton('qualification','岗位资格中心'))+
+    navGroup('service','信息化服务',navButton('service','服务、发布与补偿'));
+}
+function groupForPage(page){return auditGroupForPage(page)||({home:'workbench',p0:'workbench',contract:'合同与履约',contractDetail:'合同与履约',risk:'风险管理',admin:'admin',star:'star',metric:'star',problem:'star',problemDetail:'star',quality:'star',hr:'hr',onboarding:'hr',onboardingDetail:'hr',employee:'hr',employeeDetail:'hr',leave:'hr',leaveDetail:'hr',qualification:'hr',service:'service'}[page]||'workbench');}
+function go(page){state.page=page;state.navOpen=groupForPage(page);state.auditFilter='全部状态';state.auditQuery='';render();window.scrollTo({top:0,behavior:'smooth'});}
+const renderBeforeAuditCenter = render;
+render = function(){
+  const key=state.page.indexOf('audit-')===0?state.page.slice(6):'';
+  if(state.page==='audit-home') return $('#app').innerHTML=auditHomePage();
+  if(key&&auditModules[key]) return $('#app').innerHTML=auditPage(key);
+  if(state.page==='erp') return $('#app').innerHTML=erpPage();
+  if(state.page==='srm') return $('#app').innerHTML=srmPage();
+  return renderBeforeAuditCenter();
+};
+render();
+
 /* ===== 党政综合办工作中心：29 条可演示事项 ===== */
 state.adminTab='公文';
 state.adminQuery='';
@@ -954,6 +1274,39 @@ function advanceAdminItem(id){const x=centerItem(id);if(x.status==='待验收'){
 function completeCenterTask(id,taskId){const x=centerItem(id),t=x.tasks.find(function(a){return a.id===taskId;});t.status='已完成';x.files.unshift({name:t.name+'_验收佐证.pdf',version:'V1.0',time:'2026-08-25 16:18'});x.status=x.tasks.every(function(a){return a.status==='已完成';})?'待验收':'办理中';audit(x,'督办事项验收',t.name+'已完成并归集佐证');closeModal();render();toast('督办验收结果、附件和销号条件已同步');}
 function openAdminCenterForm(){const types=db.adminCenter.filter(function(x){return x.group===state.adminTab;}).map(function(x){return '<option value="'+x.type+'">'+x.type+'</option>';}).join('');openModal('发起 '+state.adminTab+' 事项','<div class="form-grid"><div class="field full"><label>事项主题 <em>*</em></label><input id="centerTitle" value="'+state.adminTab+'示例事项"></div><div class="field"><label>流程类型</label><select id="centerType">'+types+'</select></div><div class="field"><label>责任部门</label><select id="centerOwner"><option>党政综合办 / 何静</option><option>生产管理部 / 刘强</option><option>经营发展部 / 周敏</option></select></div><div class="field"><label>计划完成日期</label><input id="centerDue" type="date" value="2026-08-31"></div><div class="field"><label>关联来源</label><input id="centerSource" value="当前会话发起"></div><div class="field full"><label>办理说明 <em>*</em></label><textarea id="centerNote">请按流程完成材料核验、审批办理和归档。</textarea></div><div class="field full"><label>附件</label><div class="upload-box">示例材料.pdf<span>已模拟上传 · 当前会话可见</span></div></div></div>','<button class="secondary" onclick="closeModal()">取消</button><button class="primary" onclick="createAdminCenterItem()">提交并生成台账</button>');}
 function createAdminCenterItem(){const title=$('#centerTitle').value.trim(),type=$('#centerType').value;if(!title){toast('请填写事项主题');return;}const base=db.adminCenter.find(function(x){return x.type===type;});const x={id:'ADM-N'+String(db.adminCenter.length+1).padStart(2,'0'),group:state.adminTab,type:type,process:base.process,title:title,source:$('#centerSource').value,owner:$('#centerOwner').value,due:$('#centerDue').value,status:'待审批',relation:'当前会话发起',files:[{name:'示例材料.pdf',version:'V1.0',time:'2026-08-25 16:30'}],audit:[],tasks:[]};if(type==='收文'||type==='会议纪要'||type==='督办立项'){x.tasks=[{id:'SUP-N'+String(db.adminCenter.length+1),name:'提交办理反馈',owner:x.owner,due:'08-30 17:00',status:'待办理'}];x.relation='自动生成督办事项';db.todos.unshift({id:'WF-'+x.id,objectId:x.id,type:'督办事项',title:title+'—提交反馈',role:'owner',due:'08-30 17:00',status:'待处理'});}audit(x,'发起事项',($('#centerNote').value||'已提交')+'；生成台账、附件'+(x.tasks.length?'与督办待办':'')+'。');db.adminCenter.unshift(x);closeModal();render();toast('已生成事项台账、附件和'+(x.tasks.length?'督办待办':'办理轨迹'));}
-function renderNav(){return navGroup('workbench','工作台',navButton('home','管理工作台')+navButton('p0','建设与追溯总览'))+navGroup('risk','合同 · 风险 · 审计',navButton('contract','合同管理中心')+navButton('risk','双源风险与审计'))+navGroup('admin','党政行政',navButton('admin','党政综合办工作中心'))+navGroup('star','观星台',navButton('star','经营驾驶舱')+navButton('metric','指标下钻与血缘')+navButton('problem','问题闭环中心')+navButton('quality','指标与数据质量'))+navGroup('hr','人力资源',navButton('hr','人力资源工作台')+navButton('onboarding','入职协同')+navButton('employee','员工360档案')+navButton('leave','请假考勤')+navButton('qualification','岗位资格中心'))+navGroup('service','信息化服务',navButton('service','服务、发布与补偿'));}
+function renderNavAdminLegacy(){return navGroup('workbench','工作台',navButton('home','管理工作台')+navButton('p0','建设与追溯总览'))+navGroup('risk','合同 · 风险 · 审计',navButton('contract','合同管理中心')+navButton('risk','双源风险与审计'))+navGroup('admin','党政行政',navButton('admin','党政综合办工作中心'))+navGroup('star','观星台',navButton('star','经营驾驶舱')+navButton('metric','指标下钻与血缘')+navButton('problem','问题闭环中心')+navButton('quality','指标与数据质量'))+navGroup('hr','人力资源',navButton('hr','人力资源工作台')+navButton('onboarding','入职协同')+navButton('employee','员工360档案')+navButton('leave','请假考勤')+navButton('qualification','岗位资格中心'))+navGroup('service','信息化服务',navButton('service','服务、发布与补偿'));}
 function homePage(){const base=baseHomePage(),adminCount=db.adminCenter?db.adminCenter.filter(function(x){return x.group==='会议督办'&&x.status!=='已完成';}).length:0;return base.replace('</div>\n    <div class="split top-gap">','</div><div class="story-grid full-story-grid"><article class="story-card"><div class="story-head"><div><span class="story-no">党政综合办 · 29条流程</span><h2>公文、会议、督办、销号与归档</h2></div>'+badge('办理中')+'</div><p>重点演示：收文或会议纪要生成督办，提交验收佐证后销号归档。</p><div class="story-evidence"><b>'+adminCount+' 项会议督办待处理</b><span>公文</span><span>印章证照</span><span>行政档案</span><span>治理事项</span></div><button class="primary" onclick="go(\'admin\')">进入党政综合办工作中心</button></article></div>\n    <div class="split top-gap">');}
+render();
+
+/* 观星台 V2 最终入口：置于既有业务域扩展之后，避免覆盖其他模块导航。 */
+const finalGroupForPage=groupForPage;
+groupForPage=function(page){if(['starOverview','collection','meeting','ruleLab'].includes(page))return 'star';return finalGroupForPage(page);};
+renderNav=function(){return navGroup('workbench','工作台',navButton('home','管理工作台')+navButton('p0','建设与追溯总览'))+navGroup('it','信息工程部',navButton('itHome','信息工程部工作台')+navButton('itCatalog','10条流程目录'))+navGroup('risk','合同 · 风险 · 审计',navButton('contract','合同管理中心')+navButton('risk','双源风险与审计'))+navGroup('admin','党政行政',navButton('admin','党政综合办工作中心'))+navGroup('star','观星台 · 七条主线',navButton('starOverview','观星台全景')+navButton('star','经营驾驶舱')+navButton('metric','① 指标全生命周期')+navButton('collection','② 数据采集与发布')+navButton('meeting','③ 会议场景运行')+navButton('problem','④ 问题快发闭环')+navButton('quality','⑤ 数据质量闭环')+navButton('risk','⑥ 双源风险闭环')+navButton('ruleLab','⑦ AI风险规则优化'))+navGroup('hr','人力资源',navButton('hr','人力资源工作台')+navButton('hrCatalog','31项功能样例')+navButton('onboarding','入职协同')+navButton('employee','员工360档案')+navButton('leave','请假考勤')+navButton('qualification','岗位资格中心'))+navGroup('service','信息化服务',navButton('service','服务、发布与补偿'));};
+const renderBeforeAuditFinal = render;
+render=function(){
+  const key=state.page.indexOf('audit-')===0?state.page.slice(6):'';
+  if(state.page==='audit-home') return $('#app').innerHTML=auditHomePage();
+  if(key&&auditModules[key]) return $('#app').innerHTML=auditPage(key);
+  if(state.page==='erp') return $('#app').innerHTML=erpPage();
+  if(state.page==='srm') return $('#app').innerHTML=srmPage();
+  const pages={home:homePage,p0:p0Page,itHome:itHomePage,itCatalog:itCatalogPage,contract:contractPage,contractDetail:contractDetailPage,risk:riskPage,admin:adminPage,starOverview:starOverviewPage,star:starPage,metric:metricPage,collection:collectionPage,meeting:meetingPage,problem:problemPage,problemDetail:problemDetailPage,quality:qualityPage,ruleLab:ruleLabPage,service:servicePage,hr:hrPage,hrCatalog:hrCatalogPage,hrDomain:hrDomainPage,hrSample:hrSamplePage,onboarding:onboardingPage,onboardingDetail:onboardingDetailPage,employee:employeePage,employeeDetail:employeeDetailPage,leave:leavePage,leaveDetail:leaveDetailPage,qualification:qualificationPage};
+  return $('#app').innerHTML=(pages[state.page]||homePage)();
+};
+render();
+renderNav=function(){
+  return navGroup('workbench','工作台',navButton('home','管理工作台')+navButton('p0','建设与追溯总览'))+
+    navGroup('audit-home','审计监督部',navButton('audit-home','审计监督部工作台'))+
+    navGroup('合同与履约','合同与履约',auditNavItems('合同与履约'))+
+    navGroup('合规与法律','合规与法律',auditNavItems('合规与法律'))+
+    navGroup('风险管理','风险管理',auditNavItems('风险管理'))+
+    navGroup('审计整改','审计整改',auditNavItems('审计整改'))+
+    navGroup('招采监督','招采监督',auditNavItems('招采监督'))+
+    navGroup('audit-contract','ERP 模拟系统',navButton('erp','合同履约与付款状态'))+
+    navGroup('audit-procurement','SRM 模拟系统',navButton('srm','招采流程与异常'))+
+    navGroup('it','信息工程部',navButton('itHome','信息工程部工作台')+navButton('itCatalog','10条流程目录'))+
+    navGroup('admin','党政行政',navButton('admin','党政综合办工作中心'))+
+    navGroup('star','观星台 · 七条主线',navButton('starOverview','观星台全景')+navButton('star','经营驾驶舱')+navButton('metric','① 指标全生命周期')+navButton('collection','② 数据采集与发布')+navButton('meeting','③ 会议场景运行')+navButton('problem','④ 问题快发闭环')+navButton('quality','⑤ 数据质量闭环')+navButton('risk','⑥ 双源风险闭环')+navButton('ruleLab','⑦ AI风险规则优化'))+
+    navGroup('hr','人力资源',navButton('hr','人力资源工作台')+navButton('hrCatalog','31项功能样例')+navButton('onboarding','入职协同')+navButton('employee','员工360档案')+navButton('leave','请假考勤')+navButton('qualification','岗位资格中心'))+
+    navGroup('service','信息化服务',navButton('service','服务、发布与补偿'));
+};
 render();
