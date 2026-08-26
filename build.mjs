@@ -4,19 +4,19 @@ const files = ['index.html', 'app.js', 'style.css', 'navigation-v2.css', 'naviga
 mkdirSync('dist/server', { recursive: true });
 for (const file of files) copyFileSync(file, `dist/${file}`);
 
-let html = readFileSync('index.html', 'utf8');
-const styles = `${readFileSync('style.css', 'utf8')}\n${readFileSync('navigation-v2.css', 'utf8')}`;
-const scripts = `${readFileSync('app.js', 'utf8')}\n${readFileSync('navigation-v2.js', 'utf8')}`;
-
-html = html
-  .replace('<link rel="stylesheet" href="style.css" />', '')
-  .replace('<link rel="stylesheet" href="navigation-v2.css" />', '')
-  .replace('<script src="app.js"></script>', '')
-  .replace('<script src="navigation-v2.js"></script>', '')
-  .replace('</head>', `<style>${styles}</style></head>`)
-  .replace('</body>', `<script>${scripts}</script></body>`);
+const html = readFileSync('index.html', 'utf8');
+const assets = Object.fromEntries([
+  ['app.js', 'application/javascript; charset=UTF-8'],
+  ['navigation-v2.js', 'application/javascript; charset=UTF-8'],
+  ['style.css', 'text/css; charset=UTF-8'],
+  ['navigation-v2.css', 'text/css; charset=UTF-8'],
+].map(([file, contentType]) => [
+  `/${file}`,
+  { body: readFileSync(file, 'utf8'), contentType },
+]));
 
 const worker = `const page = ${JSON.stringify(html)};
+const assets = ${JSON.stringify(assets)};
 
 export default {
   async fetch(request) {
@@ -25,6 +25,15 @@ export default {
       return new Response(page, {
         headers: {
           'content-type': 'text/html; charset=UTF-8',
+          'cache-control': 'no-store',
+        },
+      });
+    }
+    const asset = assets[url.pathname];
+    if (asset) {
+      return new Response(asset.body, {
+        headers: {
+          'content-type': asset.contentType,
           'cache-control': 'no-store',
         },
       });
