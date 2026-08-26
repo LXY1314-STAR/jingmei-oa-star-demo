@@ -54,8 +54,7 @@ const result = vm.runInContext(`(() => {
     firstLevelLabels,
     firstLevelCount: count(html, 'class="nav-primary"'),
     openPrimaryCount: count(html, 'nav-primary-body open'),
-    allSecondLevelsExpanded:
-      count(html, 'nav-tertiary-list') === count(html, 'nav-tertiary-list open'),
+    openThirdLevelGroups: count(html, 'nav-tertiary-list open'),
     processCounts,
     auditKey,
     auditMapping,
@@ -68,7 +67,9 @@ for (const label of result.firstLevelLabels) {
   assert.ok(result.html.includes(`>${label}<`), `缺少一级菜单：${label}`);
 }
 assert.equal(result.openPrimaryCount, 7, '全部一级部门菜单应默认展开');
-assert.equal(result.allSecondLevelsExpanded, true, '二级菜单应默认全部展开');
+assert.equal(result.openThirdLevelGroups, 0, '三级菜单默认应全部收起');
+vm.runInContext("toggleNavSection('hr', hrDomains[0].id)", context);
+assert.match(appElement.innerHTML, /nav-tertiary-list open/, '点击二级菜单后应展开对应三级流程');
 for (const label of ['人力资源部工作台','党政综合办工作台','审计监督部工作台','信息工程部工作台']) {
   assert.equal(result.html.includes(label), false, `部门工作台不应保留为二级入口：${label}`);
 }

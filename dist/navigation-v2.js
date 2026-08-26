@@ -1,5 +1,5 @@
 /* Final navigation model: level 1 = workbench/department/star, level 2 = business domain, level 3 = SOW process. */
-state.navSectionClosed = state.navSectionClosed || {};
+state.navSectionOpen = state.navSectionOpen || {};
 state.activeNavProcess = state.activeNavProcess || 'page:home';
 state.promotionRecord = state.promotionRecord || {
   id:'PR-202608-006', title:'2026年绿色印刷专题宣传稿', requester:'经营发展部 / 周敏',
@@ -24,8 +24,8 @@ function navNavigate(page,dept,processKey){
   render();window.scrollTo({top:0,behavior:'smooth'});
 }
 function go(page){navNavigate(page,navDepartmentForPage(page),'page:'+page);}
-function toggleNavSection(dept,key){const id=dept+':'+key;state.navSectionClosed[id]=!state.navSectionClosed[id];render();}
-function navSectionIsOpen(dept,key){return state.navSectionClosed[dept+':'+key]!==true;}
+function toggleNavSection(dept,key){const id=dept+':'+key;state.navSectionOpen[id]=!navSectionIsOpen(dept,key);render();}
+function navSectionIsOpen(dept,key){return state.navSectionOpen[dept+':'+key]===true;}
 function navPrimaryLink(page,label,key){const active=state.page===page;return '<div class="nav-primary"><button class="nav-primary-link '+(active?'active':'')+'" onclick="navNavigate(\''+page+'\',\''+key+'\',\'page:'+page+'\')"><span>'+label+'</span></button></div>';}
 function navPrimaryGroup(key,label,page,body,count){const active=navDepartmentForPage(state.page)===key;return '<div class="nav-primary"><button class="nav-primary-button open '+(active?'active':'')+'" onclick="navNavigate(\''+page+'\',\''+key+'\',\'page:'+page+'\')"><span>'+label+'</span><span>'+(count?'<b class="nav-count">'+count+'</b>':'')+'</span></button><div class="nav-primary-body open">'+body+'</div></div>';}
 function navSecondLink(page,label,dept){const active=state.page===page;return '<button class="nav-secondary-link '+(active?'active':'')+'" onclick="navNavigate(\''+page+'\',\''+dept+'\',\'page:'+page+'\')"><span>'+label+'</span></button>';}
