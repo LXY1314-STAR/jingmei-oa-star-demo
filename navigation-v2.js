@@ -26,8 +26,14 @@ function navNavigate(page,dept,processKey){
 function go(page){navNavigate(page,navDepartmentForPage(page),'page:'+page);}
 function toggleNavSection(dept,key){const id=dept+':'+key;state.navSectionOpen[id]=!navSectionIsOpen(dept,key);render();}
 function navSectionIsOpen(dept,key){return state.navSectionOpen[dept+':'+key]===true;}
-function navPrimaryLink(page,label,key){const active=state.page===page;return '<div class="nav-primary"><button class="nav-primary-link '+(active?'active':'')+'" onclick="navNavigate(\''+page+'\',\''+key+'\',\'page:'+page+'\')"><span>'+label+'</span></button></div>';}
-function navPrimaryGroup(key,label,page,body,count){const active=navDepartmentForPage(state.page)===key;return '<div class="nav-primary"><button class="nav-primary-button open '+(active?'active':'')+'" onclick="navNavigate(\''+page+'\',\''+key+'\',\'page:'+page+'\')"><span>'+label+'</span><span>'+(count?'<b class="nav-count">'+count+'</b>':'')+'</span></button><div class="nav-primary-body open">'+body+'</div></div>';}
+const primaryNavigation=[
+  {key:'workbench',label:'工作台',page:'home'}, {key:'hr',label:'人力资源部',page:'hr',count:'31'},
+  {key:'admin',label:'党政综合办',page:'admin',count:'29'}, {key:'audit',label:'审计监督部',page:'audit-home',count:'15'},
+  {key:'it',label:'信息工程部',page:'itHome',count:'10'}, {key:'operations',label:'经营发展部',page:'promotion',count:'1'},
+  {key:'star',label:'观星台',page:'starOverview',count:'7'}
+];
+function selectPrimaryNav(page,key){state.navSectionOpen={};navNavigate(page,key,'page:'+page);}
+function renderPrimaryNav(){const active=navDepartmentForPage(state.page);return '<nav class="primary-nav" aria-label="一级菜单">'+primaryNavigation.map(function(item){return '<button class="primary-nav-button '+(item.key===active?'active':'')+'" onclick="selectPrimaryNav(\''+item.page+'\',\''+item.key+'\')"><span>'+item.label+'</span></button>';}).join('')+'</nav>';}
 function navSecondLink(page,label,dept){const active=state.page===page;return '<button class="nav-secondary-link '+(active?'active':'')+'" onclick="navNavigate(\''+page+'\',\''+dept+'\',\'page:'+page+'\')"><span>'+label+'</span></button>';}
 function navSection(dept,key,label,items){const open=navSectionIsOpen(dept,key);return '<div class="nav-secondary"><button class="nav-secondary-button '+(open?'open':'')+'" onclick="toggleNavSection(\''+dept+'\',\''+key+'\')"><span>'+label+'</span><i>'+(open?'⌄':'›')+'</i></button><div class="nav-tertiary-list '+(open?'open':'')+'">'+items+'</div></div>';}
 function navProcess(label,action,key){return '<button class="nav-tertiary '+(state.activeNavProcess===key?'active':'')+'" onclick="'+action+'">'+label+'</button>';}
@@ -77,17 +83,7 @@ function starMenu(){
   const flows=[['指标全生命周期','metric'],['数据采集与发布','collection'],['会议场景运行','meeting'],['问题快发闭环','problem'],['数据质量闭环','quality'],['双源风险采集与闭环','risk'],['AI风险规则优化','ruleLab']].map(function(x){return navProcess(x[0],"navNavigate('"+x[1]+"','star','star:"+x[1]+"')",'star:'+x[1]);}).join('');
   return navSection('star','overview','经营总览',overview)+navSection('star','flows','七条经营主线',flows);
 }
-function renderNav(){
-  return '<nav class="nav-v2" aria-label="主导航">'+
-    navPrimaryGroup('workbench','工作台','home',workbenchMenu())+
-    navPrimaryGroup('hr','人力资源部','hr',hrMenu(),'31')+
-    navPrimaryGroup('admin','党政综合办','admin',adminMenu(),'29')+
-    navPrimaryGroup('audit','审计监督部','audit-home',auditMenu(),'15')+
-    navPrimaryGroup('it','信息工程部','itHome',itMenu(),'10')+
-    navPrimaryGroup('operations','经营发展部','promotion',operationsMenu(),'1')+
-    navPrimaryGroup('star','观星台','starOverview',starMenu(),'7')+
-    '</nav>';
-}
+function renderNav(){const current=navDepartmentForPage(state.page);const item=primaryNavigation.find(function(x){return x.key===current;})||primaryNavigation[0];const menus={workbench:workbenchMenu,hr:hrMenu,admin:adminMenu,audit:auditMenu,it:itMenu,operations:operationsMenu,star:starMenu};return '<nav class="nav-v2 nav-secondary-pane" aria-label="二三级菜单"><div class="side-nav-heading"><span>当前菜单</span><b>'+item.label+'</b></div>'+menus[current]()+'</nav>';}
 
 function promotionPage(){
   const x=state.promotionRecord;

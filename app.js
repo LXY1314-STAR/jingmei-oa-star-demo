@@ -216,19 +216,23 @@ function shell(content, title, subtitle, actions) {
   const roleOptions = Object.keys(roles).map(function (key) { return `<option value="${key}" ${state.role===key?'selected':''}>${roles[key].label}</option>`; }).join('');
   return `
   <div class="shell">
+    <header class="global-top">
+      <div class="global-brand"><b>精美印务</b><span>协同与经营管理平台</span></div>
+      ${typeof renderPrimaryNav==='function' ? renderPrimaryNav() : ''}
+      <div class="global-actions">
+        <button class="icon-btn" onclick="openTodos()">待办 <i class="badge-num">${db.todos.length}</i></button>
+        <button class="icon-btn" onclick="openMessages()">消息 <i class="badge-num">${unread()}</i></button>
+        <select class="role-switch" aria-label="切换演示角色" onchange="setRole(this.value)">${roleOptions}</select>
+        <div class="avatar">${profile.short}</div>
+      </div>
+    </header>
     <aside class="side">
-      <div class="brand"><b>精美印务</b><span>OA及观星台 · 蓝图确认DEMO</span></div>
+      <div class="brand side-brand"><b>业务导航</b><span>当前一级菜单对应的业务域与流程</span></div>
       ${renderNav()}
     </aside>
     <main class="main">
       <header class="top">
         <div class="crumb">五粮液精美印务 / <b>${title}</b></div>
-        <div class="top-actions">
-          <button class="icon-btn" onclick="openTodos()">待办 <i class="badge-num">${db.todos.length}</i></button>
-          <button class="icon-btn" onclick="openMessages()">消息 <i class="badge-num">${unread()}</i></button>
-          <select class="role-switch" aria-label="切换演示角色" onchange="setRole(this.value)">${roleOptions}</select>
-          <div class="avatar">${profile.short}</div>
-        </div>
       </header>
       <section class="content">
         <div class="page-title"><div><h1>${title}</h1><p>${subtitle}</p></div><div class="page-actions">${actions||''}</div></div>
