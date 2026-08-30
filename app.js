@@ -1,3 +1,10 @@
+const DEMO_RELEASE = {
+  version: 'V1.2.0-P1',
+  baseline: 'demo-v1.1.0-p0',
+  releasedAt: '2026-08-31',
+  scope: '观星台七条主线蓝图细化与演示透明度增强'
+};
+
 const state = {
   page: 'home',
   role: 'audit',
@@ -24,7 +31,8 @@ const state = {
   employeeQuery: '',
   employeePage: 1,
   onboardingFilter: '全部状态',
-  qualificationFilter: '全部状态'
+  qualificationFilter: '全部状态',
+  blueprintLine: 'metric'
 };
 
 const roles = {
@@ -220,6 +228,7 @@ function shell(content, title, subtitle, actions) {
       <div class="global-brand"><b>精美印务</b><span>协同与经营管理平台</span></div>
       ${typeof renderPrimaryNav==='function' ? renderPrimaryNav() : ''}
       <div class="global-actions">
+        <button class="release-chip" onclick="openReleaseInfo()" aria-label="查看Demo版本信息">${DEMO_RELEASE.version}</button>
         <button class="icon-btn" onclick="openTodos()">待办 <i class="badge-num">${db.todos.length}</i></button>
         <button class="icon-btn" onclick="openMessages()">消息 <i class="badge-num">${unread()}</i></button>
         <select class="role-switch" aria-label="切换演示角色" onchange="setRole(this.value)">${roleOptions}</select>
@@ -1038,6 +1047,151 @@ const openObjectBeforeHr31=openObject;
 openObject=function(id){if(String(id).indexOf('HR-')===0){showHrSample(id);return;}return openObjectBeforeHr31(id);};
 render();
 
+/* P1 蓝图设计基线：将现有可点击页面转换为可确认的流程、字段、规则和页面映射。 */
+const blueprintCatalog = [
+  {
+    id:'metric', no:'01', name:'指标全生命周期', owner:'经营发展部', mode:'独立主场景', target:'metric', object:'经营指标 / MET-002',
+    flow:['指标提出','口径评审','来源绑定','质量校验','版本发布','预警监测','影响回看'],
+    states:['草稿','评审中','待发布','已生效','已停用'],
+    rules:['指标编码和版本必须唯一；历史会议及问题继续引用原版本。','发布前必须完成责任人、统计周期、来源血缘和质量规则校验。','口径或来源变更时，必须提示驾驶舱、会议快照及关联问题的下游影响。'],
+    fields:[
+      ['基本信息','指标编码','只读文本','可见/必填','唯一；发布后不可修改','观星台指标目录','经营部维护，全部角色可见'],
+      ['基本信息','指标名称','单行文本','必填','2—40字；同层级不重名','业务提出','经营部编辑，管理层可见'],
+      ['口径定义','计算公式','公式/多行文本','必填','引用已注册字段；禁止空分母','业务口径评审','经营部与数据责任人协同'],
+      ['责任信息','责任部门/责任人','组织/人员选择','必填','人员须属于责任部门','组织主数据','经营部设置，责任部门确认'],
+      ['来源血缘','源系统/表/字段','血缘选择','必填','ERP/MES/QMS已注册资产','数据资产目录','信息工程部维护，只读展示'],
+      ['发布信息','指标版本','系统生成','可见','V主版本.次版本；不可重复','观星台版本服务','发布审批后生成'],
+      ['预警配置','阈值与方向','数字+枚举','条件必填','百分比0—100；支持高/低阈值','业务规则配置','经营部配置，管理层审批']
+    ],
+    pages:[['PAGE-STAR-01','指标目录','列表','指标状态、责任人和版本同源','metric'],['PAGE-STAR-02','指标详情','详情','①口径 ②血缘 ③质量 ④版本 ⑤下游影响','metric'],['PAGE-STAR-03','指标发布','流程','发布审批与历史版本留痕','metric']]
+  },
+  {
+    id:'collection', no:'02', name:'数据采集与发布', owner:'信息工程部', mode:'独立主场景', target:'collection', object:'采集批次 / BATCH-20260820-03',
+    flow:['采集配置','批次执行','记录对账','质量校验','异常处置','数据发布','消费确认'],
+    states:['待执行','采集中','校验中','待发布','已发布','执行失败'],
+    rules:['每次采集必须保留批次号、来源系统、时间范围、记录数和校验结果。','质量校验未通过的批次不得发布；允许形成影响说明后走例外审批。','发布只改变观星台消费版本，不修改 ERP/MES/QMS 权威业务记录。'],
+    fields:[
+      ['批次信息','采集批次号','系统生成','可见/必填','BATCH-日期-序号；唯一','采集调度服务','信息工程部可见可执行'],
+      ['来源配置','来源系统','枚举','必填','ERP/MES/QMS','接口目录','信息工程部维护'],
+      ['来源配置','数据资产','资产选择','必填','仅选择已发布资产','数据资产目录','数据责任人确认'],
+      ['执行参数','采集方式','枚举','必填','全量/增量/补采','采集配置','信息工程部维护'],
+      ['执行结果','源端/落地记录数','数字','只读','非负整数；差异须解释','采集运行日志','系统回写'],
+      ['质量结果','校验得分','百分比','只读','0—100；低于阈值阻断','质量规则引擎','系统回写，可下钻'],
+      ['发布信息','发布版本','系统生成','发布后可见','同一资产版本递增','观星台发布服务','审批后生成']
+    ],
+    pages:[['PAGE-COL-01','采集批次台账','列表','批次、来源、质量和发布状态','collection'],['PAGE-COL-02','批次运行详情','详情','①输入 ②执行 ③校验 ④异常 ⑤输出','collection'],['PAGE-COL-03','发布确认','流程','阻断规则、例外说明和消费对象','collection']]
+  },
+  {
+    id:'meeting', no:'03', name:'会议场景运行', owner:'经营发展部', mode:'独立会议工作区', target:'meeting', object:'经营分析会 / MTG-202608-011',
+    flow:['会议建档','冻结快照','议题归集','会议研判','形成决议','生成责任事项','会后跟踪'],
+    states:['筹备中','快照已冻结','进行中','待纪要确认','跟踪中','已归档'],
+    rules:['会议开始前冻结数据快照，后续实时数据不得覆盖会议依据。','每项决议必须明确责任部门、责任人、期限和是否生成OA任务。','会议决议可发起或关联问题，关闭后回写会议责任事项状态。'],
+    fields:[
+      ['会议基本信息','会议编号/名称','只读+文本','必填','编号唯一；名称2—60字','会议建档','经营部维护'],
+      ['会议基本信息','主持人/参会范围','人员/组织多选','必填','主持人唯一；参会范围非空','组织主数据','经营部维护'],
+      ['数据快照','快照编号','系统生成','冻结后必填','一个会议一个主快照','观星台快照服务','冻结后只读'],
+      ['议题信息','议题名称/异常说明','文本','必填','议题须关联指标、质量或风险对象','观星台对象中心','议题发起人维护'],
+      ['会议决议','决议内容','多行文本','必填','不少于10字','会议研判','主持人确认'],
+      ['责任事项','责任部门/人/期限','组织+人员+日期','条件必填','生成OA任务时全部必填','会议决议','经营部设置，责任部门接收'],
+      ['联动状态','OA任务编号/同步状态','只读文本','生成后可见','任务编号唯一','OA任务中心','观星台只读跟踪']
+    ],
+    pages:[['PAGE-MTG-01','会议工作区','工作区','①冻结快照 ②议题池 ③决议 ④责任事项','meeting'],['PAGE-MTG-02','议题研判','详情','异常证据、部门说明和关联对象','meeting'],['PAGE-MTG-03','责任事项跟踪','列表','OA编号、责任人、期限和闭环状态','meeting']]
+  },
+  {
+    id:'problem', no:'04', name:'问题快发闭环', owner:'经营发展部 / OA', mode:'独立闭环主场景', target:'problem', object:'经营问题 / WT-202608-021',
+    flow:['异常识别','问题发起','OA分派','原因与措施','进度反馈','复核验收','关闭回写'],
+    states:['待分派','待反馈','整改中','待复核','已关闭','已退回'],
+    rules:['问题创建必须冻结来源指标、期间、组织、版本和异常证据。','OA承载责任任务表单与协同；观星台仅保存OA编号、状态和结果摘要。','复核关闭必须具备措施、结果、附件和复核意见，关闭后同步更新待办与统计。'],
+    fields:[
+      ['来源上下文','来源对象/快照','只读关联','可见/必填','必须定位到稳定编号和版本','观星台异常对象','系统带入，不可覆盖'],
+      ['问题信息','问题名称/描述','文本','必填','名称2—80字；描述不少于10字','问题发起','发起人维护'],
+      ['责任信息','责任部门/责任人','组织+人员','必填','人员须属于责任部门','OA组织主数据','经营部设置，OA同步'],
+      ['时限信息','要求完成日期','日期','必填','不得早于发起日','会议决议/人工填写','经营部设置'],
+      ['整改反馈','原因/措施/进度','文本+数字','整改时必填','进度0—100；提交复核须为100','OA责任任务','责任部门维护'],
+      ['证据材料','整改附件','附件','复核前必传','格式和大小由OA策略控制','OA附件中心','责任部门上传，复核人可见'],
+      ['复核信息','结论/意见/归档状态','枚举+文本','关闭时必填','通过/退回；意见不少于5字','OA流程','审计复核，观星台回写']
+    ],
+    pages:[['PAGE-ISS-01','问题台账','列表','来源、责任、期限、进度和状态','problem'],['PAGE-ISS-02','问题详情','详情','①来源 ②措施 ③OA轨迹 ④附件审计','problem'],['PAGE-ISS-03','整改反馈','表单','责任部门填写并提交复核','problemDetail']]
+  },
+  {
+    id:'quality', no:'05', name:'数据质量闭环', owner:'信息工程部', mode:'独立治理主场景', target:'quality', object:'质量规则 / DQ-202608-006',
+    flow:['异常发现','影响分析','分派修复','源端处理','复跑验证','指标恢复','证据归档'],
+    states:['异常待修复','修复中','已修复待复跑','复跑失败','正常','例外放行'],
+    rules:['质量异常必须关联资产、采集批次、规则版本和受影响指标。','源系统责任部门修复权威数据，观星台触发复跑并保留前后得分。','复跑通过后更新新批次并恢复指标；失败则保留影响说明和再次分派记录。'],
+    fields:[
+      ['规则信息','规则编号/名称/版本','只读+文本','必填','编号和版本组合唯一','质量规则库','信息工程部维护'],
+      ['对象信息','数据资产/字段','资产选择','必填','必须是已登记资产','数据资产目录','信息工程部维护'],
+      ['异常上下文','采集批次/异常记录数','只读','可见/必填','批次可追溯；数量非负','采集运行日志','系统回写'],
+      ['影响分析','受影响指标/页面','关联多选','必填','至少一个影响对象或无影响说明','血缘分析','系统建议，人工确认'],
+      ['修复分派','责任部门/人/期限','组织+人员+日期','必填','责任人与资产责任一致','OA任务中心','信息工程部发起'],
+      ['复跑结果','新批次/质量得分','只读','复跑后必填','得分0—100；达到阈值才正常','质量引擎','系统回写'],
+      ['归档证据','处理说明/附件','文本+附件','关闭时必填','保留修复前后结果','OA/观星台审计','责任部门提交，信息部确认']
+    ],
+    pages:[['PAGE-DQ-01','质量规则台账','列表','规则、资产、影响、得分、版本和状态','quality'],['PAGE-DQ-02','异常处理详情','弹窗/详情','①资产 ②批次 ③影响 ④审计','quality'],['PAGE-DQ-03','复跑验证','操作链','修复前后得分、批次和指标恢复','quality']]
+  },
+  {
+    id:'risk', no:'06', name:'双源风险采集与闭环', owner:'审计监督部', mode:'独立审计主场景', target:'risk', object:'风险台账 / RSK-202608-014',
+    flow:['人工上报/AI候选','相似度匹配','人工核实','去重合并','风险定级','OA整改','复核销账'],
+    states:['待核实','已驳回','整改中','待复核','已关闭'],
+    rules:['人工上报与AI候选分别保留来源编号、时间、批次、规则版本和原始证据。','去重合并必须由审计人员核实，历史来源记录不得删除。','定级后生成OA整改任务；销账必须保留措施、附件、复核意见和原规则版本。'],
+    fields:[
+      ['风险信息','风险编号/名称','系统生成+文本','必填','编号唯一；名称2—80字','风险对象中心','审计维护'],
+      ['人工来源','上报编号/部门/日期','只读关联','人工来源可见','稳定编号可追溯','人工风险上报','原样保留'],
+      ['AI来源','批次/规则版本/证据','只读关联','AI来源可见','批次与版本组合可追溯','AI风险识别','原样保留'],
+      ['核实信息','相似度/合并结论','百分比+枚举','必填','0—100；合并/独立/误报','风险核实','审计确认'],
+      ['定级信息','风险等级/影响说明','枚举+文本','必填','高/中/低；高风险说明必填','风险评估','审计维护'],
+      ['整改任务','OA编号/责任人/期限','只读+关联','定级后必填','OA任务编号唯一','OA任务中心','OA承载，观星台跟踪'],
+      ['销账信息','结论/证据/归档','文本+附件','关闭时必填','复核意见和附件齐全','OA流程/审计日志','审计复核']
+    ],
+    pages:[['PAGE-RSK-01','双源风险台账','列表','人工/AI来源关系、等级、责任和状态','risk'],['PAGE-RSK-02','风险核实','详情','①双源证据 ②去重结论 ③定级 ④审计','risk'],['PAGE-RSK-03','整改销账','流程','OA任务、措施、证据和复核结论','risk']]
+  },
+  {
+    id:'ruleLab', no:'07', name:'AI风险规则优化', owner:'审计监督部 / 信息工程部', mode:'独立规则工作台', target:'ruleLab', object:'风险规则 / RISK-RULE-2026.08.3',
+    flow:['命中取样','人工标注','反馈归集','生成草案','样本回测','审批发布','版本监控'],
+    states:['草稿','待回测','回测中','待审批','已生效','历史版本'],
+    rules:['确认、误报和漏报反馈必须关联命中证据、标注人和原规则版本。','新规则发布前必须完成固定样本回测，并展示命中率与确认率前后对比。','发布新版本不重算历史风险；历史风险继续引用创建时规则版本。'],
+    fields:[
+      ['规则信息','规则编号/名称/版本','只读+文本','必填','编号稳定；版本递增','AI规则库','审计与信息部协同'],
+      ['规则内容','适用对象/条件/阈值','枚举+规则编辑器','必填','对象已登记；阈值在有效范围','规则配置','信息工程部维护'],
+      ['命中证据','对象/证据片段/得分','只读','反馈时可见','必须关联稳定业务对象','AI识别结果','不可覆盖'],
+      ['人工反馈','确认结论/原因','枚举+文本','必填','确认/误报/漏报；原因不少于5字','人工标注','审计维护'],
+      ['回测结果','样本数/命中率/确认率','只读数字','回测后必填','样本数大于0；百分比0—100','回测引擎','系统回写'],
+      ['审批信息','审批人/意见/时间','只读流程','发布前必填','通过后才能生效','OA审批','授权角色审批'],
+      ['版本信息','生效日期/替代版本','日期+关联','发布后可见','生效日期不早于审批日','AI规则库','历史引用保持不变']
+    ],
+    pages:[['PAGE-AIR-01','风险规则工作台','工作台','版本、状态、命中和确认率','ruleLab'],['PAGE-AIR-02','人工反馈池','列表','命中证据、确认/误报标注','ruleLab'],['PAGE-AIR-03','回测与发布','流程','前后指标对比、审批和版本留痕','ruleLab']]
+  }
+];
+
+function blueprintItem(){return blueprintCatalog.find(function(x){return x.id===state.blueprintLine;})||blueprintCatalog[0];}
+function setBlueprintLine(id){state.blueprintLine=id;state.page='blueprint';render();window.scrollTo({top:0,behavior:'smooth'});}
+function openReleaseInfo(){
+  openModal('Demo 版本信息 · '+DEMO_RELEASE.version,
+    '<div class="release-panel"><div>'+info('当前版本',DEMO_RELEASE.version)+info('P0基线标签',DEMO_RELEASE.baseline)+info('发布日期',DEMO_RELEASE.releasedAt)+info('本版范围',DEMO_RELEASE.scope)+'</div><div class="audit-note"><b>演示数据边界</b><p>全部业务数据和接口动作均为静态 Demo 模拟；会话内操作可见，刷新后恢复基线，不代表生产系统已经联通。</p></div><div class="version-timeline"><div><b>V1.2.0-P1</b><span>新增蓝图映射、字段规格、规则状态、权限矩阵和模板复用声明。</span></div><div><b>V1.1.0-P0</b><span>发布目录同步，并通过核心闭环浏览器验收。</span></div></div></div>',
+    '<button class="primary" onclick="closeModal()">知道了</button>',true);
+}
+function blueprintPage(){
+  const x=blueprintItem();
+  const lineButtons=blueprintCatalog.map(function(a){return '<button class="blueprint-line '+(a.id===x.id?'active':'')+'" onclick="setBlueprintLine(\''+a.id+'\')"><span>'+a.no+'</span><b>'+a.name+'</b><small>'+a.object+'</small></button>';}).join('');
+  const flow=x.flow.map(function(s,i){return '<div class="blueprint-step"><span>'+(i+1)+'</span><b>'+s+'</b></div>'+(i<x.flow.length-1?'<i>→</i>':'');}).join('');
+  const fields=x.fields.map(function(f,i){return '<tr><td>'+(i+1)+'</td>'+f.map(function(v){return '<td>'+v+'</td>';}).join('')+'</tr>';}).join('');
+  const rules=x.rules.map(function(r,i){return '<li><b>BR-'+x.no+'-'+String(i+1).padStart(2,'0')+'</b><span>'+r+'</span></li>';}).join('');
+  const states=x.states.map(function(s,i){return '<span class="blueprint-state '+(i===0?'start':i===x.states.length-1?'end':'')+'">'+s+'</span>'+(i<x.states.length-1?'<i>→</i>':'');}).join('');
+  const pages=x.pages.map(function(p,i){return '<article><span>'+p[0]+'</span><h3>'+p[1]+'</h3><b>'+p[2]+' · '+x.mode+'</b><p>'+p[3]+'</p><button class="secondary" onclick="go(\''+p[4]+'\')">打开对应页面</button></article>';}).join('');
+  const content=`
+    <div class="blueprint-hero"><div><span class="eyebrow">${DEMO_RELEASE.version} · 蓝图设计基线</span><h2>从可点击 Demo 到可确认的详细设计</h2><p>每条主线统一沉淀流程、字段、业务规则、状态、权限和页面编号；技术表名、接口地址及生产权限仍在详细设计阶段确认。</p></div><button class="secondary" onclick="openReleaseInfo()">版本与基线</button></div>
+    <div class="blueprint-boundary"><b>跨系统权威边界</b><span>ERP / MES / QMS：专业业务与权威数据</span><i>→</i><span>观星台：汇聚、分析、识别与跟踪</span><i>→</i><span>OA：责任协同、整改、验收与归档</span></div>
+    <div class="blueprint-layout"><aside class="blueprint-lines">${lineButtons}</aside><div class="blueprint-main">
+      <section class="card blueprint-summary"><div><span>${x.no} · ${x.owner}</span><h2>${x.name}</h2><p>主对象：${x.object}　·　页面实现：${x.mode}</p></div><button class="primary" onclick="go('${x.target}')">进入演示页面</button></section>
+      <section class="card top-gap"><div class="card-h"><h2>业务流程</h2><span class="meta">正常主流程；退回、失败和例外在规则中明确</span></div><div class="blueprint-flow">${flow}</div></section>
+      <section class="card top-gap"><div class="card-h"><h2>字段规格明细</h2><span class="meta">详细设计确认口径</span></div><div class="table-card blueprint-field-table"><table><thead><tr><th>序号</th><th>页面区域</th><th>字段名称</th><th>控件/类型</th><th>必填/可见</th><th>值域/校验规则</th><th>数据来源</th><th>联动/权限</th></tr></thead><tbody>${fields}</tbody></table></div></section>
+      <div class="split top-gap"><section class="card"><div class="card-h"><h2>重点业务规则</h2><span class="meta">稳定编号便于评审追踪</span></div><ol class="blueprint-rules">${rules}</ol></section><section class="card"><div class="card-h"><h2>状态流与角色权限</h2><span class="meta">状态决定可执行动作</span></div><div class="blueprint-states">${states}</div><div class="role-matrix"><div><b>公司管理层</b><span>查看态势、决策与审批</span></div><div><b>经营发展部</b><span>组织分析、会议与问题发起</span></div><div><b>责任部门</b><span>确认数据、提交措施与证据</span></div><div><b>审计监督部</b><span>风险核实、复核与销账</span></div><div><b>信息工程部</b><span>采集、质量、版本与运行保障</span></div></div></section></div>
+      <section class="card top-gap"><div class="card-h"><h2>页面编号与讲解标注</h2><span class="meta">编号用于蓝图截图和评审意见定位</span></div><div class="blueprint-pages">${pages}</div></section>
+      <section class="card top-gap template-disclosure"><div class="card-h"><h2>模板复用声明</h2><span class="meta">避免把覆盖性 Demo 误认为全部完成个性化详细设计</span></div><div><p><b>人力资源部 31 项：</b>共用“台账—详情—流程—附件”页面骨架，具体字段与校验按子模块确认。</p><p><b>审计监督部 15 项：</b>共用审计事项模板，合同、风险、整改等代表性主线已做独立页面。</p><p><b>党政综合办 29 项：</b>共用工作中心模板，会议督办与销号归档作为代表性闭环。</p></div></section>
+    </div></div>`;
+  return shell(content,'蓝图设计基线','按流程、字段、业务逻辑和页面四个维度核对当前 Demo。','<button class="secondary" onclick="go(\'starOverview\')">返回观星台全景</button>');
+}
+
 /* ===== 观星台 V2：七条主线、经营分析会与规则优化 ===== */
 state.meetingTab='agenda';
 state.starBatchFilter='全部';
@@ -1081,7 +1235,7 @@ function starOverviewPage(){
     ['AI 风险规则优化','ruleLab','2 个规则版本 · 3 条反馈','人工标注、回测、审批和版本留痕']
   ];
   const content='<div class="star-hero"><div><span class="eyebrow">观星台 · 跨系统经营洞察</span><h2>数据汇聚、指标分析、风险识别与责任闭环</h2><p>ERP、MES、QMS 保持专业与权威数据职责；OA 仅承接责任事项协同、整改、验收和归档。</p></div><div class="session-note">当前：'+currentRole().label+'<br>数据为 Demo 模拟，刷新后恢复基线。</div></div><div class="star-boundary"><b>数据边界</b><span>ERP / MES / QMS：数据权威来源</span><i>→</i><span>观星台：汇聚、分析、识别与跟踪</span><i>→</i><span>OA：责任协同、整改、验收与归档</span></div><div class="star-line-grid">'+lines.map(function(x,i){return '<button class="star-line '+(i===2?'featured':'')+'" onclick="go(\''+x[1]+'\')"><span>0'+(i+1)+'</span><h3>'+x[0]+'</h3><b>'+x[2]+'</b><small>'+x[3]+'</small><em>进入主线 →</em></button>';}).join('')+'</div>';
-  return shell(content,'观星台全景','以七条可回看的业务主线组织跨系统经营管理演示。','<button class="primary" onclick="go(\'meeting\')">进入经营分析会主线</button>');
+  return shell(content,'观星台全景','以七条可回看的业务主线组织跨系统经营管理演示。','<button class="secondary" onclick="go(\'blueprint\')">查看蓝图设计基线</button><button class="primary" onclick="go(\'meeting\')">进入经营分析会主线</button>');
 }
 
 function collectionPage(){
@@ -1284,7 +1438,7 @@ render();
 
 /* 观星台 V2 最终入口：置于既有业务域扩展之后，避免覆盖其他模块导航。 */
 const finalGroupForPage=groupForPage;
-groupForPage=function(page){if(['starOverview','collection','meeting','ruleLab'].includes(page))return 'star';return finalGroupForPage(page);};
+groupForPage=function(page){if(['starOverview','blueprint','collection','meeting','ruleLab'].includes(page))return 'star';return finalGroupForPage(page);};
 renderNav=function(){return navGroup('workbench','工作台',navButton('home','管理工作台')+navButton('p0','建设与追溯总览'))+navGroup('it','信息工程部',navButton('itHome','信息工程部工作台')+navButton('itCatalog','10条流程目录'))+navGroup('risk','合同 · 风险 · 审计',navButton('contract','合同管理中心')+navButton('risk','双源风险与审计'))+navGroup('admin','党政行政',navButton('admin','党政综合办工作中心'))+navGroup('star','观星台 · 七条主线',navButton('starOverview','观星台全景')+navButton('star','经营驾驶舱')+navButton('metric','① 指标全生命周期')+navButton('collection','② 数据采集与发布')+navButton('meeting','③ 会议场景运行')+navButton('problem','④ 问题快发闭环')+navButton('quality','⑤ 数据质量闭环')+navButton('risk','⑥ 双源风险闭环')+navButton('ruleLab','⑦ AI风险规则优化'))+navGroup('hr','人力资源',navButton('hr','人力资源工作台')+navButton('hrCatalog','31项功能样例')+navButton('onboarding','入职协同')+navButton('employee','员工360档案')+navButton('leave','请假考勤')+navButton('qualification','岗位资格中心'))+navGroup('service','信息化服务',navButton('service','服务、发布与补偿'));};
 const renderBeforeAuditFinal = render;
 render=function(){
@@ -1313,4 +1467,9 @@ renderNav=function(){
     navGroup('hr','人力资源',navButton('hr','人力资源工作台')+navButton('hrCatalog','31项功能样例')+navButton('onboarding','入职协同')+navButton('employee','员工360档案')+navButton('leave','请假考勤')+navButton('qualification','岗位资格中心'))+
     navGroup('service','信息化服务',navButton('service','服务、发布与补偿'));
 };
+render();
+
+/* 保证 P1 页面在所有后续模块增强完成后仍由最终渲染器接管。 */
+const renderBeforeBlueprintFinal=render;
+render=function(){if(state.page==='blueprint')return $('#app').innerHTML=blueprintPage();return renderBeforeBlueprintFinal();};
 render();

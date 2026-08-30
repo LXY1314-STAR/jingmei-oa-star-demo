@@ -14,7 +14,7 @@ function navDepartmentForPage(page){
   if(['itHome','itCatalog','service'].includes(page))return 'it';
   if(['hr','hrCatalog','hrDomain','hrSample','onboarding','onboardingDetail','employee','employeeDetail','leave','leaveDetail','qualification'].includes(page))return 'hr';
   if(page==='audit-home'||page.indexOf('audit-')===0||['contract','contractDetail','erp','srm'].includes(page))return 'audit';
-  if(['starOverview','star','metric','collection','meeting','problem','problemDetail','quality','risk','ruleLab'].includes(page))return 'star';
+  if(['starOverview','blueprint','star','metric','collection','meeting','problem','problemDetail','quality','risk','ruleLab'].includes(page))return 'star';
   return 'workbench';
 }
 function navNavigate(page,dept,processKey){
@@ -79,7 +79,7 @@ function itMenu(){
 }
 function operationsMenu(){return navSection('operations','promotion','宣传管理',navProcess('宣传内容发布审批流程',"navNavigate('promotion','operations','operations:promotion')",'operations:promotion'));}
 function starMenu(){
-  const overview=navProcess('观星台全景',"navNavigate('starOverview','star','star:overview')",'star:overview')+navProcess('经营驾驶舱',"navNavigate('star','star','star:dashboard')",'star:dashboard');
+  const overview=navProcess('观星台全景',"navNavigate('starOverview','star','star:overview')",'star:overview')+navProcess('蓝图设计基线',"navNavigate('blueprint','star','star:blueprint')",'star:blueprint')+navProcess('经营驾驶舱',"navNavigate('star','star','star:dashboard')",'star:dashboard');
   const flows=[['指标全生命周期','metric'],['数据采集与发布','collection'],['会议场景运行','meeting'],['问题快发闭环','problem'],['数据质量闭环','quality'],['双源风险采集与闭环','risk'],['AI风险规则优化','ruleLab']].map(function(x){return navProcess(x[0],"navNavigate('"+x[1]+"','star','star:"+x[1]+"')",'star:'+x[1]);}).join('');
   return navSection('star','overview','经营总览',overview)+navSection('star','flows','七条经营主线',flows);
 }

@@ -49,6 +49,15 @@ const result = vm.runInContext(`(() => {
     process: state.activeNavProcess,
   };
   navNavigate('promotion', 'operations', 'operations:promotion');
+  const promotionHtml = document.querySelector('#app').innerHTML;
+  navNavigate('blueprint', 'star', 'star:blueprint');
+  const blueprintHtml = document.querySelector('#app').innerHTML;
+  const blueprintCoverage = blueprintCatalog.map((item) => ({
+    id: item.id,
+    fields: item.fields.length,
+    rules: item.rules.length,
+    pages: item.pages.length,
+  }));
 
   return {
     html,
@@ -59,7 +68,11 @@ const result = vm.runInContext(`(() => {
     processCounts,
     auditKey,
     auditMapping,
-    promotionHtml: document.querySelector('#app').innerHTML,
+    promotionHtml,
+    blueprintHtml,
+    blueprintCoverage,
+    starMenuHtml: starMenu(),
+    releaseVersion: DEMO_RELEASE.version,
   };
 })()`, context);
 
@@ -92,6 +105,20 @@ assert.equal(result.auditMapping.page, `audit-${result.auditKey}`);
 assert.equal(result.auditMapping.department, 'audit');
 assert.equal(result.auditMapping.process, `audit:${result.auditKey}`);
 assert.ok(result.promotionHtml.includes('宣传内容发布审批'), '经营发展部流程页面未正确渲染');
+assert.ok(result.starMenuHtml.includes('蓝图设计基线'), '观星台缺少蓝图设计基线入口');
+assert.equal(result.releaseVersion, 'V1.2.0-P1', 'Demo版本信息未更新');
+assert.ok(result.blueprintHtml.includes('页面区域'), '蓝图字段表缺少页面区域列');
+assert.ok(result.blueprintHtml.includes('值域/校验规则'), '蓝图字段表缺少校验规则列');
+assert.ok(result.blueprintHtml.includes('联动/权限'), '蓝图字段表缺少联动权限列');
+assert.deepEqual(JSON.parse(JSON.stringify(result.blueprintCoverage)), [
+  { id:'metric', fields:7, rules:3, pages:3 },
+  { id:'collection', fields:7, rules:3, pages:3 },
+  { id:'meeting', fields:7, rules:3, pages:3 },
+  { id:'problem', fields:7, rules:3, pages:3 },
+  { id:'quality', fields:7, rules:3, pages:3 },
+  { id:'risk', fields:7, rules:3, pages:3 },
+  { id:'ruleLab', fields:7, rules:3, pages:3 },
+], '七条主线蓝图覆盖不完整');
 
 const css = fs.readFileSync('navigation-v2.css', 'utf8');
 assert.match(css, /--nav-level-1\s*:\s*15px/);
@@ -104,4 +131,6 @@ console.log(JSON.stringify({
   fontSizes: { level1: '15px', level2: '13px', level3: '12px' },
   mapping: 'pass',
   promotionPage: 'pass',
+  blueprintCoverage: result.blueprintCoverage,
+  releaseVersion: result.releaseVersion,
 }, null, 2));
