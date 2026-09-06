@@ -11,7 +11,7 @@ function navDepartmentForPage(page){
   if(['home','p0'].includes(page))return 'workbench';
   if(page==='promotion')return 'operations';
   if(page==='admin')return 'admin';
-  if(['itHome','itCatalog','service'].includes(page))return 'it';
+  if(page.startsWith('it-')||['itHome','itCatalog','service'].includes(page))return 'it';
   if(['hr','hrCatalog','hrDomain','hrSample','onboarding','onboardingDetail','employee','employeeDetail','leave','leaveDetail','qualification'].includes(page))return 'hr';
   if(page==='audit-home'||page.indexOf('audit-')===0||['contract','contractDetail','erp','srm'].includes(page))return 'audit';
   if(['starOverview','blueprint','star','metric','collection','meeting','problem','problemDetail','quality','risk','ruleLab'].includes(page))return 'star';
@@ -41,7 +41,7 @@ function navProcess(label,action,key){return '<button class="nav-tertiary '+(sta
 function openAuditMenu(key){navNavigate('audit-'+key,'audit','audit:'+key);}
 function openHrMenu(id){state.hrSampleId=id;navNavigate('hrSample','hr','hr:'+id);}
 function openAdminMenu(group,type){state.adminTab=group;state.adminQuery=type;navNavigate('admin','admin','admin:'+group+':'+type);}
-function openItMenu(key){state.itModule=key;state.itFilter='全部状态';navNavigate('itCatalog','it','it:'+key);}
+function openItMenu(key){if(typeof ItWorkspace!=='undefined')return ItWorkspace.list(key);state.itModule=key;state.itFilter='全部状态';navNavigate('itCatalog','it','it:'+key);}
 
 function workbenchMenu(){return navSecondLink('home','管理工作台','workbench')+navSecondLink('p0','建设与追溯总览','workbench');}
 function auditMenu(){

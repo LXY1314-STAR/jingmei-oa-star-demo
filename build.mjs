@@ -1,6 +1,6 @@
 import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
-const files = ['index.html', 'app.js', 'style.css', 'navigation-v2.css', 'navigation-v2.js', 'audit-workspace.js', 'audit-workspace.css'];
+const files = ['index.html', 'app.js', 'style.css', 'navigation-v2.css', 'navigation-v2.js', 'audit-workspace.js', 'audit-workspace.css', 'it-definitions.js', 'it-workspace.js', 'it-workspace.css'];
 mkdirSync('dist/server', { recursive: true });
 for (const file of files) copyFileSync(file, `dist/${file}`);
 
@@ -12,6 +12,9 @@ const assets = Object.fromEntries([
   ['navigation-v2.css', 'text/css; charset=UTF-8'],
   ['audit-workspace.js', 'application/javascript; charset=UTF-8'],
   ['audit-workspace.css', 'text/css; charset=UTF-8'],
+  ['it-definitions.js', 'application/javascript; charset=UTF-8'],
+  ['it-workspace.js', 'application/javascript; charset=UTF-8'],
+  ['it-workspace.css', 'text/css; charset=UTF-8'],
 ].map(([file, contentType]) => [
   `/${file}`,
   { body: readFileSync(file, 'utf8'), contentType },
