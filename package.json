@@ -6,6 +6,8 @@
   "description": "五粮液精美印务OA及观星台客户演示原型",
   "scripts": {
     "build": "node build.mjs",
-    "verify:navigation": "node verify-navigation-v2.mjs"
+    "verify:navigation": "node verify-navigation-v2.mjs",
+    "verify:audit": "node verify-audit.mjs",
+    "verify:audit-pages": "node verify-audit-pages.mjs"
   }
 }

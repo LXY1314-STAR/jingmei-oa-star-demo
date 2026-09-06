@@ -1170,7 +1170,7 @@ function blueprintItem(){return blueprintCatalog.find(function(x){return x.id===
 function setBlueprintLine(id){state.blueprintLine=id;state.page='blueprint';render();window.scrollTo({top:0,behavior:'smooth'});}
 function openReleaseInfo(){
   openModal('Demo 版本信息 · '+DEMO_RELEASE.version,
-    '<div class="release-panel"><div>'+info('当前版本',DEMO_RELEASE.version)+info('P0基线标签',DEMO_RELEASE.baseline)+info('发布日期',DEMO_RELEASE.releasedAt)+info('本版范围',DEMO_RELEASE.scope)+'</div><div class="audit-note"><b>演示数据边界</b><p>全部业务数据和接口动作均为静态 Demo 模拟；会话内操作可见，刷新后恢复基线，不代表生产系统已经联通。</p></div><div class="version-timeline"><div><b>V1.2.0-P1</b><span>新增蓝图映射、字段规格、规则状态、权限矩阵和模板复用声明。</span></div><div><b>V1.1.0-P0</b><span>发布目录同步，并通过核心闭环浏览器验收。</span></div></div></div>',
+    '<div class="release-panel"><div>'+info('当前版本',DEMO_RELEASE.version)+info('已保留基线','demo-v1.2.0-p1 / '+DEMO_RELEASE.baseline)+info('发布日期',DEMO_RELEASE.releasedAt)+info('本版范围',DEMO_RELEASE.scope)+'</div><div class="audit-note"><b>演示数据边界</b><p>全部业务数据和接口动作均为静态 Demo 模拟；会话内操作可见，刷新后恢复基线，不代表生产系统已经联通。</p></div><div class="version-timeline"><div><b>V1.3.0-AUDIT</b><span>SOW 2.1.6：15条专属流程、11项控制、统一合同与风险关联、PDF及模拟回传；本轮仅本地验收。</span></div><div><b>V1.2.0-P1</b><span>新增蓝图映射、字段规格、规则状态、权限矩阵和模板复用声明。</span></div><div><b>V1.1.0-P0</b><span>发布目录同步，并通过核心闭环浏览器验收。</span></div></div></div>',
     '<button class="primary" onclick="closeModal()">知道了</button>',true);
 }
 function blueprintPage(){
