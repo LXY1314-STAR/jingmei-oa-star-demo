@@ -1,0 +1,195 @@
+{
+  "version": "V1.4.0-IT",
+  "date": "2026-09-06",
+  "baseline": {
+    "commit": "1fda45a",
+    "tag": "demo-v1.3.0-audit"
+  },
+  "checkpoints": [
+    "f2f6ceb",
+    "0bc0b15"
+  ],
+  "localUrl": "http://127.0.0.1:8765",
+  "externalPublished": false,
+  "remotePushed": false,
+  "wordBlueprintChanged": false,
+  "flowCoverage": [
+    {
+      "code": "OA-L3-010101",
+      "name": "应用系统账号及访问权限申请流程",
+      "fields": 14,
+      "steps": 3
+    },
+    {
+      "code": "OA-L3-010102",
+      "name": "临时授权及流程代理申请流程",
+      "fields": 11,
+      "steps": 2
+    },
+    {
+      "code": "OA-L3-010103",
+      "name": "OA流程配置变更申请流程",
+      "fields": 13,
+      "steps": 6
+    },
+    {
+      "code": "OA-L3-010104",
+      "name": "应用系统接入及单点登录申请流程",
+      "fields": 11,
+      "steps": 4
+    },
+    {
+      "code": "OA-L3-010105",
+      "name": "系统接口新增、变更及停用申请流程",
+      "fields": 14,
+      "steps": 6
+    },
+    {
+      "code": "OA-L3-010106",
+      "name": "数据查询及报表授权流程",
+      "fields": 12,
+      "steps": 3
+    },
+    {
+      "code": "OA-L3-010107",
+      "name": "系统故障报修及服务请求流程",
+      "fields": 11,
+      "steps": 5
+    },
+    {
+      "code": "OA-L3-010108",
+      "name": "系统上线发布及变更流程",
+      "fields": 12,
+      "steps": 5
+    },
+    {
+      "code": "OA-L3-010109",
+      "name": "主数据新增、变更及停用流程",
+      "fields": 14,
+      "steps": 4
+    },
+    {
+      "code": "OA-L3-010110",
+      "name": "主数据分发异常处理流程",
+      "fields": 13,
+      "steps": 4
+    }
+  ],
+  "controlTopicsMapped": 13,
+  "tests": {
+    "it": {
+      "checks": [
+        "10条正式SOW名称、独立工作页、专属明细与截图",
+        "高风险接口独立审批、测试失败拦截、回传失败/部分成功/重试/幂等、对账发布及回退",
+        "主数据异常修正值校验、禁止跳步关闭、服务/入职任务/HR质量规则准确回写，MES异常未误改",
+        "account：新建→保存→提交→全部独立节点→结果归集",
+        "delegate：新建→保存→提交→全部独立节点→结果归集",
+        "process：新建→保存→提交→全部独立节点→结果归集",
+        "sso：新建→保存→提交→全部独立节点→结果归集",
+        "interface：新建→保存→提交→全部独立节点→结果归集",
+        "report：新建→保存→提交→全部独立节点→结果归集",
+        "repair：新建→保存→提交→全部独立节点→结果归集",
+        "release：新建→保存→提交→全部独立节点→结果归集",
+        "master：新建→保存→提交→全部独立节点→结果归集",
+        "masterException：新建→保存→提交→全部独立节点→结果归集",
+        "账号失败重试、授权清单与申请一致、待办使用原申请编号",
+        "报表同会话行列控制、禁止导出、跨部门访问拦截",
+        "流程代理有效期、指定身份试办、到期自动收回",
+        "实际本地附件上传、同名版本递增、原文件下载与日志",
+        "主数据分发失败自动建同源异常、不重复创建、异常核验回写原分发单，未误改员工任务",
+        "报表调整审批前保留旧授权、批准后更新行列范围、实际CSV导出、回收后不可查询",
+        "流程停用完整会签审批、目标配置停用及回退"
+      ],
+      "errors": [],
+      "linked": {
+        "task": "已完成",
+        "service": "已完成",
+        "quality": "正常",
+        "unrelated": "异常待修复"
+      }
+    },
+    "pages": {
+      "checks": [
+        "1440宽度：10条台账/工作页/完整表单/标签页/搜索/弹窗，无全局溢出",
+        "1280宽度：10条台账/工作页/完整表单/标签页/搜索/弹窗，无全局溢出",
+        "四个首页统计下钻与同权限筛选结果完全一致",
+        "真实新增记录，验证5+4分页、上一页返回及流程内统计",
+        "关联入职对象后返回原信息事项",
+        "外部待办新增去重、已办/撤回/失效同步同一业务键",
+        "第一审批节点退回、修改V2重提、申请人撤回清理待办",
+        "按风险等级追加独立管理层节点，审批后返回执行人",
+        "21个审计、观星台、人力、行政、服务、跨系统入口回归"
+      ],
+      "errors": []
+    },
+    "auditRegression": {
+      "pages": [
+        "contractTemplate",
+        "contractReview",
+        "contractSeal",
+        "contractChange",
+        "contractTermination",
+        "contractPerformance",
+        "compliance",
+        "legal",
+        "riskQuarter",
+        "riskRectify",
+        "riskFeedback",
+        "riskEvent",
+        "auditRectify",
+        "procurement",
+        "procurementRectify"
+      ],
+      "checks": [
+        "合同复核、意见落实、签署、履约与ERP失败重试、幂等、PDF",
+        "风险定级、正确下发、防重复、计划反馈、延期、佐证拦截、退回销账",
+        "审计整改计划至销账",
+        "采购文件AI人工审查、内部审批、变更、交底、异常销账与归档",
+        "案件进展、文书、费用与结案",
+        "重大事件首报、任务、续报、办结",
+        "计算回测、发布、有效版本回写与受控回退",
+        "角色数据范围与新建阻断",
+        "模板修订审批、旧版保留、停用后禁止选用",
+        "合规条目、复审退回、重新审批、合同历史引用",
+        "变更前有效值、退回重审、批准后金额计划版本同步、终止保留付款事实",
+        "规则误报样本计算、未来生效控制、时钟推进、历史风险版本不变",
+        "双源独立风险不覆盖原候选",
+        "14种可新建专属表单实际填写保存，反馈入口复用已下发整改单",
+        "跨对象返回与台账筛选上下文保留",
+        "招采生成新异常携带来源上下文、SRM失败与重试",
+        "延期审批待办与驳回后原期限、跨部门动作阻断",
+        "负金额及早于演示日期的期限不保存",
+        "长合同PDF实际多页下载测试"
+      ],
+      "errors": []
+    },
+    "auditPages": {
+      "checks": [
+        "1440宽度15台账/详情/附件/日志、搜索空结果、无全局溢出、弹窗完整",
+        "1280宽度15台账/详情/附件/日志、搜索空结果、无全局溢出、弹窗完整",
+        "真实创建10条案件后验证8+2分页，前后页记录不同且可返回",
+        "19个合同、观星台、人力、行政、服务及跨系统入口回归",
+        "工作台统计下钻与完整分组台账一致"
+      ],
+      "errors": []
+    }
+  },
+  "additionalChecks": [
+    "SOW exact process names and unique codes verified from original DOCX",
+    "10 source and dist assets byte-identical",
+    "classic app script and new domain modules syntax valid",
+    "local built worker routes return HTTP 200",
+    "built browser preview report drill respects approved fields and denies disabled permission",
+    "visual review: overview, interface, report, master exception and 1280 action dialog"
+  ],
+  "assets": {
+    "app.js": "81bd7b04a5ac70b0479a21331e14bb2672b5ec40f9200dcfebdf09ec9d72f9a8",
+    "it-definitions.js": "a2230ddec3a192086ddbb423a766b22866e6df2dcd9023e9697e91984da1aea7",
+    "it-workspace.js": "c474d0e3183faae83d930ebfeec09c9e387044d36b737bcd7ab629ee5207fca5",
+    "it-workspace.css": "b0d1e0855dc8ed567c80c1c9f8353216c40a335596dbe2b4afbd8d4ee515b15a",
+    "navigation-v2.js": "c9330503d703fd7cdbd837b72ddf3770d2daba09dd5a781fffd3aaef088dc2fc",
+    "navigation-v2.css": "46ec9ad3cc74e4cd087f7fffd9259a2b7964ad2df1a1ff3bae2b8c742767b5a5",
+    "index.html": "0bbaae77952d96893a000254fb93b41daee1e3e62adf54db64d6f458d7eebcbc"
+  },
+  "boundary": "Static same-session simulation only. Organization authority, approval/amount thresholds, SLA, external protocols and security policies remain pending customer confirmation; not production SOW acceptance."
+}

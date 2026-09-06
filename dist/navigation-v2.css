@@ -43,3 +43,5 @@
 .release-chip{border:1px solid rgba(255,255,255,.28);background:rgba(0,45,84,.22);color:#fff;border-radius:14px;padding:5px 9px;font-size:10px;font-weight:700;cursor:pointer;letter-spacing:.02em}.release-chip:hover{background:rgba(0,45,84,.38)}
 @media(max-width:1400px){.primary-nav-button{min-width:74px;padding:0 7px;font-size:13px}.global-actions{gap:6px;padding:0 10px}.release-chip{padding:5px 7px}}
 @media(max-width:1180px){.release-chip{display:none}}
+/* Keep the seven top-level entries and the longer IT review roles usable at 1280px. */
+@media(min-width:1181px) and (max-width:1400px){.global-actions .role-switch{width:150px;max-width:150px}.primary-nav-button{min-width:70px;padding:0 6px}.global-actions .avatar{display:none}}

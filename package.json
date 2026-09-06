@@ -1,6 +1,6 @@
 {
   "name": "jingmei-oa-star-demo",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "type": "module",
   "private": true,
   "description": "五粮液精美印务OA及观星台客户演示原型",
@@ -8,6 +8,8 @@
     "build": "node build.mjs",
     "verify:navigation": "node verify-navigation-v2.mjs",
     "verify:audit": "node verify-audit.mjs",
-    "verify:audit-pages": "node verify-audit-pages.mjs"
+    "verify:audit-pages": "node verify-audit-pages.mjs",
+    "verify:it": "node verify-it.mjs",
+    "verify:it-pages": "node verify-it-pages.mjs"
   }
 }
