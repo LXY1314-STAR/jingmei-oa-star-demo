@@ -1,8 +1,8 @@
 const DEMO_RELEASE = {
-  version: 'V1.2.0-P1',
+  version: 'V1.3.0-AUDIT',
   baseline: 'demo-v1.1.0-p0',
-  releasedAt: '2026-08-31',
-  scope: '观星台七条主线蓝图细化与演示透明度增强'
+  releasedAt: '2026-09-06',
+  scope: 'SOW 2.1.6 审计监督部15条专属业务流程'
 };
 
 const state = {
@@ -257,6 +257,7 @@ function render() {
 function go(page) { state.page=page; render(); window.scrollTo({top:0,behavior:'smooth'}); }
 function setRole(value) { state.role=value; render(); toast('已切换为' + currentRole().label + '视角'); }
 function openObject(id) {
+  if(typeof AuditWorkspace!=='undefined' && AuditWorkspace.resolve(id)) return;
   if (id.indexOf('HT-')===0) return showContract(id);
   if (id.indexOf('WT-')===0) return showProblem(id);
   if (id.indexOf('MET-')===0) return showMetric(id);
@@ -358,7 +359,7 @@ function submitContract() {
   closeModal();state.contractFilter='全部状态';state.contractPage=1;render();toast('合同已进入台账，并生成AI预审流程和审计待办');
 }
 
-function showContract(id){state.contractId=id;state.page='contractDetail';state.contractTab='overview';const c=contract();if(c.clauses.length)state.clauseId=(c.clauses.find(function(x){return x.decision==='待复核';})||c.clauses[0]).id;render();window.scrollTo({top:0,behavior:'smooth'});}
+function showContract(id){if(typeof AuditWorkspace!=='undefined')return AuditWorkspace.open('contractReview',id);state.contractId=id;state.page='contractDetail';state.contractTab='overview';const c=contract();if(c.clauses.length)state.clauseId=(c.clauses.find(function(x){return x.decision==='待复核';})||c.clauses[0]).id;render();window.scrollTo({top:0,behavior:'smooth'});}
 function setContractTab(tab){state.contractTab=tab;render();}
 function contractDetailPage() {
   const c=contract()||db.contracts[0];
@@ -1442,6 +1443,7 @@ groupForPage=function(page){if(['starOverview','blueprint','collection','meeting
 renderNav=function(){return navGroup('workbench','工作台',navButton('home','管理工作台')+navButton('p0','建设与追溯总览'))+navGroup('it','信息工程部',navButton('itHome','信息工程部工作台')+navButton('itCatalog','10条流程目录'))+navGroup('risk','合同 · 风险 · 审计',navButton('contract','合同管理中心')+navButton('risk','双源风险与审计'))+navGroup('admin','党政行政',navButton('admin','党政综合办工作中心'))+navGroup('star','观星台 · 七条主线',navButton('starOverview','观星台全景')+navButton('star','经营驾驶舱')+navButton('metric','① 指标全生命周期')+navButton('collection','② 数据采集与发布')+navButton('meeting','③ 会议场景运行')+navButton('problem','④ 问题快发闭环')+navButton('quality','⑤ 数据质量闭环')+navButton('risk','⑥ 双源风险闭环')+navButton('ruleLab','⑦ AI风险规则优化'))+navGroup('hr','人力资源',navButton('hr','人力资源工作台')+navButton('hrCatalog','31项功能样例')+navButton('onboarding','入职协同')+navButton('employee','员工360档案')+navButton('leave','请假考勤')+navButton('qualification','岗位资格中心'))+navGroup('service','信息化服务',navButton('service','服务、发布与补偿'));};
 const renderBeforeAuditFinal = render;
 render=function(){
+  if(typeof AuditWorkspace!=='undefined'){const page=AuditWorkspace.view();if(page!==null)return $('#app').innerHTML=page;}
   const key=state.page.indexOf('audit-')===0?state.page.slice(6):'';
   if(state.page==='audit-home') return $('#app').innerHTML=auditHomePage();
   if(key&&auditModules[key]) return $('#app').innerHTML=auditPage(key);
