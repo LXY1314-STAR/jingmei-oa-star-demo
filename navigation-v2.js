@@ -32,7 +32,7 @@ const primaryNavigation=[
   {key:'it',label:'信息工程部',page:'itHome',count:'10'}, {key:'operations',label:'经营发展部',page:'promotion',count:'1'},
   {key:'star',label:'观星台',page:'starOverview',count:'7'}
 ];
-function selectPrimaryNav(page,key){state.navSectionOpen={};navNavigate(page,key,'page:'+page);}
+function selectPrimaryNav(page,key){const deptRoles={hr:'hr',audit:'audit',it:'it',admin:'admin',operations:'operations'};if(deptRoles[key])setRole(deptRoles[key]);state.navSectionOpen={};navNavigate(page,key,'page:'+page);}
 function renderPrimaryNav(){const active=navDepartmentForPage(state.page);return '<nav class="primary-nav" aria-label="一级菜单">'+primaryNavigation.map(function(item){return '<button class="primary-nav-button '+(item.key===active?'active':'')+'" onclick="selectPrimaryNav(\''+item.page+'\',\''+item.key+'\')"><span>'+item.label+'</span></button>';}).join('')+'</nav>';}
 function navSecondLink(page,label,dept){const active=state.page===page;return '<button class="nav-secondary-link '+(active?'active':'')+'" onclick="navNavigate(\''+page+'\',\''+dept+'\',\'page:'+page+'\')"><span>'+label+'</span></button>';}
 function navSection(dept,key,label,items){const open=navSectionIsOpen(dept,key);return '<div class="nav-secondary"><button class="nav-secondary-button '+(open?'open':'')+'" onclick="toggleNavSection(\''+dept+'\',\''+key+'\')"><span>'+label+'</span><i>'+(open?'⌄':'›')+'</i></button><div class="nav-tertiary-list '+(open?'open':'')+'">'+items+'</div></div>';}

@@ -229,6 +229,12 @@ const HR_DEFINITIONS = [
           "生产员工",
           "管理人员"
         ]
+      },
+      {
+        "key": "延期至",
+        "label": "延期再考核日期（延期时适用）",
+        "type": "date",
+        "value": "2026-12-31"
       }
     ],
     "steps": [
@@ -645,7 +651,7 @@ const HR_DEFINITIONS = [
         "key": "变更字段",
         "label": "变更字段",
         "type": "select",
-        "value": "mobile",
+        "value": "location",
         "options": [
           "mobile",
           "location"

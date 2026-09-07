@@ -1,66 +1,39 @@
 {
-  "version": "V1.5.0-HR",
-  "date": "2026-09-07",
+  "version": "V1.6.0-HR",
+  "status": "partial_pending_browser_acceptance",
+  "date": "2026-09-07T07:39:39.854Z",
   "functional": {
-    "checks": [
-      "绩效计划V2→评分校准→发布→直接申诉→复核仲裁V2→档案；越权拦截",
-      "01 招聘需求及计划审批流程",
-      "02 拟录用人员审批流程",
-      "03 员工入职协同流程",
-      "04 试用期考核及转正流程",
-      "05 人员调配及岗位异动流程",
-      "06 劳动合同管理流程",
-      "07 员工主动离职流程",
-      "08 劳动关系解除或终止流程",
-      "09 员工投诉、申诉及劳动争议处理流程",
-      "10 离岗休养或因病离岗休息审批流程",
-      "11 员工档案填报、变更及归集流程",
-      "12 请假申请流程",
-      "13 销假及假期变更流程",
-      "14 加班申请流程",
-      "15 调休申请流程",
-      "16 出差、外出及外勤流程",
-      "17 生产排班及调班流程",
-      "18 考勤异常及补卡处理流程",
-      "19 月度考勤确认流程",
-      "20 年度个人考勤数据查询及输出流程",
-      "21 绩效计划制定及调整流程",
-      "22 绩效结果确认及申诉流程",
-      "23 员工奖惩及档案联动流程",
-      "24 工资条发布及员工确认流程",
-      "25 薪酬异议及修订确认流程",
-      "26 社保、公积金及企业年金办理流程",
-      "27 生育、工伤待遇及保险理赔申请流程",
-      "28 培训计划及实施管理流程",
-      "29 培训考试及成绩确认流程",
-      "30 员工证照管理流程",
-      "31 岗位资格考试、准入及复审流程",
-      "请假占用→退回释放→重新审批扣减",
-      "本人权限覆盖菜单、台账、详情、动作；重复假勤拦截",
-      "工资条校验→定向发布→本人确认→异议修订重发→再次确认",
-      "异常日结果更正→月度锁定→留痕解锁重新确认",
-      "模拟依据可预览下载"
-    ],
+    "normal_flow_unit_checks": 31,
+    "branch_unit_checks": 16,
     "errors": []
   },
-  "pages": {
-    "checks": [
-      "1440宽度31条台账、详情4页签、创建表单",
-      "1280宽度31条台账、详情4页签、创建表单",
-      "真实分页连续序号、查询空态、返回原页",
-      "计划权重失败不改变生效版本",
-      "批量年休新建与修改V2",
-      "年度结转及重复结转拦截",
-      "协同失败进入补偿、成功回执更新任务、重复回执拦截",
-      "四个员工本人档案隔离",
-      "其他16个部门与经营入口回归"
-    ],
-    "errors": []
+  "regression": {
+    "existing_page_function_checks": 25,
+    "browser_business_regression": "not_run"
   },
-  "regressions": {
-    "navigation": "pass",
-    "it": "pass",
-    "audit": "pass"
+  "browser": {
+    "status": "blocked",
+    "reason": "Browser safety check could not verify admin-enforced policy.",
+    "real_click_paths": "not_run",
+    "screenshots": "not_captured",
+    "widths": {
+      "1280": "not_run",
+      "1440": "not_run",
+      "1920": "not_run"
+    }
   },
-  "scope": "Local prototype only; no production integration or exhaustive policy acceptance"
+  "deployment": "not_deployed_pending_local_acceptance",
+  "boundaries": "Static session simulation only. SOW and Word unchanged.",
+  "build": {
+    "status": "passed",
+    "embedded_asset_checks": 9,
+    "network_http_validation": "not_run_after_browser_policy_block"
+  },
+  "files": {
+    "hr-business.js": "5fec3b6fc842d7460c334ee91cf25c17c9a56dac7ec807399ab98086a8d49a5e",
+    "hr-workspace.js": "dcdd3129daeb45ecaff7766dd93501f076a4631d583f6d41ad4c281d6c96925e",
+    "hr-definitions.js": "298f334785765f47684932f081b1227110d9b58c71000baef78f8963865c8031",
+    "navigation-v2.js": "cb03bbfed6e30ab2b9b982590690bfac3e895475190818dfb98d0712cb3ed399",
+    "index.html": "28ee835eecf694d1ae2725ef5df1f362e20bc8ce887be0af1b6c0ae7d0fa0713"
+  }
 }

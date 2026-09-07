@@ -1,0 +1,19 @@
+import vm from 'node:vm';
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import path from 'node:path';
+const root=path.dirname(new URL(import.meta.url).pathname);
+const scripts=['app.js','navigation-v2.js','audit-workspace.js','it-definitions.js','it-workspace.js','hr-definitions.js','hr-business.js','hr-workspace.js'];
+function runtime(){const nodes=new Map();const node=id=>{if(!nodes.has(id))nodes.set(id,{innerHTML:'',textContent:'',classList:{add(){},remove(){}},style:{},remove(){},appendChild(){},querySelectorAll(){return []},reportValidity(){return true}});return nodes.get(id)};const c=vm.createContext({console,Blob,URL,Date,Map,Set,FormData:class {constructor(f){this.values=f?.__values||{};}*[Symbol.iterator](){yield* Object.entries(this.values);}get(k){return this.values[k];}},setTimeout(){},clearTimeout(){},requestAnimationFrame(fn){fn()},window:{scrollTo(){},scrollY:0},document:{querySelector:node,querySelectorAll(){return []},createElement(){return {click(){},remove(){},style:{}}},body:{appendChild(){}}}});for(const file of scripts)new vm.Script(fs.readFileSync(path.join(root,file),'utf8'),{filename:file}).runInContext(c);return {c,run:s=>vm.runInContext(s,c),nodes};}
+const checks=[];
+const t=runtime();
+t.run("selectPrimaryNav('hr','hr')");assert.equal(t.run('state.role'),'hr');assert.equal(t.run('state.page'),'hr');checks.push('顶部人力入口自动切换角色');
+t.run("setRole('employee');HrWorkspace.list('21');HrWorkspace.open('HR-PLAN-001')");assert.equal(t.run('state.role'),'employee');assert.equal(t.run('HrWorkspace.ui.tab'),'业务办理');checks.push('单据下钻不提权');
+for(const d of t.run('HR_DEFINITIONS')){t.run(`setRole('hr');HrWorkspace.list('${d.key}');HrWorkspace.open(HrWorkspace.getByKey('${d.key}').id)`);const html=t.run('HrWorkspace.view()');assert.ok(html.includes(`data-hr-business="${d.key}"`),d.key);assert.ok(!html.includes('办理当前环节'),d.key);for(const tab of ['申请字段','流程与版本','附件证据','关联结果']){t.run(`HrWorkspace.ui.tab='${tab}'`);assert.equal(typeof t.run('HrWorkspace.view()'),'string');}}
+checks.push('31条专属页面生成与五页签渲染函数检查（非浏览器验收）');
+const p=runtime();p.run("setRole('hr');const plan=HrWorkspace.get('HR-PLAN-001');plan.history.push({version:1,f:JSON.parse(JSON.stringify(plan.f)),items:JSON.parse(JSON.stringify(plan.items)),reason:'调整'});plan.version=2;plan.stage=-1;plan.items[0].权重=60;plan.items[1].权重=40;plan.business.rows=plan.items.map(x=>[x.指标,x.目标值,x.单位,x.权重]);");assert.equal(p.run("HrWorkspace.get('HR-PLAN-001').effective.version"),1);
+p.run("HrWorkspace.open('HR-RESULT-001');HrBusiness.loadIndicators()");assert.equal(p.run("HrWorkspace.transition('HR-RESULT-001','advance',{note:'来源测试'})"),true);assert.equal(p.run("HrWorkspace.get('HR-RESULT-001').checks.planVersion"),1);checks.push('待批计划保留有效V1，结果绑定有效版本');
+assert.equal(p.run("HrWorkspace.transition('HR-RESULT-001','appeal',{note:'未发布'})"),false);checks.push('未发布结果不可申诉');
+const c=runtime();c.run("setRole('hr');const rec=HrWorkspace.getByKey('24');");const valid=c.run("HrBusiness.inspectImport(rec,'员工编号,基本工资,加班工资,扣减,实发金额\\nEMP-2026-018,7500,500,0,8000')");assert.equal(valid.errors.length,0);assert.ok(c.run("HrBusiness.inspectImport(rec,'员工编号,基本工资,加班工资,扣减,实发金额\\nEMP-2026-018,7500,500,0,9000').errors.length")>0);assert.ok(c.run("HrBusiness.inspectImport(rec,'员工编号,基本工资,加班工资,扣减,实发金额\\nEMP-2026-018,7500,500,0,8000\\nEMP-2026-018,7500,500,0,8000').errors.length")>0);checks.push('工资CSV金额与重复行校验');
+const out={date:new Date().toISOString(),checks,errors:[],scope:'Pure JavaScript business and markup unit checks. No browser automation or visual acceptance.'};fs.mkdirSync(path.resolve(root,'../work/hr-v16-qa'),{recursive:true});fs.writeFileSync(path.resolve(root,'../work/hr-v16-qa/unit-results.json'),JSON.stringify(out,null,2));console.log(JSON.stringify(out,null,2));
+export {runtime};
