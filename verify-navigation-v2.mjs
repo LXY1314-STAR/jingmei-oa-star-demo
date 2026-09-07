@@ -106,7 +106,7 @@ assert.equal(result.auditMapping.department, 'audit');
 assert.equal(result.auditMapping.process, `audit:${result.auditKey}`);
 assert.ok(result.promotionHtml.includes('宣传内容发布审批'), '经营发展部流程页面未正确渲染');
 assert.ok(result.starMenuHtml.includes('蓝图设计基线'), '观星台缺少蓝图设计基线入口');
-assert.equal(result.releaseVersion, 'V1.4.0-IT', 'Demo版本信息未更新');
+assert.equal(result.releaseVersion, 'V'+JSON.parse(fs.readFileSync('package.json','utf8')).version+'-HR', 'Demo版本信息未更新');
 assert.ok(result.blueprintHtml.includes('页面区域'), '蓝图字段表缺少页面区域列');
 assert.ok(result.blueprintHtml.includes('值域/校验规则'), '蓝图字段表缺少校验规则列');
 assert.ok(result.blueprintHtml.includes('联动/权限'), '蓝图字段表缺少联动权限列');

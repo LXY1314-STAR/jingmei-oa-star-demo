@@ -1,8 +1,8 @@
 const DEMO_RELEASE = {
-  version: 'V1.4.0-IT',
-  baseline: 'demo-v1.3.0-audit',
-  releasedAt: '2026-09-06',
-  scope: 'SOW 2.1.7 信息工程部10条专属流程；保留审计15条及观星台能力'
+  version: 'V1.5.0-HR',
+  baseline: 'demo-v1.4.0-it',
+  releasedAt: '2026-09-07',
+  scope: 'SOW 2.1.4 人事31条流程与绩效闭环；保留信息工程、审计及观星台能力'
 };
 
 const state = {
@@ -847,10 +847,10 @@ function openScopeLedger(){
   openModal('SOW 范围与 Demo 追溯台账','<div class="context-tip">本台账用于区分：签字范围、当前 Demo 可见行为和真实环境联调边界。</div><div class="table-card inline-table"><table><thead><tr><th>范围</th><th>签字基数</th><th>当前 Demo 处理方式</th><th>边界说明</th></tr></thead><tbody>'+rows.map(function(x){return '<tr><td><b>'+x[0]+'</b></td><td>'+x[1]+'</td><td>'+x[2]+'</td><td>'+x[3]+'</td></tr>';}).join('')+'</tbody></table></div>','<button class="primary" onclick="closeModal()">我已知悉</button>',true);
 }
 const shellBeforeScopeNotice=shell;
-shell=function(content,title,description){
+shell=function(content,title,description,actions){
   if(state.page==='quality') content='<div class="context-tip"><b>范围边界：</b>能源分析 7 项在签字 SOW 中标记为待确认；本 Demo 仅保留追溯占位，未展示为已实现功能或真实接口能力。</div>'+content;
   if(state.page==='p0') content+='<section class="card top-gap"><div class="card-h"><div><h2>SOW 范围与 Demo 追溯台账</h2><span class="meta">用于演示前说明签字范围与真实联调边界</span></div><button class="secondary" onclick="openScopeLedger()">查看台账</button></div><p class="context-label">将 86 项 OA、50 条观星台功能、18 项接口和 7 项待确认能源能力分开管理，避免把 Demo 模拟效果等同于生产系统能力。</p></section>';
-  return shellBeforeScopeNotice(content,title,description);
+  return shellBeforeScopeNotice(content,title,description,actions);
 };
 /* ===== 审计监督部工作域：15项流程 + ERP/SRM 只读协同 ===== */
 state.auditPage = 1;
@@ -1173,7 +1173,7 @@ function blueprintItem(){return blueprintCatalog.find(function(x){return x.id===
 function setBlueprintLine(id){state.blueprintLine=id;state.page='blueprint';render();window.scrollTo({top:0,behavior:'smooth'});}
 function openReleaseInfo(){
   openModal('Demo 版本信息 · '+DEMO_RELEASE.version,
-    '<div class="release-panel"><div>'+info('当前版本',DEMO_RELEASE.version)+info('已保留基线','demo-v1.2.0-p1 / '+DEMO_RELEASE.baseline)+info('发布日期',DEMO_RELEASE.releasedAt)+info('本版范围',DEMO_RELEASE.scope)+'</div><div class="audit-note"><b>演示数据边界</b><p>全部业务数据和接口动作均为静态 Demo 模拟；会话内操作可见，刷新后恢复基线，不代表生产系统已经联通。</p></div><div class="version-timeline"><div><b>V1.4.0-IT</b><span>SOW 2.1.7：10条原文流程名称、专属字段与工作页、审批执行验证闭环、授权、补偿及同源结果；仅本地验收。</span></div><div><b>V1.3.0-AUDIT</b><span>SOW 2.1.6：15条专属流程、11项控制、统一合同与风险关联、PDF及模拟回传；本轮仅本地验收。</span></div><div><b>V1.2.0-P1</b><span>新增蓝图映射、字段规格、规则状态、权限矩阵和模板复用声明。</span></div><div><b>V1.1.0-P0</b><span>发布目录同步，并通过核心闭环浏览器验收。</span></div></div></div>',
+    '<div class="release-panel"><div>'+info('当前版本',DEMO_RELEASE.version)+info('已保留基线','demo-v1.2.0-p1 / '+DEMO_RELEASE.baseline)+info('发布日期',DEMO_RELEASE.releasedAt)+info('本版范围',DEMO_RELEASE.scope)+'</div><div class="audit-note"><b>演示数据边界</b><p>全部业务数据和接口动作均为静态 Demo 模拟；会话内操作可见，刷新后恢复基线，不代表生产系统已经联通。</p></div><div class="version-timeline"><div><b>V1.5.0-HR</b><span>SOW 2.1.4：31条人事流程、绩效申诉仲裁、员工档案及假勤余额；本地演示验证。</span></div><div><b>V1.4.0-IT</b><span>SOW 2.1.7：10条原文流程名称、专属字段与工作页、审批执行验证闭环、授权、补偿及同源结果；仅本地验收。</span></div><div><b>V1.3.0-AUDIT</b><span>SOW 2.1.6：15条专属流程、11项控制、统一合同与风险关联、PDF及模拟回传；本轮仅本地验收。</span></div><div><b>V1.2.0-P1</b><span>新增蓝图映射、字段规格、规则状态、权限矩阵和模板复用声明。</span></div><div><b>V1.1.0-P0</b><span>发布目录同步，并通过核心闭环浏览器验收。</span></div></div></div>',
     '<button class="primary" onclick="closeModal()">知道了</button>',true);
 }
 function blueprintPage(){
@@ -1193,7 +1193,7 @@ function blueprintPage(){
       <section class="card top-gap"><div class="card-h"><h2>字段规格明细</h2><span class="meta">详细设计确认口径</span></div><div class="table-card blueprint-field-table"><table><thead><tr><th>序号</th><th>页面区域</th><th>字段名称</th><th>控件/类型</th><th>必填/可见</th><th>值域/校验规则</th><th>数据来源</th><th>联动/权限</th></tr></thead><tbody>${fields}</tbody></table></div></section>
       <div class="split top-gap"><section class="card"><div class="card-h"><h2>重点业务规则</h2><span class="meta">稳定编号便于评审追踪</span></div><ol class="blueprint-rules">${rules}</ol></section><section class="card"><div class="card-h"><h2>状态流与角色权限</h2><span class="meta">状态决定可执行动作</span></div><div class="blueprint-states">${states}</div><div class="role-matrix"><div><b>公司管理层</b><span>查看态势、决策与审批</span></div><div><b>经营发展部</b><span>组织分析、会议与问题发起</span></div><div><b>责任部门</b><span>确认数据、提交措施与证据</span></div><div><b>审计监督部</b><span>风险核实、复核与销账</span></div><div><b>信息工程部</b><span>采集、质量、版本与运行保障</span></div></div></section></div>
       <section class="card top-gap"><div class="card-h"><h2>页面编号与讲解标注</h2><span class="meta">编号用于蓝图截图和评审意见定位</span></div><div class="blueprint-pages">${pages}</div></section>
-      <section class="card top-gap template-disclosure"><div class="card-h"><h2>模板复用声明</h2><span class="meta">避免把覆盖性 Demo 误认为全部完成个性化详细设计</span></div><div><p><b>人力资源部 31 项：</b>共用“台账—详情—流程—附件”页面骨架，具体字段与校验按子模块确认。</p><p><b>审计监督部 15 项：</b>共用审计事项模板，合同、风险、整改等代表性主线已做独立页面。</p><p><b>党政综合办 29 项：</b>共用工作中心模板，会议督办与销号归档作为代表性闭环。</p></div></section>
+      <section class="card top-gap template-disclosure"><div class="card-h"><h2>模板复用声明</h2><span class="meta">避免把覆盖性 Demo 误认为全部完成个性化详细设计</span></div><div><p><b>人力资源部 31 项：</b>已配置31条流程的字段、节点、版本与关联结果；绩效和假勤可连续办理，制度及真实接口待确认。</p><p><b>审计监督部 15 项：</b>共用审计事项模板，合同、风险、整改等代表性主线已做独立页面。</p><p><b>党政综合办 29 项：</b>共用工作中心模板，会议督办与销号归档作为代表性闭环。</p></div></section>
     </div></div>`;
   return shell(content,'蓝图设计基线','按流程、字段、业务逻辑和页面四个维度核对当前 Demo。','<button class="secondary" onclick="go(\'starOverview\')">返回观星台全景</button>');
 }
