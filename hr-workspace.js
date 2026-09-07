@@ -221,7 +221,8 @@ const hrPreviousRender=render;
 render=function(){const page=HrWorkspace.view();if(page!==null)return $('#app').innerHTML=page;return hrPreviousRender();};
 const hrPreviousDepartment=navDepartmentForPage;
 navDepartmentForPage=function(page){return page.startsWith('hr-')?'hr':hrPreviousDepartment(page);};
-hrMenu=function(){return hrDomains.map(d=>navSection('hr',d.id,d.name,HrWorkspace.defs.filter(x=>x.domain===d.id&&(state.role==='hr'||state.role==='manager'||state.role==='hrHead'||(state.role==='hrArb'&&['09','22'].includes(x.key))||(HrWorkspace.employeeForRole()&&(x.self||x.steps.some(s=>s.role==='employee'))))).map(x=>navProcess(x.name,"HrWorkspace.list('"+x.key+"')",'hr:'+x.key)).join(''))).join('')+navSecondLink('employee','员工360档案','hr');};
+// 导航目录与事项权限分离：所有角色均可查看 SOW 流程目录，进入记录后再由 visible/canAct 统一控制数据和动作。
+hrMenu=function(){return hrDomains.map(d=>navSection('hr',d.id,d.name,HrWorkspace.defs.filter(x=>x.domain===d.id).map(x=>navProcess(x.name,"HrWorkspace.list('"+x.key+"')",'hr:'+x.key)).join(''))).join('')+navSecondLink('employee','员工360档案','hr');};
 openHrMenu=function(id){const index=db.hrSamples.findIndex(x=>x.id===id);if(index>=0)HrWorkspace.list(HrWorkspace.defs[index].key);};
 showHrSample=openHrMenu;
 showHrDomain=function(id){HrWorkspace.list(null,id);};
