@@ -16,6 +16,7 @@
     "verify:hr-v16-unit": "node verify-hr-v16-unit.mjs",
     "verify:hr-v16-flows": "node verify-hr-v16-flows.mjs",
     "verify:hr-v16-branches": "node verify-hr-v16-branches.mjs",
-    "verify:hr-v16-regression": "node verify-hr-v16-regression.mjs"
+    "verify:hr-v16-regression": "node verify-hr-v16-regression.mjs",
+    "verify:admin-b1": "node verify-admin-b1.mjs"
   }
 }

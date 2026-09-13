@@ -188,7 +188,7 @@ const employee = function (id) { return db.employees.find(function (x) { return 
 const onboarding = function (id) { return db.onboardings.find(function (x) { return x.id === (id || state.onboardingId); }); };
 const leave = function (id) { return db.leaves.find(function (x) { return x.id === (id || state.leaveId); }); };
 const money = function (value) { return '¥' + Number(value).toLocaleString('zh-CN'); };
-const unread = function () { return db.messages.filter(function (x) { return !x.read; }).length; };
+const unread = function () { return db.messages.filter(function (x) { return !x.read && (typeof adminMessageVisible!=='function'||adminMessageVisible(x)); }).length; };
 const metricProblems = function (id) { return db.problems.filter(function (x) { return x.metricId === id; }); };
 
 function statusClass(value) {
@@ -310,11 +310,11 @@ function openTodos() {
   openModal('统一待办中心',`<div class="context-tip">待办与合同、问题对象共用同一状态；完成处理后数量和对象状态同步变化。</div><div class="table-card inline-table"><table><thead><tr><th>序号</th><th>任务编号</th><th>类型</th><th>任务名称</th><th>处理角色</th><th>截止</th><th>状态</th></tr></thead><tbody>${rows}</tbody></table></div>`,'<button class="primary" onclick="closeModal()">关闭</button>',true);
 }
 function openMessages() {
-  const body = '<div class="message-list">' + db.messages.map(function (m) { return `<button class="message-row ${m.read?'':'unread'}" onclick="readMessage('${m.id}')"><i></i><span><b>${m.title}</b><small>${m.time} · ${m.read?'已读':'未读'}</small></span></button>`; }).join('') + '</div>';
+  const body = '<div class="message-list">' + db.messages.filter(m=>typeof adminMessageVisible!=='function'||adminMessageVisible(m)).map(function (m) { return `<button class="message-row ${m.read?'':'unread'}" onclick="readMessage('${m.id}')"><i></i><span><b>${m.title}</b><small>${m.time} · ${m.read?'已读':'未读'}</small></span></button>`; }).join('') + '</div>';
   openModal('消息中心',body,'<button class="secondary" onclick="markAllRead()">全部已读</button><button class="primary" onclick="closeModal()">关闭</button>');
 }
-function readMessage(id) { const m=db.messages.find(function(x){return x.id===id;}); m.read=true; closeModal(); render(); openObject(m.objectId); }
-function markAllRead() { db.messages.forEach(function(x){x.read=true;}); closeModal(); render(); toast('全部消息已读，顶栏数量已同步'); }
+function readMessage(id) { const m=db.messages.find(function(x){return x.id===id;}); if(!m||(typeof adminMessageVisible==='function'&&!adminMessageVisible(m)))return; m.read=true; closeModal(); render(); openObject(m.objectId); }
+function markAllRead() { db.messages.forEach(function(x){if(typeof adminMessageVisible!=='function'||adminMessageVisible(x))x.read=true;}); closeModal(); render(); toast('全部消息已读，顶栏数量已同步'); }
 
 function p0Page() {
   const content = '<div class="batch-summary"><div><span class="eyebrow">分批实施看板</span><h2>第一、二批已进入可操作验收</h2><p>完成以“业务对象—状态—关联—证据”为口径；已实现批次均可进入连续业务画面验收。</p></div><div class="batch-progress"><b>40%</b><span>P0核心场景完成度</span></div></div><div class="later-grid">' +
