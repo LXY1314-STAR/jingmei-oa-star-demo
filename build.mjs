@@ -1,7 +1,9 @@
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 
-const files = ['admin-definitions.js', 'admin-business.js', 'admin-workspace.js', 'admin-view-handle-demo.js', 'admin-workspace.css', 'seal-cert-workspace.js', 'seal-cert-workspace.css', 'index.html', 'app.js', 'style.css', 'navigation-v2.css', 'navigation-v2.js', 'audit-workspace.js', 'audit-workspace.css', 'audit-template-demo.js', 'it-definitions.js', 'it-workspace.js', 'it-workspace.css', 'hr-definitions.js', 'hr-business.js', 'hr-workspace.js', 'hr-workspace.css', 'hr-employee-360-demo.js', 'hr-payroll-demo.js'];
+const files = ['admin-definitions.js', 'admin-business.js', 'admin-workspace.js', 'admin-workspace.css', 'index.html', 'app.js', 'style.css', 'navigation-v2.css', 'navigation-v2.js', 'audit-workspace.js', 'audit-workspace.css', 'audit-template-demo.js', 'it-definitions.js', 'it-workspace.js', 'it-workspace.css', 'hr-definitions.js', 'hr-business.js', 'hr-workspace.js', 'hr-workspace.css', 'hr-employee-360-demo.js', 'hr-payroll-demo.js'];
+const stale = ['admin-view-handle-demo.js', 'seal-cert-workspace.js', 'seal-cert-workspace.css'];
 mkdirSync('dist/server', { recursive: true });
+for (const file of stale) rmSync(`dist/${file}`, { force: true });
 for (const file of files) copyFileSync(file, `dist/${file}`);
 
 const html = readFileSync('index.html', 'utf8');
@@ -9,10 +11,7 @@ const assets = Object.fromEntries([
   ['admin-definitions.js', 'application/javascript; charset=UTF-8'],
   ['admin-business.js', 'application/javascript; charset=UTF-8'],
   ['admin-workspace.js', 'application/javascript; charset=UTF-8'],
-  ['admin-view-handle-demo.js', 'application/javascript; charset=UTF-8'],
   ['admin-workspace.css', 'text/css; charset=UTF-8'],
-  ['seal-cert-workspace.js', 'application/javascript; charset=UTF-8'],
-  ['seal-cert-workspace.css', 'text/css; charset=UTF-8'],
   ['hr-business.js', 'application/javascript; charset=UTF-8'],
   ['hr-definitions.js', 'application/javascript; charset=UTF-8'],
   ['hr-workspace.js', 'application/javascript; charset=UTF-8'],
