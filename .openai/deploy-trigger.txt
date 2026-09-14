@@ -1,4 +1,4 @@
 Hosted demo refresh trigger
-Latest built dist commit: 68491f54a191d09ad76d823883dec1f5df56cafe
-Purpose: deploy current demo with three default compliance checklist records.
-Triggered at: 2026-09-14 16:22 +08:00
+Latest built dist commit: c0d8ed3c42e4559515919dfd5eaee58ef064d432
+Purpose: deploy current demo after moving compliance defaults into the existing audit enhancement asset and cache-busting that asset.
+Triggered at: 2026-09-14 16:35 +08:00
