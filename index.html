@@ -18,6 +18,42 @@
   <script src="app.js?v=1.6.0-hr"></script>
   <script src="navigation-v2.js?v=1.6.0-hr"></script>
   <script src="audit-workspace.js?v=1.6.0-hr"></script>
+  <script>
+  (() => {
+    if (typeof AuditWorkspace === 'undefined') return;
+    const rows = AuditWorkspace.store && AuditWorkspace.store.records && AuditWorkspace.store.records.compliance;
+    if (!rows) return;
+    const base = {
+      kind: 'compliance',
+      company: AuditWorkspace.config.company,
+      project: AuditWorkspace.config.project,
+      status: '已生效',
+      files: [], audit: [], history: [], plan: [], feedback: [], reviews: [], progress: 0
+    };
+    if (!rows.some(r => r.id === 'CMP-2026-019')) rows.push({
+      ...base,
+      id: 'CMP-2026-019', flowId: 'WF-CMP-2026-019', title: '销售合同合规清单',
+      department: '经营发展部', owner: '周敏', due: '2026-09-05',
+      operation: '新增', scope: '销售/经销合同', version: '2026版',
+      effective: '2026-08-05', reviewDate: '2026-11-05', basis: '销售合同及授权管理制度',
+      clauses: [
+        {name:'客户资信',basis:'销售管理制度',requirement:'签约前核验客户资信、授权与回款条件'},
+        {name:'价格与账期',basis:'销售价格管理制度',requirement:'价格、账期和审批权限保持一致'}
+      ]
+    });
+    if (!rows.some(r => r.id === 'CMP-2026-020')) rows.push({
+      ...base,
+      id: 'CMP-2026-020', flowId: 'WF-CMP-2026-020', title: '服务合同合规清单',
+      department: '信息工程部', owner: '尚椿琳', due: '2026-09-10',
+      operation: '修订', scope: '服务/维保合同', version: '2026版V1.1',
+      effective: '2026-08-12', reviewDate: '2026-11-12', basis: '服务采购及合同管理制度',
+      clauses: [
+        {name:'服务范围',basis:'服务采购管理制度',requirement:'明确服务边界、交付物、响应时限与验收标准'},
+        {name:'验收付款',basis:'财务付款制度',requirement:'验收结果、发票及付款条件保持一致'}
+      ]
+    });
+  })();
+  </script>
   <script src="audit-template-demo.js?v=1.6.1-template-b1"></script>
   <script src="it-definitions.js?v=1.6.0-hr"></script>
   <script src="it-workspace.js?v=1.6.0-hr"></script>
