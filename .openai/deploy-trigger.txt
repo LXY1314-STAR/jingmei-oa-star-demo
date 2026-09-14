@@ -1,0 +1,3 @@
+Hosted demo refresh trigger
+Latest built dist commit: b1278573069fc82a01660721aff564bd3d342140
+Purpose: trigger the existing hosting integration after generated dist has been committed.
