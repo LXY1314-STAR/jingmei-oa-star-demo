@@ -1,17 +1,14 @@
 import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
-const files = ['admin-definitions.js', 'admin-seal-definitions.js', 'admin-business.js', 'admin-workspace.js', 'admin-seal-demo.js', 'admin-seal-workspace-v2.js', 'admin-workspace.css', 'index.html', 'app.js', 'style.css', 'navigation-v2.css', 'navigation-v2.js', 'audit-workspace.js', 'audit-workspace.css', 'audit-template-demo.js', 'it-definitions.js', 'it-workspace.js', 'it-workspace.css', 'hr-definitions.js', 'hr-business.js', 'hr-workspace.js', 'hr-workspace.css', 'hr-employee-360-demo.js', 'hr-payroll-demo.js'];
+const files = ['admin-definitions.js', 'admin-business.js', 'admin-workspace.js', 'admin-workspace.css', 'index.html', 'app.js', 'style.css', 'navigation-v2.css', 'navigation-v2.js', 'audit-workspace.js', 'audit-workspace.css', 'audit-template-demo.js', 'it-definitions.js', 'it-workspace.js', 'it-workspace.css', 'hr-definitions.js', 'hr-business.js', 'hr-workspace.js', 'hr-workspace.css', 'hr-employee-360-demo.js', 'hr-payroll-demo.js'];
 mkdirSync('dist/server', { recursive: true });
 for (const file of files) copyFileSync(file, `dist/${file}`);
 
 const html = readFileSync('index.html', 'utf8');
 const assets = Object.fromEntries([
   ['admin-definitions.js', 'application/javascript; charset=UTF-8'],
-  ['admin-seal-definitions.js', 'application/javascript; charset=UTF-8'],
   ['admin-business.js', 'application/javascript; charset=UTF-8'],
   ['admin-workspace.js', 'application/javascript; charset=UTF-8'],
-  ['admin-seal-demo.js', 'application/javascript; charset=UTF-8'],
-  ['admin-seal-workspace-v2.js', 'application/javascript; charset=UTF-8'],
   ['admin-workspace.css', 'text/css; charset=UTF-8'],
   ['hr-business.js', 'application/javascript; charset=UTF-8'],
   ['hr-definitions.js', 'application/javascript; charset=UTF-8'],
