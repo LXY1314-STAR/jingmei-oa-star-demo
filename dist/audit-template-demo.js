@@ -44,7 +44,11 @@
         audit: [{ time: '2026-08-20 16:30', actor: '审计监督部', role: 'audit', action: '模板停用', result: 'V1.2 停止用于新合同，历史合同继续保留版本引用' }],
       },
     ];
-    for (const item of templateDefaults) if (!templateRows.some(row => row.id === item.id)) templateRows.push({ ...commonTemplate, ...item });
+    for (const item of templateDefaults) {
+      const existing = templateRows.find(row => row.id === item.id);
+      if (existing) Object.assign(existing, commonTemplate, item);
+      else templateRows.push({ ...commonTemplate, ...item });
+    }
   }
 
   const complianceRows = AuditWorkspace.store?.records?.compliance;
@@ -54,6 +58,15 @@
       files: [], audit: [], history: [], plan: [], feedback: [], reviews: [], progress: 100,
     };
     const complianceDefaults = [
+      {
+        id: 'CMP-2026-018', flowId: 'WF-CMP-2026-018', title: '采购合同合规清单',
+        department: '采购部', owner: '赵倩', due: '2026-08-30', operation: '新增',
+        scope: '采购/框架合同', version: '2026版', effective: '2026-08-01', reviewDate: '2026-11-01',
+        basis: '公司采购及合同管理制度', clauses: [
+          { name: '供应商资格', basis: '采购管理制度', requirement: '识别资质过期风险；评估履约影响；签约前复核有效期' },
+          { name: '付款合规', basis: '财务付款制度', requirement: '验收和发票双重核验' },
+        ],
+      },
       {
         id: 'CMP-2026-019', flowId: 'WF-CMP-2026-019', title: '销售合同合规清单',
         department: '经营发展部', owner: '周敏', due: '2026-09-05', operation: '新增',
@@ -73,6 +86,16 @@
         ],
       },
     ];
-    for (const item of complianceDefaults) if (!complianceRows.some(row => row.id === item.id)) complianceRows.push({ ...commonCompliance, ...item });
+
+    const defaultIds = new Set(complianceDefaults.map(item => item.id));
+    for (let i = complianceRows.length - 1; i >= 0; i -= 1) {
+      if (!defaultIds.has(complianceRows[i].id)) complianceRows.splice(i, 1);
+    }
+    for (const item of complianceDefaults) {
+      const existing = complianceRows.find(row => row.id === item.id);
+      if (existing) Object.assign(existing, commonCompliance, item);
+      else complianceRows.push({ ...commonCompliance, ...item });
+    }
+    complianceRows.sort((a, b) => String(a.id).localeCompare(String(b.id), 'zh-CN'));
   }
 })();
