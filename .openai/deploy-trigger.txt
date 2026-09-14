@@ -1,4 +1,4 @@
 Hosted demo refresh trigger
-Latest built dist commit: 3b8684458d90f3cf9038250d1e8fe6d06814b0b7
-Purpose: trigger the existing hosting integration after generated dist has been committed.
-Triggered at: 2026-09-14 16:01 +08:00
+Latest built dist commit: 4e261b69a38dcab58e48a9166dc4e6b638befdff
+Purpose: deploy the existing V1.7.0-ADMIN-B1-dev assets after folding view/handle and seal-certificate deepening into admin-workspace.js/admin-workspace.css.
+Triggered at: 2026-09-14 16:12 +08:00
