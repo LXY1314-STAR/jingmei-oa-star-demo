@@ -1,6 +1,6 @@
 import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 
-const files = ['admin-definitions.js', 'admin-business.js', 'admin-workspace.js', 'admin-workspace.css', 'index.html', 'app.js', 'style.css', 'navigation-v2.css', 'navigation-v2.js', 'audit-workspace.js', 'audit-workspace.css', 'audit-template-demo.js', 'it-definitions.js', 'it-workspace.js', 'it-workspace.css', 'hr-definitions.js', 'hr-business.js', 'hr-workspace.js', 'hr-workspace.css', 'hr-employee-360-demo.js', 'hr-payroll-demo.js', 'star-brief.js', 'star-brief.css', 'star-command.js', 'star-command.css', 'star-theme.js', 'star-theme.css', 'star-energy.js', 'star-energy.css'];
+const files = ['admin-definitions.js', 'admin-business.js', 'admin-workspace.js', 'admin-workspace.css', 'index.html', 'app.js', 'style.css', 'navigation-v2.css', 'navigation-v2.js', 'audit-workspace.js', 'audit-workspace.css', 'audit-template-demo.js', 'it-definitions.js', 'it-workspace.js', 'it-workspace.css', 'hr-definitions.js', 'hr-business.js', 'hr-workspace.js', 'hr-workspace.css', 'hr-employee-360-demo.js', 'hr-payroll-demo.js', 'star-brief.js', 'star-brief.css', 'star-command.js', 'star-command.css', 'star-theme.js', 'star-theme.css', 'star-energy.js', 'star-energy.css', 'star-gov.js', 'star-gov.css'];
 const stale = ['admin-view-handle-demo.js', 'seal-cert-workspace.js', 'seal-cert-workspace.css'];
 mkdirSync('dist/server', { recursive: true });
 for (const file of stale) rmSync(`dist/${file}`, { force: true });
@@ -36,6 +36,8 @@ const assets = Object.fromEntries([
   ['star-theme.css', 'text/css; charset=UTF-8'],
   ['star-energy.js', 'application/javascript; charset=UTF-8'],
   ['star-energy.css', 'text/css; charset=UTF-8'],
+  ['star-gov.js', 'application/javascript; charset=UTF-8'],
+  ['star-gov.css', 'text/css; charset=UTF-8'],
 ].map(([file, contentType]) => [
   `/${file}`,
   { body: readFileSync(file, 'utf8'), contentType },
