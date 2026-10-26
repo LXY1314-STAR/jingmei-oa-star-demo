@@ -4,6 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>精美印务 · 协同与经营管理平台 DEMO</title>
+  <script>
+  (function () {
+    var DESIGN_WIDTH = 1920, MIN_FIT_WIDTH = 1181;
+    function applyFit() {
+      var w = window.innerWidth || document.documentElement.clientWidth;
+      var supported = window.CSS && CSS.supports && CSS.supports('zoom', '0.5');
+      var fit = supported && w >= MIN_FIT_WIDTH && w < DESIGN_WIDTH;
+      document.documentElement.classList.toggle('ui-fit', fit);
+      document.documentElement.style.zoom = fit ? String(w / DESIGN_WIDTH) : '';
+    }
+    applyFit();
+    window.addEventListener('resize', applyFit);
+  })();
+  </script>
   <link rel="stylesheet" href="style.css?v=1.6.0-hr" />
   <link rel="stylesheet" href="navigation-v2.css?v=1.6.0-hr" />
   <link rel="stylesheet" href="audit-workspace.css?v=1.6.0-hr" />

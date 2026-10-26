@@ -23,6 +23,7 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-size:14px}
+html.ui-fit body{min-width:1920px}
 button,input,select,textarea{font:inherit}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(23,105,170,.2);outline-offset:2px}
 button:disabled{opacity:.45;cursor:not-allowed}
