@@ -1,8 +1,13 @@
 /* ===== 观星台 · 指标治理 / 多维筛选 / 会议治理 / 数据资产目录 / 风险治理 ===== */
 /* 覆盖 SOW STAR-F-004/005/006/007/019/023/025/033/043/045/049 的 Demo 实现。 */
 
-state.mgTab = state.mgTab || 'version';
+state.mgTab = state.mgTab || 'catalog';
 state.mgMetric = state.mgMetric || 'MET-002';
+state.mgCatQuery = state.mgCatQuery || '';
+state.mgCatDomain = state.mgCatDomain || '全部';
+state.mgCatLevel = state.mgCatLevel || '全部';
+state.mgCatOrg = state.mgCatOrg || '全部';
+state.mgCatStatus = state.mgCatStatus || '全部';
 state.sfOrg = state.sfOrg || '全部';
 state.sfBusiness = state.sfBusiness || '全部';
 state.sfProduct = state.sfProduct || '全部';
@@ -18,6 +23,19 @@ state.rgTab = state.rgTab || 'scenario';
 state.rgCategory = state.rgCategory || '全部';
 
 /* ---------- 指标治理：数据 ---------- */
+
+const MG_CATALOG = [
+  { code: 'STAR-M-001', name: '营业收入', domain: '经营', level: '公司级', owner: '财务部', unit: '万元', period: '月', version: 'V2.1', refs: 12, status: '在用', definition: '当期主营业务收入汇总，按财务月结口径确认。' },
+  { code: 'STAR-M-006', name: '产值完成率', domain: '生产', level: '公司级', owner: '生产管理部', unit: '%', period: '月', version: 'V1.6', refs: 18, status: '在用', definition: '当期合格完工产值 ÷ 当期计划产值 × 100%。' },
+  { code: 'STAR-M-011', name: '库存周转天数', domain: '供应链', level: '公司级', owner: '供应链管理部', unit: '天', period: '月', version: 'V1.3', refs: 9, status: '在用', definition: '期末库存与出库成本折算的周转天数。' },
+  { code: 'STAR-M-002', name: '利润总额', domain: '经营', level: '公司级', owner: '财务部', unit: '万元', period: '月', version: 'V1.5', refs: 7, status: '在用', definition: '营业利润加营业外收支净额，按财务月结口径。' },
+  { code: 'STAR-M-008', name: '订单蓄水', domain: '经营', level: '业务域', owner: '经营发展部', unit: '万元', period: '月', version: 'V1.2', refs: 5, status: '在用', definition: '已签订未交付订单金额，按客户和产品线汇总。' },
+  { code: 'STAR-M-013', name: '一次质量合格率', domain: '生产', level: '车间', owner: '质量管理部', unit: '%', period: '日', version: 'V1.4', refs: 6, status: '在用', definition: '一次交检合格数量 ÷ 交检总数 × 100%。' },
+  { code: 'STAR-M-016', name: '合同履约率', domain: '采购', level: '业务域', owner: '采购部', unit: '%', period: '月', version: 'V1.1', refs: 4, status: '在用', definition: '按期履约合同数 ÷ 应履约合同数 × 100%。' },
+  { code: 'STAR-M-019', name: '设备综合效率', domain: '生产', level: '产线', owner: '设备动力部', unit: '%', period: '日', version: 'V1.0', refs: 3, status: '在用', definition: '时间开动率 × 性能开动率 × 合格品率。' },
+  { code: 'STAR-M-021', name: '人均产值', domain: '人力', level: '公司级', owner: '人力资源部', unit: '万元/人', period: '月', version: 'V0.9', refs: 2, status: '停用', definition: '当期产值 ÷ 当期平均在岗人数。' },
+  { code: 'STAR-M-024', name: '单位产品能耗', domain: '能源', level: '产线', owner: '设备动力部', unit: 'kWh/件', period: '日', version: 'V0.8', refs: 1, status: '停用', definition: '生产用电量 ÷ 合格产出数量，能源口径待确认。' }
+];
 
 const MG_VERSIONS = [
   { id: 'V-001', metric: '产值完成率', code: 'STAR-M-006', version: 'V1.6', status: '已生效', reason: '口径调整为合格完工产值 ÷ 计划产值', scope: '驾驶舱 / 经营简报 / 会议快照', range: '2026-07-01 起', owner: '生产管理部' },
@@ -141,19 +159,95 @@ function govTab(tab, label, current, fn) {
 /* ---------- 指标治理 ---------- */
 
 function metricGovPage() {
-  const tabs = [['version', '版本与生效'], ['target', '目标与阈值'], ['compare', '同比环比'], ['matrix', '责任矩阵']];
+  const tabs = [['catalog', '指标目录'], ['version', '版本与生效'], ['target', '目标与阈值'], ['compare', '同比环比'], ['matrix', '责任矩阵']];
   const tabHtml = '<div class="tabs">' + tabs.map(function (x) { return govTab(x[0], x[1], state.mgTab, 'setMgTab'); }).join('') + '</div>';
-  let body = mgVersionView();
+  let body = mgCatalogView();
+  if (state.mgTab === 'version') body = mgVersionView();
   if (state.mgTab === 'target') body = mgTargetView();
   if (state.mgTab === 'compare') body = mgCompareView();
   if (state.mgTab === 'matrix') body = mgMatrixView();
-  const content = govHero('观星台 · 指标管理', '版本、目标阈值、计算规则与责任统一维护',
-    '指标新增、变更、停用经审批后生效；目标、阈值、同比环比口径和责任矩阵在同一处维护，页面按版本引用。', 'gov-tone-blue') +
-    govKpis([['3', '在用指标'], ['1', '待审批版本'], ['4', '目标阈值规则'], ['6', '责任类型']]) + tabHtml + body;
-  return shell(content, '指标管理', '指标版本、目标阈值、计算规则与责任矩阵统一维护。', '<button class="secondary" onclick="toast(\'规则已导出为演示文件\')">导出规则</button>');
+  const inUse = MG_CATALOG.filter(function (x) { return x.status === '在用'; }).length;
+  const stopped = MG_CATALOG.filter(function (x) { return x.status === '停用'; }).length;
+  const refs = MG_CATALOG.reduce(function (n, x) { return n + x.refs; }, 0);
+  const content = govHero('观星台 · 指标管理', '指标目录、版本、目标阈值、计算规则与责任统一维护',
+    '指标目录按领域、层级、责任部门和状态分类维护，支持编码、检索和引用；新增、变更、停用经审批后生效，页面按版本引用。', 'gov-tone-blue') +
+    govKpis([[String(MG_CATALOG.length), '指标目录'], [String(inUse), '在用指标'], [String(stopped), '停用指标'], [String(refs), '引用次数']]) + tabHtml + body;
+  return shell(content, '指标管理', '指标目录、版本、目标阈值、计算规则与责任矩阵统一维护。', '<button class="secondary" onclick="toast(\'规则已导出为演示文件\')">导出规则</button>');
 }
 
 function setMgTab(tab) { state.mgTab = tab; render(); }
+
+function mgCatalogView() {
+  const q = state.mgCatQuery.trim().toLowerCase();
+  const rows = MG_CATALOG.filter(function (m) {
+    const hit = !q || [m.code, m.name, m.owner, m.definition].join(' ').toLowerCase().indexOf(q) >= 0;
+    return hit && (state.mgCatDomain === '全部' || m.domain === state.mgCatDomain) &&
+      (state.mgCatLevel === '全部' || m.level === state.mgCatLevel) &&
+      (state.mgCatOrg === '全部' || m.owner === state.mgCatOrg) &&
+      (state.mgCatStatus === '全部' || m.status === state.mgCatStatus);
+  });
+  const sel = function (key, label, values, current) {
+    const all = '<option value="全部"' + (current === '全部' ? ' selected' : '') + '>全部' + label + '</option>';
+    return '<span class="gov-filter-label">' + label + '</span><select class="gov-select" onchange="state.' + key + '=this.value;render()">' + all + values.map(function (v) {
+      return '<option ' + (current === v ? 'selected' : '') + '>' + v + '</option>';
+    }).join('') + '</select>';
+  };
+  const body = rows.length ? rows.map(function (m) {
+    return '<tr><td><b>' + m.code + '</b></td><td><button class="table-link" onclick="openCatalogMetric(\'' + m.code + '\')">' + m.name + '</button></td><td>' + m.domain + '</td><td>' + m.level + '</td><td>' + m.owner + '</td><td>' + m.unit + '</td><td>' + m.period + '</td><td>' + m.version + '</td><td>' + m.refs + '</td><td>' + badge(m.status) + '</td><td><button class="link" onclick="openCatalogMetric(\'' + m.code + '\')">查看</button> <button class="link" onclick="toggleCatalogStatus(\'' + m.code + '\')">' + (m.status === '在用' ? '停用' : '启用') + '</button></td></tr>';
+  }).join('') : '<tr><td colspan="11"><div class="empty compact">没有符合条件的指标。</div></td></tr>';
+  return '<div class="gov-filter-bar"><input id="mgCatQuery" value="' + state.mgCatQuery + '" placeholder="指标编码、名称、责任部门或业务含义" oninput="state.mgCatQuery=this.value;render()">' +
+    sel('mgCatDomain', '领域', ['经营', '生产', '供应链', '采购', '人力', '能源'], state.mgCatDomain) +
+    sel('mgCatLevel', '层级', ['公司级', '业务域', '车间', '产线'], state.mgCatLevel) +
+    sel('mgCatOrg', '部门', ['财务部', '生产管理部', '供应链管理部', '经营发展部', '质量管理部', '采购部', '设备动力部', '人力资源部'], state.mgCatOrg) +
+    sel('mgCatStatus', '状态', ['在用', '停用'], state.mgCatStatus) +
+    '<button class="secondary" onclick="resetCatalogFilter()">重置</button><span class="gov-filter-hint">共 ' + rows.length + ' 项</span></div>' +
+    '<div class="toolbar"><span class="context-label">指标编码唯一，支持按领域、层级、责任部门和状态检索；已被报表、页面或预警引用的指标不得直接删除。</span><span class="spacer"></span><button class="primary" onclick="openCatalogForm()">+ 新增指标</button></div>' +
+    '<div class="table-card"><table class="gov-table"><thead><tr><th>指标编码</th><th>指标名称</th><th>领域</th><th>层级</th><th>责任部门</th><th>单位</th><th>统计周期</th><th>版本</th><th>引用次数</th><th>状态</th><th>操作</th></tr></thead><tbody>' + body + '</tbody></table></div>' +
+    '<div class="context-tip"><b>目录规则：</b>新增或停用指标在目录中登记，编码系统生成且唯一；停用前校验引用关系，历史版本和引用记录保留。</div>';
+}
+
+function resetCatalogFilter() {
+  state.mgCatQuery = ''; state.mgCatDomain = '全部'; state.mgCatLevel = '全部'; state.mgCatOrg = '全部'; state.mgCatStatus = '全部'; render();
+}
+
+function openCatalogMetric(code) {
+  const m = MG_CATALOG.find(function (x) { return x.code === code; });
+  if (!m) return;
+  const body = '<div class="info-grid">' + info('指标编码', m.code) + info('指标名称', m.name) + info('业务领域', m.domain) + info('指标层级', m.level) + info('责任部门', m.owner) + info('单位', m.unit) + info('统计周期', m.period) + info('当前版本', m.version) + info('引用次数', m.refs + ' 处') + info('状态', m.status) + '</div><div class="context-tip"><b>业务含义：</b>' + m.definition + '</div>';
+  const footer = '<button class="secondary" onclick="closeModal()">关闭</button><button class="' + (m.status === '在用' ? 'secondary' : 'primary') + '" onclick="toggleCatalogStatus(\'' + m.code + '\');closeModal()">' + (m.status === '在用' ? '停用指标' : '重新启用') + '</button>';
+  openModal(m.code + ' · ' + m.name, body, footer, true);
+}
+
+function toggleCatalogStatus(code) {
+  const m = MG_CATALOG.find(function (x) { return x.code === code; });
+  if (!m) return;
+  if (m.status === '在用' && m.refs > 0) {
+    toast(m.name + ' 仍被 ' + m.refs + ' 处引用，需先解除引用后再停用');
+    return;
+  }
+  m.status = m.status === '在用' ? '停用' : '在用';
+  render();
+  toast(m.name + ' 已' + m.status);
+}
+
+function openCatalogForm() {
+  const body = '<div class="form-grid"><div class="field"><label>指标名称</label><input id="catName" value=""></div>' +
+    '<div class="field"><label>业务领域</label><select id="catDomain"><option>经营</option><option>生产</option><option>供应链</option><option>采购</option><option>人力</option><option>能源</option></select></div>' +
+    '<div class="field"><label>指标层级</label><select id="catLevel"><option>公司级</option><option>业务域</option><option>车间</option><option>产线</option></select></div>' +
+    '<div class="field"><label>责任部门</label><input id="catOwner" value="经营发展部"></div>' +
+    '<div class="field"><label>单位</label><input id="catUnit" value="%"></div>' +
+    '<div class="field"><label>统计周期</label><select id="catPeriod"><option>月</option><option>日</option><option>季</option></select></div>' +
+    '<div class="field full"><label>业务含义</label><textarea id="catDefinition">新增指标的业务含义与计算口径。</textarea></div></div>';
+  openModal('新增指标 · 目录登记', body, '<button class="secondary" onclick="closeModal()">取消</button><button class="primary" onclick="submitCatalogMetric()">提交登记</button>');
+}
+
+function submitCatalogMetric() {
+  const name = $('#catName').value.trim(), owner = $('#catOwner').value.trim(), unit = $('#catUnit').value.trim(), definition = $('#catDefinition').value.trim();
+  if (!name || !owner || !unit) { toast('请填写指标名称、责任部门和单位'); return; }
+  const seq = MG_CATALOG.length + 1;
+  MG_CATALOG.push({ code: 'STAR-M-' + String(seq).padStart(3, '0'), name: name, domain: $('#catDomain').value, level: $('#catLevel').value, owner: owner, unit: unit, period: $('#catPeriod').value, version: 'V0.1', refs: 0, status: '在用', definition: definition || '新增指标，口径待确认。' });
+  closeModal(); state.mgTab = 'catalog'; render(); toast(name + ' 已登记到指标目录');
+}
 
 function mgVersionView() {
   const rows = MG_VERSIONS.map(function (v) {
