@@ -459,17 +459,10 @@ const HR_DEFINITIONS = [
         "readonly": true
       },
       {
-        "key": "调动人员",
-        "label": "调动人员",
-        "type": "text",
-        "value": "李明",
-        "readonly": true
-      },
-      {
         "key": "异动类型",
         "label": "异动类型",
         "type": "select",
-        "value": "部门内调动",
+        "value": "跨部门调动",
         "options": ["部门内调动", "跨部门调动", "转岗", "批量调动", "机构调整", "调配池转入转出"]
       },
       {

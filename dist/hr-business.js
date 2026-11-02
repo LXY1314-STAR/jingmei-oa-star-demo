@@ -8,13 +8,14 @@ const HrBusiness = (() => {
   const panel=(title,body,actions='')=>`<section class="card hw-panel hb-business"><div class="card-h"><h2>${esc(title)}</h2><div class="hw-tools">${actions}</div></div><div class="hw-body">${body}</div></section>`;
   const pairs=o=>`<div class="hw-info">${Object.entries(o).map(([k,v])=>`<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div>`;
   const employee=id=>db.employees.find(e=>e.id===id);
+  const employeeByName=name=>db.employees.find(e=>e.name===name);
   const spec=(title,action,columns,rows)=>({title,action,columns:columns.split('|'),rows});
   const specs={
     '01':spec('招聘需求明细','维护招聘明细','岗位|年度计划|编制余额|在岗人数|需求人数',[['质量检验员','2026',12,10,1]]),
     '02':spec('候选人资格与录用资料','核验录用资料','核验项目|要求|候选人资料|核验结论',[['岗位资格','质量检验能力','面试及操作评价','待核验'],['入职条件','证明材料齐全','体检与学历证明（模拟）','待核验']]),
     '03':spec('入职资料与办理任务','维护入职资料','资料类别|办理日期|办理责任',[['身份与任职资料','2026-09-10','人事'],['住宿需求','2026-09-10','综合办'],['物资领用','2026-09-10','综合办']]),
     '04':spec('试用期考核与后续安排','登记转正评价','评价维度|考核结果|部门评价|结论',[['工作完成','完成试用期任务','岗位表现符合要求','待核验'],['岗位能力','培训与实操合格','具备岗位能力','待核验']]),
-    '05':spec('调动明细与岗位资格','维护调动明细','调出公司|调入公司|调出部门|调入部门|调出岗位|调入岗位|岗位资格|到岗日期',[['五粮液精美印务','五粮液精美印务','经营发展部','经营发展部','经营分析专员','经营分析专员','有效资格','2026-10-01']]),
+    '05':spec('调动明细与岗位资格','维护调动明细','调动人员|调出公司|调入公司|调出部门|调入部门|调出岗位|调入岗位|岗位资格|到岗日期',[['李明','五粮液精美印务','五粮液精美印务','经营发展部','生产管理部','经营分析专员','质量检验员','有效资格','2026-10-01']]),
     '06':spec('合同版本与签署办理','核验签署材料','合同编号|办理类型|签署渠道|文件版本|核验结论',[['LD-2026-018','签订','线下签署','签署版V1','待核验']]),
     '07':spec('工作与资产交接清单','登记交接结果','交接事项|接收岗位|数量|证据说明|核验结论',[['工作资料','部门负责人',1,'工作交接清单','待核验'],['电脑及卡证','综合办',2,'资产清点清单','待核验']]),
     '08':spec('解除依据与通知送达','核验送达依据','材料类别|依据编号|送达渠道|证据说明|核验结论',[['终止依据','REL-2026-018','当面签收','届满依据（模拟）','待核验'],['通知送达','NOTICE-2026-018','当面签收','员工签收凭据（模拟）','待核验']]),
@@ -46,7 +47,7 @@ const HrBusiness = (() => {
   function ensure(r){if(r.business)return r.business;const s=specs[r.key];r.business={rows:copy(s.rows),events:[],links:[],due:r.f.到岗日期||r.f.生效日期||r.f.实施日期||'2026-10-15'};const b=r.business;
     if(r.key==='01'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.岗位,x.年度计划,x.编制余额,x.在岗人数,x.需求人数]);
     else if(r.key==='03'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.资料类别,x.办理日期,x.办理责任]);
-    else if(r.key==='05'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.调出公司,x.调入公司,x.调出部门,x.调入部门,x.调出岗位,x.调入岗位,x.岗位资格,x.到岗日期]);
+    else if(r.key==='05'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.调动人员,x.调出公司,x.调入公司,x.调出部门,x.调入部门,x.调出岗位,x.调入岗位,x.岗位资格,x.到岗日期]);
     else for(const row of b.rows){s.columns.forEach((k,i)=>{if(k==='员工编号')row[i]=r.employeeId;if(r.f[k]!==undefined&&k!=='核验结论')row[i]=r.f[k];});}
     if(r.key==='21')b.rows=r.items.map(x=>[x.指标,x.目标值,x.单位,x.权重]);
     if(r.key==='24')b.rows=r.items.map(x=>[x.员工编号,Number(x.金额)-500,500,0,Number(x.金额)]);
@@ -92,11 +93,11 @@ const HrBusiness = (() => {
   function error(message){H.fail(message);return false;}
   function field(name,value,type='text'){return `<label class="field"><span>${esc(name)}</span><input name="${esc(name)}" value="${esc(value)}" type="${type}" ${type==='number'?'step="any"':''} required></label>`;}
   function editRow(i){const r=H.get();if(!editable(r)||(['21','24'].includes(r.key)&&r.stage>=0||r.key==='22'&&r.stage>=0&&!(r.stage===1&&!r.appealSteps)))return error('当前节点只读；修改已提交内容须先退回或撤回');const s=specs[r.key],row=i<0?s.columns.map(k=>k==='核验结论'||k==='结论'?'待核验':''):ensure(r).rows[i];dialog={type:'row',id:r.id,index:i,version:r.version,stage:r.stage,role:state.role};
-    openModal(s.action,`<form id="hb-form"><div id="hw-error" role="alert"></div><div class="form-grid">${s.columns.map((k,j)=>k==='核验结论'||k==='结论'?`<label class="field"><span>${k}</span><select name="${k}"><option ${row[j]==='待核验'?'selected':''}>待核验</option><option ${row[j]==='通过'?'selected':''}>通过</option><option ${row[j]==='退回补充'?'selected':''}>退回补充</option></select></label>`:r.key==='01'&&k==='年度计划'?`<label class="field"><span>${k}</span><select name="${k}">${H.def('01').fields.find(f=>f.key==='年度计划').options.map(v=>`<option ${v===String(row[j])?'selected':''}>${esc(v)}</option>`).join('')}</select></label>`:r.key==='05'&&k==='岗位资格'?`<label class="field"><span>${k}</span><select name="${k}">${['有效资格','无特殊资格'].map(v=>`<option ${v===String(row[j])?'selected':''}>${esc(v)}</option>`).join('')}</select></label>`:field(k,row[j],/人数|编制|小时|天数|金额|工资|费用|扣减|权重|评分|校准分|目标值|成绩|学习进度|轮次/.test(k)?'number':/日期|有效期/.test(k)?'date':'text')).join('')}${field('办理依据','')}</div></form>`,button('取消','close()')+button('保存明细','saveRow()',false,'primary'));
+    openModal(s.action,`<form id="hb-form"><div id="hw-error" role="alert"></div><div class="form-grid">${s.columns.map((k,j)=>k==='核验结论'||k==='结论'?`<label class="field"><span>${k}</span><select name="${k}"><option ${row[j]==='待核验'?'selected':''}>待核验</option><option ${row[j]==='通过'?'selected':''}>通过</option><option ${row[j]==='退回补充'?'selected':''}>退回补充</option></select></label>`:r.key==='01'&&k==='年度计划'?`<label class="field"><span>${k}</span><select name="${k}">${H.def('01').fields.find(f=>f.key==='年度计划').options.map(v=>`<option ${v===String(row[j])?'selected':''}>${esc(v)}</option>`).join('')}</select></label>`:r.key==='05'&&k==='调动人员'?`<label class="field"><span>${k}</span><select name="${k}">${db.employees.map(e=>`<option ${e.name===String(row[j])?'selected':''}>${esc(e.name)}</option>`).join('')}</select></label>`:r.key==='05'&&k==='岗位资格'?`<label class="field"><span>${k}</span><select name="${k}">${['有效资格','无特殊资格'].map(v=>`<option ${v===String(row[j])?'selected':''}>${esc(v)}</option>`).join('')}</select></label>`:field(k,row[j],/人数|编制|小时|天数|金额|工资|费用|扣减|权重|评分|校准分|目标值|成绩|学习进度|轮次/.test(k)?'number':/日期|有效期/.test(k)?'date':'text')).join('')}${field('办理依据','')}</div></form>`,button('取消','close()')+button('保存明细','saveRow()',false,'primary'));
   }
   function validDialog(){if(!dialog)return null;const r=H.get(dialog.id);return r&&r.version===dialog.version&&r.stage===dialog.stage&&state.role===dialog.role&&editable(r)?r:null;}
   function saveRow(){const r=validDialog();if(!r)return error('身份、节点或版本已变化，请重新打开');const f=document.querySelector('#hb-form');if(!f.reportValidity())return false;const v=Object.fromEntries(new FormData(f)),s=specs[r.key],row=s.columns.map(k=>v[k]),b=ensure(r);const numeric=s.columns.map((k,i)=>/人数|编制|小时|天数|金额|工资|费用|扣减|权重|评分|校准分|目标值|成绩|学习进度|轮次/.test(k)?i:-1).filter(i=>i>=0);
-    if(numeric.some(i=>!Number.isFinite(Number(row[i]))||Number(row[i])<0))return error('数值须为有效非负数');if(r.key==='01'&&(!row[0]||!row[1]||!Number.isInteger(Number(row[4]))||Number(row[4])<=0||Number(row[4])>Number(row[2])-Number(row[3])))return error('岗位与年度计划须填写，需求人数须为正整数且不超过编制余额');if(r.key==='03'&&(!row[0]||!row[1]||!row[2]))return error('资料类别、办理日期与办理责任须填写');if(r.key==='05'&&(!row[0]||!row[1]||!row[2]||!row[3]||!row[4]||!row[5]||!row[6]||!row[7]||row[7]<store.date))return error('调出/调入信息、岗位资格与到岗日期须完整填写，到岗日期不得早于当前演示日期');if(s.columns.includes('员工编号')&&!employee(row[s.columns.indexOf('员工编号')]))return error('员工编号不存在');if(['18','26','29'].includes(r.key)&&row[0]!==r.employeeId)return error('当前单据仅允许关联员工的明细，其他员工请另建单据');
+    if(numeric.some(i=>!Number.isFinite(Number(row[i]))||Number(row[i])<0))return error('数值须为有效非负数');if(r.key==='01'&&(!row[0]||!row[1]||!Number.isInteger(Number(row[4]))||Number(row[4])<=0||Number(row[4])>Number(row[2])-Number(row[3])))return error('岗位与年度计划须填写，需求人数须为正整数且不超过编制余额');if(r.key==='03'&&(!row[0]||!row[1]||!row[2]))return error('资料类别、办理日期与办理责任须填写');if(r.key==='05'&&(row.some(v=>!v)||!employeeByName(row[0])||row[8]<store.date))return error('调动人员、调出/调入信息、岗位资格与到岗日期须完整填写，到岗日期不得早于当前演示日期');if(s.columns.includes('员工编号')&&!employee(row[s.columns.indexOf('员工编号')]))return error('员工编号不存在');if(['18','26','29'].includes(r.key)&&row[0]!==r.employeeId)return error('当前单据仅允许关联员工的明细，其他员工请另建单据');
     if(r.key==='22'&&[row[2],row[3]].some(v=>Number(v)>100))return error('评分须为0到100');if(r.key==='28'&&Number(row[3])>100||r.key==='29'&&Number(row[3])>100)return error('进度或成绩须在0到100');
     if(r.key==='22'&&r.stage>=0&&(dialog.index<0||[0,1,2,4].some(i=>String(row[i])!==String(b.rows[dialog.index][i]))))return error('校准节点仅允许修改校准分与原因；指标、权重和原评分须保持来源版本');
     const candidate=copy(b.rows);if(dialog.index<0)candidate.push(row);else candidate[dialog.index]=row;
@@ -111,7 +112,7 @@ const HrBusiness = (() => {
   function sync(r){const rows=ensure(r).rows,x=rows[0];if(!x)return;
     if(r.key==='01')r.items=rows.map(x=>({岗位:x[0],年度计划:x[1],编制余额:x[2],在岗人数:x[3],需求人数:x[4]}));
     if(r.key==='03')r.items=rows.map(x=>({资料类别:x[0],办理日期:x[1],办理责任:x[2]}));
-    if(r.key==='05')r.items=rows.map(x=>({调出公司:x[0],调入公司:x[1],调出部门:x[2],调入部门:x[3],调出岗位:x[4],调入岗位:x[5],岗位资格:x[6],到岗日期:x[7]}));
+    if(r.key==='05')r.items=rows.map(x=>({调动人员:x[0],调出公司:x[1],调入公司:x[2],调出部门:x[3],调入部门:x[4],调出岗位:x[5],调入岗位:x[6],岗位资格:x[7],到岗日期:x[8]}));
     if(r.key==='06'){r.f.合同编号=x[0];r.f.办理类型=x[1];r.f.签署方式=x[2];}
     if(r.key==='10'){r.f.开始日期=x[1];r.f.结束日期=x[2];r.f.后续结果=x[3];}
     if(r.key==='11'){r.f.变更字段=x[0];r.f.变更后值=x[2];r.f.变更原因=x[3];}
@@ -183,7 +184,7 @@ const HrBusiness = (() => {
     if(r.key==='25'&&H.store.records.some(x=>x.id!==r.id&&!x.historical&&x.key==='25'&&x.f.原单编号===r.f.原单编号&&x.stage>=0&&!H.done(x)))return '原工资条已有未完成的异议，请先处理该异议';
     if(r.key==='30'&&r.f.办理类型==='原件借阅'&&store.loans.some(x=>x.employeeId===r.employeeId&&x.name===r.f.证照名称&&!x.returned))return '此证照原件尚未归还，不能重复借阅';
     if(r.key==='30'&&r.f.办理类型==='原件归还'&&!store.loans.some(x=>x.employeeId===r.employeeId&&x.name===r.f.证照名称&&!x.returned&&b.links.some(l=>l.id===x.source)))return '请关联尚未归还的原借阅单';
-    if(r.key==='05'){for(const row of rows){if(row[6]==='有效资格'&&!employee(r.employeeId)?.qualifications.some(q=>q.status==='有效'&&q.expires>=row[7]))return '调动人员岗位资格无效或已过期';}}
+    if(r.key==='05'){for(const row of rows){const emp=employeeByName(row[0]);if(row[7]==='有效资格'&&(!emp||!emp.qualifications.some(q=>q.status==='有效'&&q.expires>=row[8])))return '调动人员岗位资格无效或已过期';}}
     if(r.key==='31'){for(const row of rows){const id=r.employeeId,position=row[0],standard=store.positions.find(p=>p.name===position);if(!standard)return '目标岗位尚无已配置准入标准';if(!employee(id)?.qualifications.some(q=>q.name===standard.certificate&&q.status==='有效'&&q.expires>=(r.f.到期日期||store.date)))return '目标岗位所需证照不匹配或已失效';}}
     if(r.stage>=0){const idx=s.columns.findIndex(x=>['核验结论','结论'].includes(x));if(idx>=0&&rows.some(row=>row[idx]!=='通过'))return '请逐项完成'+s.title+'，未通过项目不能推进';if(r.key==='28'&&r.stage===4&&rows.some(row=>Number(row[3])<100))return '学习任务尚未全部完成';if(r.key==='29'&&r.f.考试方式==='在线考试'&&!b.answers)return '请先完成在线作答';}
     return '';
@@ -192,7 +193,7 @@ const HrBusiness = (() => {
   function after(r,stage,kind){ensure(r);if(r.key==='25'&&stage===2&&kind==='advance'){const src=H.get(r.f.原单编号),row=ensure(src).rows[0];for(const change of ensure(r).rows){const index={'基本工资':1,'加班工资':2,'扣减':3}[change[0]];if(index)row[index]=Number(change[2]);}row[4]=Number(src.items[0].金额);src.checks.revisionSource=r.id;ensure(src).links.push({id:r.id,kind:'工资修订再次确认'});event(src,'修订工资项目',r.id+' / V'+src.version);}if(['reject','withdraw'].includes(kind)){if(r.checks.compHeld)releaseComp(r);return;}
     if(stage<0&&r.key==='15'){const lot=store.compLots.find(x=>x.id===ensure(r).rows[0][0]);r.checks.compHeld=Number(r.f.天数)*8;lot.held+=r.checks.compHeld;}
     if(H.done(r)&&kind==='advance'){const key=r.id+':'+r.version;if(store.snapshots.some(x=>x.key===key))return;store.snapshots.push({key,id:r.id,version:r.version,employeeId:r.employeeId,fields:copy(r.f),rows:copy(ensure(r).rows),date:store.date});
-      if(r.key==='05'){const item=ensure(r).rows[0];if(item&&String(item[7]||'')>store.date)store.pendingChanges.push({source:r.id,date:item[7],version:r.version,status:'待生效',employeeId:r.employeeId,org:item[3],position:item[5]});}
+      if(r.key==='05'){for(const item of ensure(r).rows){if(String(item[8]||'')>store.date){const emp=employeeByName(item[0]);store.pendingChanges.push({source:r.id,date:item[8],version:r.version,status:'待生效',employeeId:emp?.id,org:item[4],position:item[6]});}}}
       if(r.key==='21')r.effective={version:r.version,f:copy(r.f),items:copy(r.items),business:copy(r.business)};
       if(r.key==='14'){for(const x of ensure(r).rows){const id='COMP-'+r.id+'-'+x[0];if(!store.compLots.some(l=>l.id===id))store.compLots.push({id,employeeId:x[0],source:r.id,category:x[3],hours:Number(x[2]),held:0,expires:'2026-12-31'});}}
       if(r.key==='15'){const lot=store.compLots.find(x=>x.id===ensure(r).rows[0][0]);if(lot){lot.hours-=Number(r.f.天数)*8;lot.held=Math.max(0,lot.held-Number(r.checks.compHeld||0));}r.checks.compHeld=0;}
