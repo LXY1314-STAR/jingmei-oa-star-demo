@@ -174,6 +174,12 @@ const HR_DEFINITIONS = [
         "value": "质量检验员"
       },
       {
+        "key": "岗位资格",
+        "label": "岗位资格",
+        "type": "text",
+        "value": "岗位安全资格证（模拟）"
+      },
+      {
         "key": "用工类型",
         "label": "用工类型",
         "type": "select",
@@ -307,44 +313,61 @@ const HR_DEFINITIONS = [
     "key": "04",
     "code": "OA-L3-070104",
     "name": "试用期考核及转正流程",
-    "scope": "在试用期到期前下发考核任务，完成员工总结、部门评价、人事复核及转正、延期或不予转正审批；按人员类别和适用条件下发工会会员、企业年金、五粮液家园、购物卡及季度劳保等协同任务，并登记办理结果。",
+    "scope": "在试用期到期前下发考核任务，完成考核结果、部门评价、人事复核及转正审批；按人员类别和适用条件下发工会会员、企业年金、五粮液家园、购物卡及季度劳保等协同任务，并登记办理结果。",
     "short": "试用期转正",
     "domain": "recruit",
     "fields": [
       {
-        "key": "试用结束",
-        "label": "试用结束",
-        "type": "date",
-        "value": "2026-09-30"
-      },
-      {
-        "key": "员工总结",
-        "label": "员工总结",
+        "key": "发起人",
+        "label": "发起人",
         "type": "text",
-        "value": "已完成试用期工作任务"
+        "value": "李明",
+        "readonly": true
       },
       {
-        "key": "部门评价",
-        "label": "部门评价",
-        "type": "text",
-        "value": "具备岗位任职能力"
-      },
-      {
-        "key": "结论",
-        "label": "结论",
-        "type": "select",
-        "value": "转正",
-        "options": [
-          "转正",
-          "延期",
-          "不予转正"
-        ]
-      },
-      {
-        "key": "生效日期",
-        "label": "生效日期",
+        "key": "发起时间",
+        "label": "发起时间",
         "type": "date",
-        "value": "2026-10-01"
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起分部",
+        "label": "发起分部",
+        "type": "text",
+        "value": "宜宾总部",
+        "readonly": true
+      },
+      {
+        "key": "负责人",
+        "label": "负责人",
+        "type": "text",
+        "value": "周敏"
+      },
+      {
+        "key": "负责部门",
+        "label": "负责部门",
+        "type": "text",
+        "value": "经营发展部"
+      },
+      {
+        "key": "员工入职日期",
+        "label": "员工入职日期",
+        "type": "date",
+        "value": "2025-03-18"
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员"
       },
       {
         "key": "人员类别",
@@ -357,15 +380,27 @@ const HR_DEFINITIONS = [
         ]
       },
       {
-        "key": "延期至",
-        "label": "延期再考核日期（延期时适用）",
+        "key": "考核日期",
+        "label": "考核日期",
         "type": "date",
-        "value": "2026-12-31"
+        "value": "2026-09-30"
+      },
+      {
+        "key": "考核结果",
+        "label": "考核结果",
+        "type": "text",
+        "value": "已完成试用期工作任务"
+      },
+      {
+        "key": "部门评价",
+        "label": "部门评价",
+        "type": "text",
+        "value": "具备岗位任职能力"
       }
     ],
     "steps": [
       {
-        "name": "员工总结",
+        "name": "考核结果",
         "role": "employee"
       },
       {
