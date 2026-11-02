@@ -886,39 +886,65 @@ const HR_DEFINITIONS = [
     "domain": "relation",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "事项类型",
         "label": "事项类型",
         "type": "select",
         "value": "投诉",
-        "options": [
-          "投诉",
-          "申诉",
-          "劳动争议"
-        ]
+        "options": ["投诉", "申诉", "劳动争议"]
       },
       {
-        "key": "诉求",
-        "label": "诉求",
-        "type": "text",
-        "value": "申请核查相关办理结果"
+        "key": "事项发生日期",
+        "label": "事项发生日期",
+        "type": "date",
+        "value": "2026-09-20"
       },
       {
-        "key": "调查记录",
-        "label": "调查记录",
+        "key": "涉及对象",
+        "label": "涉及对象",
         "type": "text",
-        "value": "核对员工说明与原始材料"
+        "value": "质量管理部"
       },
       {
-        "key": "处理结论",
-        "label": "处理结论",
-        "type": "text",
-        "value": "按复核结论反馈"
+        "key": "事项详情",
+        "label": "事项详情",
+        "type": "textarea",
+        "value": "对考核结果有异议，申请复核。",
+        "full": true
       },
       {
-        "key": "关联案件",
-        "label": "关联案件",
-        "type": "text",
-        "value": "无"
+        "key": "相关证据",
+        "label": "相关证据",
+        "type": "attachment",
+        "value": "已附模拟证据资料",
+        "full": true
       }
     ],
     "steps": [
