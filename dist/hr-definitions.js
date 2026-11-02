@@ -239,14 +239,39 @@ const HR_DEFINITIONS = [
     "domain": "recruit",
     "fields": [
       {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "张薇",
+        "readonly": true
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "生产管理部",
+        "readonly": true
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "设备操作员",
+        "readonly": true
+      },
+      {
+        "key": "用工类型",
+        "label": "用工类型",
+        "type": "select",
+        "value": "正式",
+        "options": ["正式", "实习"]
+      },
+      {
         "key": "人员类别",
         "label": "人员类别",
         "type": "select",
         "value": "生产员工",
-        "options": [
-          "生产员工",
-          "管理人员"
-        ]
+        "options": ["生产员工", "管理人员"]
       },
       {
         "key": "入职日期",
@@ -255,14 +280,11 @@ const HR_DEFINITIONS = [
         "value": "2026-09-10"
       },
       {
-        "key": "资料核验",
-        "label": "资料核验",
-        "type": "select",
-        "value": "通过",
-        "options": [
-          "通过",
-          "待补齐"
-        ]
+        "key": "附件",
+        "label": "附件",
+        "type": "attachment",
+        "value": "已附模拟入职资料",
+        "full": true
       }
     ],
     "steps": [
