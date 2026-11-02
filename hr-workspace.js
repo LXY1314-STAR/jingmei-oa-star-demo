@@ -69,7 +69,8 @@ const HrWorkspace=(()=>{
     const other=createRecord('26','EMP-2025-089');store.records.push(other);
     todoSync();
   }
-  function seedOvertimeHistory(){[['2026-09-02','18:00','20:00'],['2026-09-09','18:00','20:00']].forEach((cfg,i)=>{const [day,st,et]=cfg;const ot=createRecord('14','EMP-2026-018');ot.id='HR-OT-HIST-'+(i+1);Object.assign(ot.f,{加班类别:'平时',加班开始时间:day+'T'+st,加班结束时间:day+'T'+et,开始日期:day,结束日期:day,开始时刻:st,结束时刻:et,小时数:'2',事由:'生产支持'});ot.stage=def('14').steps.length;ot.checks={};HrBusiness.ensure(ot).rows=[[ot.employeeId,2,2,'平时','通过']];store.records.push(ot);const emp=employee(ot.employeeId);if(emp?.hrBalance)emp.hrBalance.comp['平时']+=2;});}
+  function seedOvertimeHistory(){[['2026-09-02','18:00','20:00'],['2026-09-09','18:00','20:00']].forEach((cfg,i)=>{const [day,st,et]=cfg;const ot=createRecord('14','EMP-2026-018');ot.id='HR-OT-HIST-'+(i+1);Object.assign(ot.f,{加班类别:'平时',加班开始时间:day+'T'+st,加班结束时间:day+'T'+et,开始日期:day,结束日期:day,开始时刻:st,结束时刻:et,小时数:'2',事由:'生产支持'});ot.stage=def('14').steps.length;ot.checks={};HrBusiness.ensure(ot).rows=[[ot.employeeId,2,2,'平时','通过']];store.records.push(ot);});}
+  function recomputeCompBalances(){for(const e of db.employees){if(!e.hrBalance)continue;const comp={'平时':0,'周末':0,'节假日':0};for(const r of store.records){if(r.employeeId!==e.id||!done(r))continue;if(r.key==='14'){const c=r.f.加班类别,h=Number(r.f.小时数)||0;if(comp[c]!==undefined)comp[c]+=h;}if(r.key==='15'&&!r.historical){const c=r.f.来源类别,h=(Number(r.f.天数)||0)*8;if(comp[c]!==undefined)comp[c]=Math.max(0,comp[c]-h);}}e.hrBalance.comp=comp;}}
   function getByKey(key){return store.records.find(r=>r.key===key);}
   const btn=(label,action,cls='secondary',disabled=false)=>`<button class="${cls}" onclick="${action}" ${disabled?'disabled':''}>${esc(label)}</button>`;
   const kv=(k,v)=>`<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`;
@@ -300,6 +301,7 @@ const HrWorkspace=(()=>{
   HrBusiness.init({transition,employeeForRole,validate,people,createRecord,fail,log,todoSync,attendanceRows,download,csvCell,get,def,store,visible,done,status,current,canEdit,canAct,open,balances,exportAttendance});
   seedOvertimeHistory();
   seedCases();
+  recomputeCompBalances();
   return {openEmployee,addItem,deleteItem,confirmDeleteItem,back,people,createRecord,fail,log,todoSync,attendanceRows,download,csvCell,validate,generateTasks,apply,stamp,fresh,batchLeaveDialog,batchLeaveSave,employeeForRole,evidenceDialog,confirmEvidence,ui,store,defs,def,get,visible,done,status,current,expected,canAct,canEdit,mayTasks,view,home,list,open,create,edit,revise,save,transition,act,confirm,task,confirmTask,source,employeeArchive,file,upload,syncOrigin,syncOnboard,syncEmployee,syncRow,syncLeavePeriod,syncOvertimeHours,syncLeaveDuration,toggleRevokeType,attachDraft,removeDraftFile,exportList,exportAttendance,runs,receive,balances,balanceDialog,adjustBalances,unlock,confirmUnlock,settings,tab(t){ui.tab=t;render();},filter(f){ui.filter=f;ui.page=1;render();},search(){ui.query=document.querySelector('#hw-search').value.trim();ui.page=1;render();},reset(){ui.query='';ui.filter='全部';ui.page=1;render();},page(p){ui.page=p;render();},cancel(){ui.edit=null;if(ui.id)open(ui.id);else list(ui.key);},getByKey};
 })();
 const hrPreviousRender=render;
