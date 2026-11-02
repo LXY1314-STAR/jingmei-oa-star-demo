@@ -120,7 +120,11 @@
     if (existing.some(record => record.stage >= 0)) return HrWorkspace.fail('当前批次已有提交记录，不能在批次草稿中直接增删人员');
 
     const fields = copy(draft.f);
-    for (const field of HrWorkspace.def(PAY_KEY).fields) fields[field.key] = values[field.key];
+    for (const field of HrWorkspace.def(PAY_KEY).fields) if (values[field.key] !== undefined) fields[field.key] = values[field.key];
+    const originEmployee = db.employees.find(employee => employee.id === draft.employeeId);
+    if (originEmployee) { fields.发起人 = originEmployee.name; fields.发起部门 = originEmployee.org; }
+    fields.发起公司 = fields.发起公司 || '精美';
+    fields.发起时间 = values.发起时间 || draft.f.发起时间;
     const reason = values.修改原因 || '按业务需要提交（演示）';
     const previousByEmployee = new Map(existing.map(record => [record.employeeId, record]));
     const candidates = [];

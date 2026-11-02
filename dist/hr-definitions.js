@@ -2167,16 +2167,59 @@ const HR_DEFINITIONS = [
     "domain": "performance",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "周期",
-        "label": "周期",
+        "label": "考核周期",
         "type": "text",
         "value": "2026年下半年"
       },
       {
+        "key": "计划类型",
+        "label": "计划类型",
+        "type": "select",
+        "value": "新制定",
+        "options": ["新制定", "调整"]
+      },
+      {
         "key": "计划说明",
         "label": "计划说明",
-        "type": "text",
-        "value": "经营分析与改进目标"
+        "type": "textarea",
+        "value": "经营分析与改进目标",
+        "full": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟绩效计划资料",
+        "full": true
       }
     ],
     "steps": [
@@ -2204,8 +2247,36 @@ const HR_DEFINITIONS = [
     "domain": "performance",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "周期",
-        "label": "周期",
+        "label": "考核周期",
         "type": "text",
         "value": "2026年下半年"
       },
@@ -2216,17 +2287,8 @@ const HR_DEFINITIONS = [
         "value": "HR-PLAN-001"
       },
       {
-        "key": "来源系统",
-        "label": "来源系统",
-        "type": "select",
-        "value": "ERP模拟",
-        "options": [
-          "ERP模拟"
-        ]
-      },
-      {
         "key": "来源批次",
-        "label": "来源批次",
+        "label": "结果来源批次",
         "type": "text",
         "value": "ERP-PER-2026H2-001"
       },
@@ -2234,25 +2296,44 @@ const HR_DEFINITIONS = [
         "key": "原评分",
         "label": "原评分",
         "type": "number",
-        "value": "86"
+        "value": "86",
+        "readonly": true
       },
       {
         "key": "校准分",
         "label": "校准分",
         "type": "number",
-        "value": "88"
-      },
-      {
-        "key": "校准依据",
-        "label": "校准依据",
-        "type": "text",
-        "value": "依据已核实成果修正差异（演示）"
+        "value": "88",
+        "readonly": true
       },
       {
         "key": "结果等级",
         "label": "结果等级",
         "type": "text",
-        "value": "B+（演示，制度待确认）"
+        "value": "B+（演示，制度待确认）",
+        "readonly": true
+      },
+      {
+        "key": "确认结果",
+        "label": "确认结果",
+        "type": "select",
+        "value": "确认",
+        "options": ["确认", "有异议"]
+      },
+      {
+        "key": "申诉理由",
+        "label": "申诉理由",
+        "type": "textarea",
+        "value": "",
+        "required": false,
+        "full": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟绩效结果资料",
+        "full": true
       }
     ],
     "steps": [
@@ -2284,33 +2365,74 @@ const HR_DEFINITIONS = [
     "domain": "performance",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "奖惩类型",
         "label": "奖惩类型",
         "type": "select",
         "value": "表彰",
-        "options": [
-          "表彰",
-          "奖励",
-          "处分"
-        ]
+        "options": ["表彰", "奖励", "处分"]
       },
       {
         "key": "依据",
-        "label": "依据",
-        "type": "text",
-        "value": "安全生产表彰决定（模拟）"
+        "label": "奖惩事由",
+        "type": "textarea",
+        "value": "安全生产表彰决定（模拟）",
+        "full": true
       },
       {
-        "key": "审批来源",
-        "label": "审批来源",
-        "type": "text",
-        "value": "本流程审批"
+        "key": "奖惩金额",
+        "label": "奖惩金额",
+        "type": "number",
+        "value": "0",
+        "required": false
       },
       {
         "key": "生效日期",
         "label": "生效日期",
         "type": "date",
         "value": "2026-10-01"
+      },
+      {
+        "key": "备注",
+        "label": "备注",
+        "type": "textarea",
+        "value": "",
+        "required": false,
+        "full": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟奖惩资料",
+        "full": true
       }
     ],
     "steps": [
@@ -2338,29 +2460,66 @@ const HR_DEFINITIONS = [
     "domain": "compensation",
     "fields": [
       {
-        "key": "公司",
-        "label": "公司",
-        "type": "select",
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "readonly": true
       },
       {
         "key": "月份",
-        "label": "月份",
+        "label": "工资月份",
         "type": "text",
         "value": "2026-09"
       },
       {
         "key": "模板版本",
-        "label": "模板版本",
-        "type": "text",
-        "value": "PAY-V1"
+        "label": "工资条模板",
+        "type": "select",
+        "value": "PAY-V1",
+        "options": ["PAY-V1"]
       },
       {
         "key": "导入批次",
         "label": "导入批次",
         "type": "text",
         "value": "ERP-PAY-202609-001"
+      },
+      {
+        "key": "发放说明",
+        "label": "发放说明",
+        "type": "textarea",
+        "value": "按本月工资条批次发布，员工确认后归档",
+        "required": false,
+        "full": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟工资条资料",
+        "full": true
       }
     ],
     "steps": [
@@ -2392,28 +2551,59 @@ const HR_DEFINITIONS = [
     "domain": "compensation",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "原单编号",
-        "label": "原单编号",
+        "label": "原工资条编号",
         "type": "text",
         "value": "HR-PAYSLIP-001"
       },
       {
+        "key": "异议类型",
+        "label": "异议类型",
+        "type": "select",
+        "value": "金额",
+        "options": ["金额", "项目", "考勤"]
+      },
+      {
         "key": "异议说明",
         "label": "异议说明",
-        "type": "text",
-        "value": "请核对加班时长"
+        "type": "textarea",
+        "value": "请核对加班时长",
+        "full": true
       },
       {
-        "key": "处理结论",
-        "label": "处理结论",
-        "type": "text",
-        "value": "核对后更新演示金额"
-      },
-      {
-        "key": "修订金额",
-        "label": "修订金额",
-        "type": "number",
-        "value": "8100"
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟异议资料",
+        "full": true
       }
     ],
     "steps": [
@@ -2445,45 +2635,72 @@ const HR_DEFINITIONS = [
     "domain": "compensation",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "事项类型",
         "label": "事项类型",
         "type": "select",
         "value": "增员",
-        "options": [
-          "增员",
-          "减员",
-          "缴费审批",
-          "基数调整"
-        ]
+        "options": ["增员", "减员", "缴费审批", "基数调整"]
       },
       {
         "key": "险种",
         "label": "险种",
         "type": "select",
         "value": "社保",
-        "options": [
-          "社保",
-          "公积金",
-          "企业年金"
-        ]
+        "options": ["社保", "公积金", "企业年金"]
       },
       {
         "key": "月份",
-        "label": "月份",
+        "label": "办理月份",
         "type": "text",
         "value": "2026-09"
       },
       {
         "key": "金额",
-        "label": "金额",
+        "label": "缴费金额",
         "type": "number",
         "value": "2000"
       },
       {
-        "key": "办理结果",
-        "label": "办理结果",
-        "type": "text",
-        "value": "办理完成（模拟）"
+        "key": "办理说明",
+        "label": "办理说明",
+        "type": "textarea",
+        "value": "按本月参保人员及缴费基数办理",
+        "full": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟社保资料",
+        "full": true
       }
     ],
     "steps": [
@@ -2511,33 +2728,71 @@ const HR_DEFINITIONS = [
     "domain": "compensation",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "事项类型",
         "label": "事项类型",
         "type": "select",
         "value": "生育待遇",
-        "options": [
-          "生育待遇",
-          "工伤待遇",
-          "保险理赔"
-        ]
+        "options": ["生育待遇", "工伤待遇", "保险理赔"]
+      },
+      {
+        "key": "发生日期",
+        "label": "发生日期",
+        "type": "date",
+        "value": "2026-09-15"
+      },
+      {
+        "key": "就医或事故机构",
+        "label": "就医/事故机构",
+        "type": "text",
+        "value": "宜宾市第一人民医院"
       },
       {
         "key": "费用",
-        "label": "费用",
+        "label": "费用金额",
         "type": "number",
         "value": "1000"
       },
       {
         "key": "申请说明",
         "label": "申请说明",
-        "type": "text",
-        "value": "按证明及费用材料申请（模拟）"
+        "type": "textarea",
+        "value": "按证明及费用材料申请（模拟）",
+        "full": true
       },
       {
-        "key": "办理结果",
-        "label": "办理结果",
-        "type": "text",
-        "value": "受理完成（模拟）"
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟理赔资料",
+        "full": true
       }
     ],
     "steps": [
