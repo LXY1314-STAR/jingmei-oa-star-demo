@@ -23,10 +23,10 @@ const HR_DEFINITIONS = [
         "readonly": true
       },
       {
-        "key": "发起分部",
-        "label": "发起分部",
+        "key": "发起公司",
+        "label": "发起公司",
         "type": "text",
-        "value": "宜宾总部",
+        "value": "五粮液精美印务",
         "readonly": true
       },
       {
@@ -104,10 +104,10 @@ const HR_DEFINITIONS = [
         "readonly": true
       },
       {
-        "key": "发起分部",
-        "label": "发起分部",
+        "key": "发起公司",
+        "label": "发起公司",
         "type": "text",
-        "value": "宜宾总部",
+        "value": "五粮液精美印务",
         "readonly": true
       },
       {
@@ -339,10 +339,10 @@ const HR_DEFINITIONS = [
         "readonly": true
       },
       {
-        "key": "发起分部",
-        "label": "发起分部",
+        "key": "发起公司",
+        "label": "发起公司",
         "type": "text",
-        "value": "宜宾总部",
+        "value": "五粮液精美印务",
         "readonly": true
       },
       {
