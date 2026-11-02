@@ -9,44 +9,53 @@ const HR_DEFINITIONS = [
     "domain": "recruit",
     "fields": [
       {
-        "key": "岗位",
-        "label": "岗位",
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
         "type": "text",
-        "value": "质量检验员"
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起分部",
+        "label": "发起分部",
+        "type": "text",
+        "value": "宜宾总部",
+        "readonly": true
       },
       {
         "key": "年度计划",
         "label": "年度计划",
-        "type": "text",
-        "value": "2026年度招聘计划"
-      },
-      {
-        "key": "编制余额",
-        "label": "编制余额",
-        "type": "number",
-        "value": "2"
-      },
-      {
-        "key": "需求人数",
-        "label": "需求人数",
-        "type": "number",
-        "value": "1"
+        "type": "select",
+        "value": "2026",
+        "options": ["2026", "2025", "2024", "2023"]
       },
       {
         "key": "招聘方式",
         "label": "招聘方式",
         "type": "select",
         "value": "公开招聘",
-        "options": [
-          "公开招聘",
-          "内部竞聘"
-        ]
+        "options": ["公开招聘", "内部竞聘"]
       },
       {
-        "key": "到岗日期",
-        "label": "到岗日期",
-        "type": "date",
-        "value": "2026-10-01"
+        "key": "招聘原因",
+        "label": "招聘原因",
+        "type": "textarea",
+        "value": "旺季质量检验产能补充",
+        "full": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟依据",
+        "full": true
       }
     ],
     "steps": [
