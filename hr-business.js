@@ -174,7 +174,7 @@ const HrBusiness = (() => {
     if(r.key==='02'&&!b.links.some(x=>H.get(x.id)?.key==='01'&&H.done(H.get(x.id))))return '请关联已批准的招聘需求';
     if(r.key==='22'){const p=H.get(r.f.计划编号),effective=p?.effective||p;const items=r.checks.planSnapshot?.items||effective?.items||[];if(rows.length!==items.length||rows.some(x=>!items.some(y=>y.指标===x[0]&&Number(y.权重)===Number(x[1]))))return '评分指标与所绑定的有效计划版本不一致，请重新载入计划指标';if(rows.some(x=>!x[4]||!x[5]||Number(x[2])<0||Number(x[3])<0||Number(x[2])>100||Number(x[3])>100))return '评分依据、校准原因及0到100的分值必须完整';}
     if(r.key==='23'&&r.f.审批来源!=='本流程审批'){const src=H.get(r.f.审批来源);if(!src||!H.done(src)||src.employeeId!==r.employeeId||!['22','23'].includes(src.key))return '奖惩审批来源必须是该员工已确认的有效结果';}
-    if(['12','15'].includes(r.key)&&Math.abs(hours(r)/8-Number(r.f.天数))>0.001)return '申请天数与演示工作日历计算不一致，请核对起止时段';
+    if(['12','15'].includes(r.key)&&r.f.开始时刻&&r.f.结束时刻&&Math.abs(hours(r)/8-Number(r.f.天数))>0.001)return '申请天数与演示工作日历计算不一致，请核对起止时段';
     if(r.key==='13'){const start=Date.parse(r.f.开始日期+'T08:30'),end=Date.parse(r.f.结束日期+'T17:30');if(H.store.records.some(x=>!x.historical&&x.id!==r.id&&x.id!==r.f.原单编号&&x.employeeId===r.employeeId&&['12','14','15','16'].includes(x.key)&&x.stage>=0&&Date.parse(x.f.开始日期+'T'+(x.f.开始时刻||'08:30'))<end&&Date.parse(x.f.结束日期+'T'+(x.f.结束时刻||'17:30'))>start))return '变更时段与其他已提交假勤冲突';}
     if(r.key==='14'&&rows.some(x=>Number(x[2])>Number(x[1])||Number(x[1])>hours(r)))return '逐人核定时长不得超过申请及实际时段';
     if(r.key==='15'){if(rows.length!==1)return '本次调休须指定一个来源批次，多个来源请分单核销';const lot=store.compLots.find(x=>x.id===rows[0][0]&&x.employeeId===r.employeeId);if(!lot||lot.expires<store.date||lot.category!==r.f.来源类别||lot.hours-lot.held+Number(r.checks.compHeld||0)<Number(r.f.天数)*8)return '补休来源批次无效、已到期或可用额度不足';}
