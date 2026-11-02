@@ -728,8 +728,9 @@ const HR_DEFINITIONS = [
       {
         "key": "离职原因",
         "label": "离职原因",
-        "type": "text",
-        "value": "个人职业发展"
+        "type": "textarea",
+        "value": "个人职业发展",
+        "full": true
       },
       {
         "key": "相关附件",
@@ -1202,8 +1203,9 @@ const HR_DEFINITIONS = [
       {
         "key": "事由",
         "label": "请假事由",
-        "type": "text",
-        "value": "个人事务"
+        "type": "textarea",
+        "value": "个人事务",
+        "full": true
       },
       {
         "key": "车间审核人员",
@@ -1333,8 +1335,9 @@ const HR_DEFINITIONS = [
       {
         "key": "原因",
         "label": "变更原因",
-        "type": "text",
-        "value": "提前返岗"
+        "type": "textarea",
+        "value": "提前返岗",
+        "full": true
       },
       {
         "key": "相关附件",
@@ -1424,14 +1427,16 @@ const HR_DEFINITIONS = [
       {
         "key": "事由",
         "label": "加班事由",
-        "type": "text",
-        "value": "生产支持"
+        "type": "textarea",
+        "value": "生产支持",
+        "full": true
       },
       {
         "key": "工作内容",
         "label": "工作内容",
-        "type": "text",
-        "value": "完成当日生产计划及设备点检"
+        "type": "textarea",
+        "value": "完成当日生产计划及设备点检",
+        "full": true
       },
       {
         "key": "是否安排调休",
@@ -1549,8 +1554,9 @@ const HR_DEFINITIONS = [
       {
         "key": "事由",
         "label": "调休事由",
-        "type": "text",
-        "value": "使用加班补休"
+        "type": "textarea",
+        "value": "使用加班补休",
+        "full": true
       },
       {
         "key": "是否已交接工作",
@@ -1681,8 +1687,9 @@ const HR_DEFINITIONS = [
       {
         "key": "事由",
         "label": "出差/外出事由",
-        "type": "text",
-        "value": "现场质量核验"
+        "type": "textarea",
+        "value": "现场质量核验",
+        "full": true
       },
       {
         "key": "交通方式",
@@ -2138,8 +2145,9 @@ const HR_DEFINITIONS = [
       {
         "key": "用途说明",
         "label": "用途说明",
-        "type": "text",
-        "value": "年度考勤核对"
+        "type": "textarea",
+        "value": "年度考勤核对",
+        "full": true
       }
     ],
     "steps": [
