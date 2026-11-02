@@ -534,15 +534,60 @@ const HR_DEFINITIONS = [
     "domain": "relation",
     "fields": [
       {
-        "key": "办理类型",
-        "label": "办理类型",
-        "type": "select",
-        "value": "签订",
-        "options": [
-          "签订",
-          "续签",
-          "变更"
-        ]
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "吴欣",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "人力资源部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员",
+        "readonly": true
+      },
+      {
+        "key": "员工状态",
+        "label": "员工状态",
+        "type": "text",
+        "value": "在职",
+        "readonly": true
       },
       {
         "key": "合同编号",
@@ -551,30 +596,45 @@ const HR_DEFINITIONS = [
         "value": "LD-2026-018"
       },
       {
+        "key": "办理类型",
+        "label": "办理类型",
+        "type": "select",
+        "value": "签订",
+        "options": ["签订", "续签", "变更"]
+      },
+      {
         "key": "签署方式",
         "label": "签署方式",
         "type": "select",
         "value": "线下签署",
-        "options": [
-          "线下签署",
-          "电子签模拟"
-        ]
+        "options": ["线下签署", "电子签模拟"]
       },
       {
-        "key": "到期日期",
-        "label": "到期日期",
+        "key": "合同开始日期",
+        "label": "合同开始日期",
+        "type": "date",
+        "value": "2026-10-01"
+      },
+      {
+        "key": "合同结束日期",
+        "label": "合同结束日期",
         "type": "date",
         "value": "2029-09-30"
       },
       {
-        "key": "签署状态",
-        "label": "签署状态",
-        "type": "select",
-        "value": "待签署",
-        "options": [
-          "待签署",
-          "已签署"
-        ]
+        "key": "备注",
+        "label": "备注",
+        "type": "textarea",
+        "value": "按最新版本签署",
+        "required": false,
+        "full": true
+      },
+      {
+        "key": "附件",
+        "label": "附件",
+        "type": "attachment",
+        "value": "已附模拟合同资料",
+        "full": true
       }
     ],
     "steps": [
@@ -606,10 +666,64 @@ const HR_DEFINITIONS = [
     "domain": "relation",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "离职日期",
         "label": "离职日期",
         "type": "date",
         "value": "2026-10-01"
+      },
+      {
+        "key": "工作交接对象",
+        "label": "工作交接对象",
+        "type": "text",
+        "value": "部门负责人"
+      },
+      {
+        "key": "负责人",
+        "label": "负责人",
+        "type": "text",
+        "value": "周敏"
+      },
+      {
+        "key": "是否完成交接",
+        "label": "是否完成交接",
+        "type": "select",
+        "value": "是",
+        "options": ["是", "否"]
+      },
+      {
+        "key": "交接内容",
+        "label": "交接内容",
+        "type": "textarea",
+        "value": "工作、资产、账号、结算分项办理",
+        "full": true
       },
       {
         "key": "离职原因",
@@ -618,10 +732,11 @@ const HR_DEFINITIONS = [
         "value": "个人职业发展"
       },
       {
-        "key": "交接说明",
-        "label": "交接说明",
-        "type": "text",
-        "value": "工作、资产、账号、结算分项办理"
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟离职资料",
+        "full": true
       }
     ],
     "steps": [
