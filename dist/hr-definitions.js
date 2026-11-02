@@ -334,9 +334,40 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "select",
+        "type": "text",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "readonly": true
+      },
+      {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明"
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部"
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员"
+      },
+      {
+        "key": "人员类别",
+        "label": "人员类别",
+        "type": "select",
+        "value": "生产员工",
+        "options": ["生产员工", "管理人员"]
+      },
+      {
+        "key": "入职日期",
+        "label": "入职日期",
+        "type": "date",
+        "value": "2025-03-18"
       },
       {
         "key": "负责人",
@@ -351,26 +382,10 @@ const HR_DEFINITIONS = [
         "value": "经营发展部"
       },
       {
-        "key": "员工入职日期",
-        "label": "员工入职日期",
+        "key": "试用结束日期",
+        "label": "试用结束日期",
         "type": "date",
-        "value": "2025-03-18"
-      },
-      {
-        "key": "岗位",
-        "label": "岗位",
-        "type": "text",
-        "value": "经营分析专员"
-      },
-      {
-        "key": "人员类别",
-        "label": "人员类别",
-        "type": "select",
-        "value": "生产员工",
-        "options": [
-          "生产员工",
-          "管理人员"
-        ]
+        "value": "2026-09-30"
       },
       {
         "key": "考核日期",
@@ -385,10 +400,18 @@ const HR_DEFINITIONS = [
         "value": "已完成试用期工作任务"
       },
       {
+        "key": "员工总结",
+        "label": "员工总结",
+        "type": "textarea",
+        "value": "试用期工作总结（模拟）",
+        "full": true
+      },
+      {
         "key": "部门评价",
         "label": "部门评价",
-        "type": "text",
-        "value": "具备岗位任职能力"
+        "type": "textarea",
+        "value": "具备岗位任职能力",
+        "full": true
       }
     ],
     "steps": [
