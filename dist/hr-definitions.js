@@ -1548,10 +1548,10 @@ const HR_DEFINITIONS = [
         "value": "2026-10-12"
       },
       {
-        "key": "天数",
-        "label": "调休时长（天）",
+        "key": "小时数",
+        "label": "调休时长（小时）",
         "type": "number",
-        "value": "0.5"
+        "value": "1"
       },
       {
         "key": "事由",

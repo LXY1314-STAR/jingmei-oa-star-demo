@@ -119,7 +119,7 @@ const HrBusiness = (() => {
     if(r.key==='12'){r.f.假别=x[0];r.f.开始日期=x[1];r.f.结束日期=x[2];r.f.天数=String(x[3]);}
     if(r.key==='13'){r.f.原单编号=x[0];r.f.新天数=String(x[2]);}
     if(r.key==='14'){r.f.人员明细=rows.map(x=>x[0]).join(',');r.f.小时数=String(x[2]);r.f.加班类别=x[3];}
-    if(r.key==='15'){r.f.来源类别=x[1];r.f.天数=String(Number(x[3])/8);}
+    if(r.key==='15'){r.f.来源类别=x[1];r.f.小时数=String(Number(x[3]));r.f.天数=String(Number(x[3])/8);}
     if(r.key==='16'){r.f.事项类型=x[0];r.f.开始日期=x[1];r.f.地点=x[2];r.f.事由=x[3];}
     if(r.key==='17'){r.f.人员明细=rows.map(x=>x[0]).join(',');r.f.原班次=x[2];r.f.目标班次=x[3];}
     if(r.key==='18'){r.f.开始日期=x[1];r.f.更正结果=x[3];}
