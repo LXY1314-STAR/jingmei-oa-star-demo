@@ -1126,51 +1126,112 @@ const HR_DEFINITIONS = [
     "domain": "attendance",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
+        "key": "流程编号",
+        "label": "流程编号",
+        "type": "text",
+        "value": "",
+        "readonly": true
+      },
+      {
         "key": "假别",
-        "label": "假别",
+        "label": "请假类型",
         "type": "select",
         "value": "年休假",
-        "options": [
-          "年休假",
-          "事假",
-          "补休"
-        ]
+        "options": ["年休假", "事假", "补休"]
+      },
+      {
+        "key": "可调休时长",
+        "label": "可调休时长",
+        "type": "text",
+        "value": "",
+        "readonly": true
+      },
+      {
+        "key": "年假可申请天数",
+        "label": "年假可申请天数",
+        "type": "text",
+        "value": "",
+        "readonly": true
       },
       {
         "key": "开始日期",
-        "label": "开始日期",
+        "label": "请假开始日期",
         "type": "date",
         "value": "2026-10-08"
       },
       {
         "key": "结束日期",
-        "label": "结束日期",
+        "label": "请假结束日期",
         "type": "date",
         "value": "2026-10-08"
       },
       {
-        "key": "开始时刻",
-        "label": "开始时刻",
-        "type": "text",
-        "value": "08:30"
-      },
-      {
-        "key": "结束时刻",
-        "label": "结束时刻",
-        "type": "text",
-        "value": "17:30"
-      },
-      {
         "key": "天数",
-        "label": "天数",
+        "label": "请假时长",
         "type": "number",
         "value": "1"
       },
       {
         "key": "事由",
-        "label": "事由",
+        "label": "请假事由",
         "type": "text",
         "value": "个人事务"
+      },
+      {
+        "key": "车间审核人员",
+        "label": "请选择车间审核人员",
+        "type": "select",
+        "value": "刘强",
+        "options": ["刘强", "周敏", "何静", "吴欣"]
+      },
+      {
+        "key": "二级审核人员",
+        "label": "请选择二级审核人员",
+        "type": "select",
+        "value": "周敏",
+        "options": ["刘强", "周敏", "何静", "吴欣"]
+      },
+      {
+        "key": "工作交接人",
+        "label": "工作交接人",
+        "type": "select",
+        "value": "李明",
+        "options": ["李明", "张薇", "王晓雨", "陈杰"]
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟请假资料",
+        "full": true
       }
     ],
     "steps": [
