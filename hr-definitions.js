@@ -431,53 +431,93 @@ const HR_DEFINITIONS = [
     "domain": "recruit",
     "fields": [
       {
-        "key": "异动类型",
-        "label": "异动类型",
-        "type": "select",
-        "value": "部门内调动",
-        "options": [
-          "部门内调动",
-          "跨部门调动",
-          "转岗",
-          "批量调动",
-          "机构调整",
-          "调配池转入",
-          "调配池转出"
-        ]
+        "key": "调动人员",
+        "label": "调动人员",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
       },
       {
-        "key": "目标部门",
-        "label": "目标部门",
+        "key": "调出公司",
+        "label": "调出公司",
+        "type": "text",
+        "value": "五粮液精美印务",
+        "readonly": true
+      },
+      {
+        "key": "调出部门",
+        "label": "调出部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "调入公司",
+        "label": "调入公司",
+        "type": "select",
+        "value": "五粮液精美印务",
+        "options": ["五粮液精美印务"]
+      },
+      {
+        "key": "调入部门",
+        "label": "调入部门",
         "type": "text",
         "value": "经营发展部"
       },
       {
-        "key": "目标岗位",
-        "label": "目标岗位",
+        "key": "调出岗位",
+        "label": "调出岗位",
+        "type": "text",
+        "value": "经营分析专员",
+        "readonly": true
+      },
+      {
+        "key": "调入岗位",
+        "label": "调入岗位",
         "type": "text",
         "value": "经营分析专员"
       },
       {
-        "key": "生效日期",
-        "label": "生效日期",
+        "key": "到岗日期",
+        "label": "到岗日期",
         "type": "date",
         "value": "2026-10-01"
       },
       {
-        "key": "人员明细",
-        "label": "人员明细",
-        "type": "text",
-        "value": "EMP-2026-018"
+        "key": "异动类型",
+        "label": "异动类型",
+        "type": "select",
+        "value": "部门异动",
+        "options": ["公司异动", "部门异动", "岗位异动"]
       },
       {
         "key": "资格要求",
         "label": "资格要求",
         "type": "select",
         "value": "有效资格",
-        "options": [
-          "有效资格",
-          "无需特殊资格"
-        ]
+        "options": ["有效资格", "无特殊资格"]
+      },
+      {
+        "key": "协办人",
+        "label": "协办人",
+        "type": "multiselect",
+        "value": "",
+        "required": false
+      },
+      {
+        "key": "备注",
+        "label": "备注",
+        "type": "textarea",
+        "value": "",
+        "required": false,
+        "full": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟调动资料",
+        "full": true
       }
     ],
     "steps": [

@@ -14,7 +14,7 @@ const HrBusiness = (() => {
     '02':spec('候选人资格与录用资料','核验录用资料','核验项目|要求|候选人资料|核验结论',[['岗位资格','质量检验能力','面试及操作评价','待核验'],['入职条件','证明材料齐全','体检与学历证明（模拟）','待核验']]),
     '03':spec('入职资料与办理任务','维护入职资料','资料类别|办理日期|办理责任',[['身份与任职资料','2026-09-10','人事'],['住宿需求','2026-09-10','综合办'],['物资领用','2026-09-10','综合办']]),
     '04':spec('试用期考核与后续安排','登记转正评价','评价维度|考核结果|部门评价|结论',[['工作完成','完成试用期任务','岗位表现符合要求','待核验'],['岗位能力','培训与实操合格','具备岗位能力','待核验']]),
-    '05':spec('逐人岗位异动与资格核验','核验目标岗位','员工编号|原部门|目标部门|目标岗位|资格结论',[['EMP-2026-018','经营发展部','经营发展部','经营分析专员','待核验']]),
+    '05':spec('调动人员与岗位异动','核验目标岗位','员工编号|调出部门|调入部门|调出岗位|调入岗位|资格结论',[['EMP-2026-018','经营发展部','经营发展部','经营分析专员','经营分析专员','待核验']]),
     '06':spec('合同版本与签署办理','核验签署材料','合同编号|办理类型|签署渠道|文件版本|核验结论',[['LD-2026-018','签订','线下签署','签署版V1','待核验']]),
     '07':spec('工作与资产交接清单','登记交接结果','交接事项|接收岗位|数量|证据说明|核验结论',[['工作资料','部门负责人',1,'工作交接清单','待核验'],['电脑及卡证','综合办',2,'资产清点清单','待核验']]),
     '08':spec('解除依据与通知送达','核验送达依据','材料类别|依据编号|送达渠道|证据说明|核验结论',[['终止依据','REL-2026-018','当面签收','届满依据（模拟）','待核验'],['通知送达','NOTICE-2026-018','当面签收','员工签收凭据（模拟）','待核验']]),
@@ -50,7 +50,7 @@ const HrBusiness = (() => {
     if(r.key==='21')b.rows=r.items.map(x=>[x.指标,x.目标值,x.单位,x.权重]);
     if(r.key==='24')b.rows=r.items.map(x=>[x.员工编号,Number(x.金额)-500,500,0,Number(x.金额)]);
     if(r.key==='11'){b.rows[0]=[r.f.变更字段,employee(r.employeeId)?.[r.f.变更字段]||'未填写',r.f.变更后值,r.f.变更原因,'待核验'];}
-    if(r.key==='05')b.rows=H.people(r).map(id=>[id,employee(id)?.org,r.f.目标部门,r.f.目标岗位,'待核验']);
+    if(r.key==='05')b.rows=H.people(r).map(id=>[id,employee(id)?.org,r.f.调入部门,employee(id)?.position,r.f.调入岗位,'待核验']);
     if(r.key==='14')b.rows=H.people(r).map(id=>[id,Number(r.f.小时数),Number(r.f.小时数),r.f.加班类别,'待核验']);
     if(r.key==='28')b.rows=H.people(r).map(id=>[id,r.f.年度计划,r.f.课程,0,'待核验']);
     if(r.key==='17')b.rows=H.people(r).map(id=>[id,r.f.开始日期,r.f.原班次,r.f.目标班次,'待核验']);
@@ -67,7 +67,7 @@ const HrBusiness = (() => {
   function view(r){const b=ensure(r),s=specs[r.key],may=editable(r);let html='';if(r.caseType==='异常')html+='<div class="hb-inline-error">此案例缺少办理依据，提交时将拦截。请到附件证据页补充材料后继续。</div>';if(r.historical)html+='<div class="hw-boundary">历史演示资料：查看完整业务明细与结论，不代表本次会话已经执行这些操作。</div>';
     if(r.key==='21')html+=panel('计划生效与修订',pairs({考核周期:r.f.周期,适用员工:employee(r.employeeId)?.name,当前有效版本:r.effective?'V'+r.effective.version:H.done(r)?'V'+r.version:'尚未生效',当前申请:'V'+r.version+' · '+H.status(r),调整原因:r.reason||'首次制定'}));
     if(r.key==='22')html+=panel('评分来源与发布状态',pairs({考核周期:r.f.周期,绑定计划版本:r.checks.planVersion?'V'+r.checks.planVersion:'提交时锁定',评分来源:r.f.来源批次,结果发布:r.checks.published?'已发布':'未发布',员工确认:r.checks.finalPublished?'最终反馈已发送':H.done(r)?'已收悉':'待确认',加权结果:score(r)+' / 等级 '+r.f.结果等级}),link(r.f.计划编号));
-    if(r.key==='05')html+=panel(r.f.异动类型==='部门内调动'?'部门内岗位调整':'组织与人员调配',pairs({异动类型:r.f.异动类型,生效日期:r.f.生效日期,目标部门:r.f.目标部门,目标岗位:r.f.目标岗位}));
+    if(r.key==='05')html+=panel(r.f.异动类型==='部门异动'?'部门内岗位调整':'组织与人员调配',pairs({异动类型:r.f.异动类型,到岗日期:r.f.到岗日期,调出部门:r.f.调出部门,调入部门:r.f.调入部门,调出岗位:r.f.调出岗位,调入岗位:r.f.调入岗位}));
     if(['12','13','14','15','16'].includes(r.key))html+=panel('时段与计算口径',pairs({开始:r.f.开始日期+' '+(r.f.开始时刻||'08:30'),结束:r.f.结束日期+' '+(r.f.结束时刻||'17:30'),计算小时:hours(r),日历:'演示：工作日8小时，午休1小时；加班按实际时段',余额控制:'占用 → 释放 / 扣减 → 差额核对'}));
     if(r.key==='17')html+=calendarView(r);
     if(['18','19','20'].includes(r.key))html+=attendanceView(r);
@@ -111,7 +111,7 @@ const HrBusiness = (() => {
   function sync(r){const rows=ensure(r).rows,x=rows[0];if(!x)return;
     if(r.key==='01')r.items=rows.map(x=>({岗位:x[0],年度计划:x[1],编制余额:x[2],在岗人数:x[3],需求人数:x[4]}));
     if(r.key==='03')r.items=rows.map(x=>({资料类别:x[0],办理日期:x[1],办理责任:x[2]}));
-    if(r.key==='05'){r.f.人员明细=rows.map(x=>x[0]).join(',');r.f.目标部门=x[2];r.f.目标岗位=x[3];}
+    if(r.key==='05'){r.f.调入部门=x[2];r.f.调入岗位=x[4];}
     if(r.key==='06'){r.f.合同编号=x[0];r.f.办理类型=x[1];r.f.签署方式=x[2];}
     if(r.key==='10'){r.f.开始日期=x[1];r.f.结束日期=x[2];r.f.后续结果=x[3];}
     if(r.key==='11'){r.f.变更字段=x[0];r.f.变更后值=x[2];r.f.变更原因=x[3];}
@@ -183,7 +183,7 @@ const HrBusiness = (() => {
     if(r.key==='25'&&H.store.records.some(x=>x.id!==r.id&&!x.historical&&x.key==='25'&&x.f.原单编号===r.f.原单编号&&x.stage>=0&&!H.done(x)))return '原工资条已有未完成的异议，请先处理该异议';
     if(r.key==='30'&&r.f.办理类型==='原件借阅'&&store.loans.some(x=>x.employeeId===r.employeeId&&x.name===r.f.证照名称&&!x.returned))return '此证照原件尚未归还，不能重复借阅';
     if(r.key==='30'&&r.f.办理类型==='原件归还'&&!store.loans.some(x=>x.employeeId===r.employeeId&&x.name===r.f.证照名称&&!x.returned&&b.links.some(l=>l.id===x.source)))return '请关联尚未归还的原借阅单';
-    if(['05','31'].includes(r.key)){for(const row of rows){const id=r.key==='05'?row[0]:r.employeeId,position=r.key==='05'?row[3]:row[0],standard=store.positions.find(p=>p.name===position);if(!standard)return '目标岗位尚无已配置准入标准';if(!employee(id)?.qualifications.some(q=>q.name===standard.certificate&&q.status==='有效'&&q.expires>=(r.f.生效日期||store.date)))return '目标岗位所需证照不匹配或已失效';}}
+    if(['05','31'].includes(r.key)){for(const row of rows){const id=r.key==='05'?row[0]:r.employeeId,position=r.key==='05'?row[4]:row[0],standard=store.positions.find(p=>p.name===position);if(!standard)return '目标岗位尚无已配置准入标准';if(!employee(id)?.qualifications.some(q=>q.name===standard.certificate&&q.status==='有效'&&q.expires>=(r.f.到岗日期||store.date)))return '目标岗位所需证照不匹配或已失效';}}
     if(r.stage>=0){const idx=s.columns.findIndex(x=>['核验结论','结论'].includes(x));if(idx>=0&&rows.some(row=>row[idx]!=='通过'))return '请逐项完成'+s.title+'，未通过项目不能推进';if(r.key==='28'&&r.stage===4&&rows.some(row=>Number(row[3])<100))return '学习任务尚未全部完成';if(r.key==='29'&&r.f.考试方式==='在线考试'&&!b.answers)return '请先完成在线作答';}
     return '';
   }
@@ -191,7 +191,7 @@ const HrBusiness = (() => {
   function after(r,stage,kind){ensure(r);if(r.key==='25'&&stage===2&&kind==='advance'){const src=H.get(r.f.原单编号),row=ensure(src).rows[0];for(const change of ensure(r).rows){const index={'基本工资':1,'加班工资':2,'扣减':3}[change[0]];if(index)row[index]=Number(change[2]);}row[4]=Number(src.items[0].金额);src.checks.revisionSource=r.id;ensure(src).links.push({id:r.id,kind:'工资修订再次确认'});event(src,'修订工资项目',r.id+' / V'+src.version);}if(['reject','withdraw'].includes(kind)){if(r.checks.compHeld)releaseComp(r);return;}
     if(stage<0&&r.key==='15'){const lot=store.compLots.find(x=>x.id===ensure(r).rows[0][0]);r.checks.compHeld=Number(r.f.天数)*8;lot.held+=r.checks.compHeld;}
     if(H.done(r)&&kind==='advance'){const key=r.id+':'+r.version;if(store.snapshots.some(x=>x.key===key))return;store.snapshots.push({key,id:r.id,version:r.version,employeeId:r.employeeId,fields:copy(r.f),rows:copy(ensure(r).rows),date:store.date});
-      if(r.key==='05'&&r.f.生效日期>store.date)store.pendingChanges.push({source:r.id,date:r.f.生效日期,version:r.version,rows:copy(ensure(r).rows),status:'待生效'});
+      if(r.key==='05'&&r.f.到岗日期>store.date)store.pendingChanges.push({source:r.id,date:r.f.到岗日期,version:r.version,rows:copy(ensure(r).rows),status:'待生效'});
       if(r.key==='21')r.effective={version:r.version,f:copy(r.f),items:copy(r.items),business:copy(r.business)};
       if(r.key==='14'){for(const x of ensure(r).rows){const id='COMP-'+r.id+'-'+x[0];if(!store.compLots.some(l=>l.id===id))store.compLots.push({id,employeeId:x[0],source:r.id,category:x[3],hours:Number(x[2]),held:0,expires:'2026-12-31'});}}
       if(r.key==='15'){const lot=store.compLots.find(x=>x.id===ensure(r).rows[0][0]);if(lot){lot.hours-=Number(r.f.天数)*8;lot.held=Math.max(0,lot.held-Number(r.checks.compHeld||0));}r.checks.compHeld=0;}
@@ -205,7 +205,7 @@ const HrBusiness = (() => {
   }
   function releaseComp(r){const lot=store.compLots.find(x=>x.id===ensure(r).rows[0]?.[0]);if(lot)lot.held=Math.max(0,lot.held-Number(r.checks.compHeld||0));r.checks.compHeld=0;}
   function dueDialog(){if(state.role!=='hr')return error('仅人事可运行到期检查');openModal('演示日期与到期检查',`<form id="hb-due">${field('演示日期',store.date,'date')}<p>仅扫描本次会话的合同、试用期、证照和资格，不调用生产任务服务。</p></form>`,button('取消','close()')+button('检查并生成任务','checkDue()',false,'primary'));}
-  function checkDue(){if(state.role!=='hr')return error('无办理权限');const f=document.querySelector('#hb-due');if(!f.reportValidity())return;store.date=new FormData(f).get('演示日期');for(const change of store.pendingChanges.filter(x=>x.status==='待生效'&&x.date<=store.date)){for(const row of change.rows){const e=employee(row[0]);if(e){e.org=row[2];e.position=row[3];}}change.status='已生效';event(H.get(change.source),'生效日岗位更新',change.date);}for(const r of H.store.records.filter(x=>!x.historical)){let due,key;if(r.key==='04'&&!H.done(r)){due=r.f.考核日期||r.f.试用结束;key='试用期考核';}if(r.key==='06'&&H.done(r)){due=r.f.到期日期;key='劳动合同续签';}if(['30','31'].includes(r.key)&&H.done(r)){due=r.f.到期日期;key=r.key==='30'?'证照到期更新':'资格复审';}if(due&&due<=store.date&&!store.dueTasks.some(x=>x.source===r.id&&x.version===r.version)){store.dueTasks.push({id:'DUE-'+seq++,source:r.id,version:r.version,due,kind:key,employeeId:r.employeeId,status:'待处理'});event(r,'到期检查生成任务',key+' / '+due);}}
+  function checkDue(){if(state.role!=='hr')return error('无办理权限');const f=document.querySelector('#hb-due');if(!f.reportValidity())return;store.date=new FormData(f).get('演示日期');for(const change of store.pendingChanges.filter(x=>x.status==='待生效'&&x.date<=store.date)){for(const row of change.rows){const e=employee(row[0]);if(e){e.org=row[2];e.position=row[4];}}change.status='已生效';event(H.get(change.source),'生效日岗位更新',change.date);}for(const r of H.store.records.filter(x=>!x.historical)){let due,key;if(r.key==='04'&&!H.done(r)){due=r.f.考核日期||r.f.试用结束;key='试用期考核';}if(r.key==='06'&&H.done(r)){due=r.f.到期日期;key='劳动合同续签';}if(['30','31'].includes(r.key)&&H.done(r)){due=r.f.到期日期;key=r.key==='30'?'证照到期更新':'资格复审';}if(due&&due<=store.date&&!store.dueTasks.some(x=>x.source===r.id&&x.version===r.version)){store.dueTasks.push({id:'DUE-'+seq++,source:r.id,version:r.version,due,kind:key,employeeId:r.employeeId,status:'待处理'});event(r,'到期检查生成任务',key+' / '+due);}}
     H.todoSync();close();state.page='hr-due';render();}
   function dueView(){return shell(panel('生效日岗位更新',table(['来源','生效日期','版本','状态'],store.pendingChanges.map(x=>[link(x.source),x.date,'V'+x.version,x.status])))+panel('到期事项与任务',table(['员工','事项','到期日期','来源版本','操作'],store.dueTasks.filter(x=>H.visible(H.get(x.source))).map(x=>[esc(employee(x.employeeId)?.name),esc(x.kind),esc(x.due),link(x.source)+' V'+x.version,button(x.status==='待处理'?'发起后续办理':'查看办理单',`dueFollow('${x.id}')`,state.role!=='hr')]))),'到期检查与后续办理','当前演示日期：'+store.date,button('调整日期并检查','dueDialog()'));}
   function dueFollow(id){if(state.role!=='hr')return error('无办理权限');const t=store.dueTasks.find(x=>x.id===id);if(!t)return;if(t.follow)return H.open(t.follow);const src=H.get(t.source);if(src.key==='04'){t.follow=src.id;t.status='已下发';return H.open(src.id);}const r=H.createRecord(src.key,t.employeeId);r.f=copy(src.f);r.f.办理类型=src.key==='06'?'续签':src.key==='30'?'更新':'复审';r.f.到期日期=String(Number(store.date.slice(0,4))+1)+store.date.slice(4);H.store.records.unshift(r);ensure(r).links.push({id:src.id,version:src.version,kind:'到期后续办理'});t.follow=r.id;t.status='已下发';H.todoSync();H.open(r.id);}
