@@ -2236,8 +2236,8 @@ const HR_DEFINITIONS = [
         "value": "HR-PLAN-001"
       },
       {
-        "key": "被考核人",
-        "label": "被考核人",
+        "key": "员工姓名",
+        "label": "员工姓名",
         "type": "text",
         "value": "李明",
         "readonly": true
@@ -2348,24 +2348,6 @@ const HR_DEFINITIONS = [
         "type": "select",
         "value": "精美",
         "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
-      },
-      {
-        "key": "员工姓名",
-        "label": "员工姓名",
-        "type": "text",
-        "value": "李明"
-      },
-      {
-        "key": "所属部门",
-        "label": "所属部门",
-        "type": "text",
-        "value": "经营发展部"
-      },
-      {
-        "key": "岗位",
-        "label": "岗位",
-        "type": "text",
-        "value": "经营分析专员"
       },
       {
         "key": "周期",
