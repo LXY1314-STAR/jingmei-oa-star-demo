@@ -768,36 +768,93 @@ const HR_DEFINITIONS = [
     "domain": "relation",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "吴欣",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "人力资源部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员",
+        "readonly": true
+      },
+      {
+        "key": "劳动合同编号",
+        "label": "劳动合同编号",
+        "type": "text",
+        "value": "LD-2025-0318"
+      },
+      {
         "key": "办理类型",
         "label": "办理类型",
         "type": "select",
         "value": "解除",
-        "options": [
-          "解除",
-          "终止"
-        ]
+        "options": ["解除", "终止"]
       },
       {
-        "key": "依据",
-        "label": "依据",
-        "type": "text",
-        "value": "固定期限合同届满"
-      },
-      {
-        "key": "通知送达",
-        "label": "通知送达",
+        "key": "是否涉及补偿金",
+        "label": "是否涉及补偿金",
         "type": "select",
-        "value": "待送达",
-        "options": [
-          "待送达",
-          "已送达"
-        ]
+        "value": "否",
+        "options": ["是", "否"]
       },
       {
-        "key": "终止日期",
-        "label": "终止日期",
-        "type": "date",
-        "value": "2026-10-01"
+        "key": "补偿金金额",
+        "label": "补偿金金额",
+        "type": "number",
+        "value": "0"
+      },
+      {
+        "key": "办理说明",
+        "label": "办理说明",
+        "type": "textarea",
+        "value": "按制度办理",
+        "full": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟解除资料",
+        "full": true
       }
     ],
     "steps": [
