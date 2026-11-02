@@ -1325,57 +1325,103 @@ const HR_DEFINITIONS = [
     "domain": "attendance",
     "fields": [
       {
-        "key": "开始日期",
-        "label": "开始日期",
-        "type": "date",
-        "value": "2026-10-10"
-      },
-      {
-        "key": "结束日期",
-        "label": "结束日期",
-        "type": "date",
-        "value": "2026-10-10"
-      },
-      {
-        "key": "开始时刻",
-        "label": "开始时刻",
+        "key": "发起人",
+        "label": "发起人",
         "type": "text",
-        "value": "18:00"
+        "value": "李明",
+        "readonly": true
       },
       {
-        "key": "结束时刻",
-        "label": "结束时刻",
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
         "type": "text",
-        "value": "22:00"
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
       },
       {
         "key": "加班类别",
         "label": "加班类别",
         "type": "select",
         "value": "平时",
-        "options": [
-          "平时",
-          "周末",
-          "节假日"
-        ]
+        "options": ["平时", "周末", "节假日"]
+      },
+      {
+        "key": "开始日期",
+        "label": "加班日期",
+        "type": "date",
+        "value": "2026-10-10"
+      },
+      {
+        "key": "开始时刻",
+        "label": "开始时间",
+        "type": "text",
+        "value": "18:00"
+      },
+      {
+        "key": "结束时刻",
+        "label": "结束时间",
+        "type": "text",
+        "value": "22:00"
       },
       {
         "key": "小时数",
-        "label": "小时数",
+        "label": "加班时长（小时）",
         "type": "number",
         "value": "4"
       },
       {
-        "key": "人员明细",
-        "label": "人员明细",
-        "type": "text",
-        "value": "EMP-2026-018"
-      },
-      {
         "key": "事由",
-        "label": "事由",
+        "label": "加班事由",
         "type": "text",
         "value": "生产支持"
+      },
+      {
+        "key": "工作内容",
+        "label": "工作内容",
+        "type": "text",
+        "value": "完成当日生产计划及设备点检"
+      },
+      {
+        "key": "是否安排调休",
+        "label": "是否安排调休",
+        "type": "select",
+        "value": "否",
+        "options": ["是", "否"]
+      },
+      {
+        "key": "车间审核人员",
+        "label": "请选择车间审核人员",
+        "type": "select",
+        "value": "刘强",
+        "options": ["刘强", "周敏", "何静", "吴欣"]
+      },
+      {
+        "key": "二级审核人员",
+        "label": "请选择二级审核人员",
+        "type": "select",
+        "value": "周敏",
+        "options": ["刘强", "周敏", "何静", "吴欣"]
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟加班资料",
+        "full": true
       }
     ],
     "steps": [
@@ -1403,51 +1449,96 @@ const HR_DEFINITIONS = [
     "domain": "attendance",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
+        "key": "来源类别",
+        "label": "调休来源",
+        "type": "select",
+        "value": "平时",
+        "options": ["平时", "周末", "节假日"]
+      },
+      {
+        "key": "可调休时长",
+        "label": "可调休时长",
+        "type": "text",
+        "value": "",
+        "readonly": true
+      },
+      {
         "key": "开始日期",
-        "label": "开始日期",
+        "label": "调休开始日期",
         "type": "date",
         "value": "2026-10-12"
       },
       {
         "key": "结束日期",
-        "label": "结束日期",
+        "label": "调休结束日期",
         "type": "date",
         "value": "2026-10-12"
       },
       {
         "key": "开始时刻",
-        "label": "开始时刻",
+        "label": "开始时间",
         "type": "text",
         "value": "08:30"
       },
       {
         "key": "结束时刻",
-        "label": "结束时刻",
+        "label": "结束时间",
         "type": "text",
         "value": "12:30"
       },
       {
         "key": "天数",
-        "label": "天数",
+        "label": "调休时长（天）",
         "type": "number",
         "value": "0.5"
       },
       {
-        "key": "来源类别",
-        "label": "来源类别",
-        "type": "select",
-        "value": "平时",
-        "options": [
-          "平时",
-          "周末",
-          "节假日"
-        ]
-      },
-      {
         "key": "事由",
-        "label": "事由",
+        "label": "调休事由",
         "type": "text",
         "value": "使用加班补休"
+      },
+      {
+        "key": "工作交接人",
+        "label": "工作交接人",
+        "type": "select",
+        "value": "李明",
+        "options": ["李明", "张薇", "王晓雨", "陈杰"]
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟调休资料",
+        "full": true
       }
     ],
     "steps": [
@@ -1475,15 +1566,39 @@ const HR_DEFINITIONS = [
     "domain": "attendance",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "事项类型",
         "label": "事项类型",
         "type": "select",
         "value": "出差",
-        "options": [
-          "出差",
-          "临时外出",
-          "外勤"
-        ]
+        "options": ["出差", "临时外出", "外勤"]
       },
       {
         "key": "开始日期",
@@ -1499,27 +1614,54 @@ const HR_DEFINITIONS = [
       },
       {
         "key": "开始时刻",
-        "label": "开始时刻",
+        "label": "开始时间",
         "type": "text",
         "value": "08:30"
       },
       {
         "key": "结束时刻",
-        "label": "结束时刻",
+        "label": "结束时间",
         "type": "text",
         "value": "17:30"
       },
       {
         "key": "地点",
-        "label": "地点",
+        "label": "目的地",
         "type": "text",
         "value": "成都供应商现场"
       },
       {
         "key": "事由",
-        "label": "事由",
+        "label": "出差/外出事由",
         "type": "text",
         "value": "现场质量核验"
+      },
+      {
+        "key": "交通方式",
+        "label": "交通方式",
+        "type": "select",
+        "value": "公司派车",
+        "options": ["自驾", "公共交通", "公司派车", "其他"]
+      },
+      {
+        "key": "同行人员",
+        "label": "同行人员",
+        "type": "text",
+        "value": "无"
+      },
+      {
+        "key": "是否需预订票务住宿",
+        "label": "是否需预订票务住宿",
+        "type": "select",
+        "value": "否",
+        "options": ["是", "否"]
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟出差资料",
+        "full": true
       }
     ],
     "steps": [
@@ -1547,25 +1689,55 @@ const HR_DEFINITIONS = [
     "domain": "attendance",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "办理类型",
         "label": "办理类型",
         "type": "select",
         "value": "排班发布",
-        "options": [
-          "排班发布",
-          "调班",
-          "换班"
-        ]
+        "options": ["排班发布", "调班", "换班"]
+      },
+      {
+        "key": "班组",
+        "label": "班组",
+        "type": "text",
+        "value": "印刷一班"
       },
       {
         "key": "开始日期",
-        "label": "开始日期",
+        "label": "排班开始日期",
         "type": "date",
         "value": "2026-10-14"
       },
       {
         "key": "结束日期",
-        "label": "结束日期",
+        "label": "排班结束日期",
         "type": "date",
         "value": "2026-10-14"
       },
@@ -1580,29 +1752,27 @@ const HR_DEFINITIONS = [
         "label": "目标班次",
         "type": "select",
         "value": "早班",
-        "options": [
-          "早班",
-          "中班",
-          "晚班"
-        ]
+        "options": ["早班", "中班", "晚班"]
       },
       {
-        "key": "班组",
-        "label": "班组",
-        "type": "text",
-        "value": "印刷一班"
+        "key": "排班人员",
+        "label": "排班人员",
+        "type": "multiselect",
+        "value": ""
       },
       {
-        "key": "人员明细",
-        "label": "人员明细",
-        "type": "text",
-        "value": "EMP-2026-018"
+        "key": "排班说明",
+        "label": "排班说明",
+        "type": "textarea",
+        "value": "按周排班，遇调班另行申请",
+        "full": true
       },
       {
-        "key": "原版本",
-        "label": "原版本",
-        "type": "text",
-        "value": "排班V1"
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟排班资料",
+        "full": true
       }
     ],
     "steps": [
@@ -1630,45 +1800,79 @@ const HR_DEFINITIONS = [
     "domain": "attendance",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "异常类型",
         "label": "异常类型",
         "type": "select",
         "value": "缺卡",
-        "options": [
-          "缺卡",
-          "迟到",
-          "早退",
-          "班次冲突"
-        ]
+        "options": ["缺卡", "迟到", "早退", "班次冲突"]
       },
       {
         "key": "开始日期",
-        "label": "开始日期",
+        "label": "异常日期",
         "type": "date",
         "value": "2026-09-06"
       },
       {
-        "key": "结束日期",
-        "label": "结束日期",
-        "type": "date",
-        "value": "2026-09-06"
+        "key": "异常时刻",
+        "label": "异常时间",
+        "type": "text",
+        "value": "08:30"
       },
       {
         "key": "更正结果",
-        "label": "更正结果",
+        "label": "申请更正结果",
         "type": "select",
         "value": "正常",
-        "options": [
-          "正常",
-          "请假",
-          "外勤"
-        ]
+        "options": ["正常", "请假", "外勤"]
       },
       {
         "key": "说明",
-        "label": "说明",
-        "type": "text",
-        "value": "已核对原打卡和证明记录"
+        "label": "补卡/异常说明",
+        "type": "textarea",
+        "value": "已核对原打卡和证明记录",
+        "full": true
+      },
+      {
+        "key": "车间审核人员",
+        "label": "请选择车间审核人员",
+        "type": "select",
+        "value": "刘强",
+        "options": ["刘强", "周敏", "何静", "吴欣"]
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟补卡资料",
+        "full": true
       }
     ],
     "steps": [
@@ -1696,26 +1900,70 @@ const HR_DEFINITIONS = [
     "domain": "attendance",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "月份",
-        "label": "月份",
+        "label": "确认月份",
         "type": "text",
         "value": "2026-09"
       },
       {
-        "key": "确认意见",
-        "label": "确认意见",
-        "type": "select",
-        "value": "无异议",
-        "options": [
-          "无异议",
-          "退回核对"
-        ]
+        "key": "应出勤天数",
+        "label": "应出勤天数",
+        "type": "number",
+        "value": "22"
       },
       {
-        "key": "版本",
-        "label": "版本",
-        "type": "text",
-        "value": "月度V1"
+        "key": "实际出勤天数",
+        "label": "实际出勤天数",
+        "type": "number",
+        "value": "22"
+      },
+      {
+        "key": "异常天数",
+        "label": "异常天数",
+        "type": "number",
+        "value": "1"
+      },
+      {
+        "key": "确认意见",
+        "label": "确认结果",
+        "type": "select",
+        "value": "无异议",
+        "options": ["无异议", "退回核对"]
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟考勤资料",
+        "full": true
       }
     ],
     "steps": [
@@ -1743,23 +1991,58 @@ const HR_DEFINITIONS = [
     "domain": "attendance",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "年度",
-        "label": "年度",
+        "label": "查询年度",
         "type": "number",
         "value": "2026"
       },
       {
-        "key": "公司",
-        "label": "公司",
+        "key": "输出类型",
+        "label": "输出类型",
         "type": "select",
-        "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "value": "年度汇总",
+        "options": ["年度汇总", "考勤明细"]
       },
       {
-        "key": "组织",
-        "label": "组织",
+        "key": "输出格式",
+        "label": "输出格式",
+        "type": "select",
+        "value": "Excel",
+        "options": ["Excel", "PDF"]
+      },
+      {
+        "key": "用途说明",
+        "label": "用途说明",
         "type": "text",
-        "value": "经营发展部"
+        "value": "年度考勤核对"
       }
     ],
     "steps": [
