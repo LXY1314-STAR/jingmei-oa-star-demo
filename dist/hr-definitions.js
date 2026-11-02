@@ -334,9 +334,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "员工姓名",
@@ -557,9 +557,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "员工姓名",
@@ -689,9 +689,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "离职日期",
@@ -792,9 +792,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "员工姓名",
@@ -910,9 +910,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "事项类型",
@@ -1000,9 +1000,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "离岗开始日期",
@@ -1086,9 +1086,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "相关附件",
@@ -1150,9 +1150,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "流程编号",
@@ -1285,9 +1285,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "原单编号",
@@ -1396,9 +1396,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "加班类别",
@@ -1517,9 +1517,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "来源类别",
@@ -1644,9 +1644,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "事项类型",
@@ -1797,9 +1797,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "办理类型",
@@ -1908,9 +1908,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "异常类型",
@@ -2008,9 +2008,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "员工姓名",
@@ -2120,9 +2120,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "年度",
@@ -2200,9 +2200,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "计划类型",
@@ -2345,9 +2345,27 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+      },
+      {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明"
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部"
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员"
       },
       {
         "key": "周期",
@@ -2463,9 +2481,27 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+      },
+      {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明"
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部"
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员"
       },
       {
         "key": "奖惩类型",
@@ -2558,14 +2594,14 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "月份",
-        "label": "工资月份",
-        "type": "text",
+        "label": "工资年月",
+        "type": "month",
         "value": "2026-09"
       },
       {
@@ -2573,21 +2609,15 @@ const HR_DEFINITIONS = [
         "label": "工资条模板",
         "type": "select",
         "value": "PAY-V1",
-        "options": ["PAY-V1"]
+        "options": ["PAY-V1"],
+        "hidden": true
       },
       {
         "key": "导入批次",
         "label": "导入批次",
         "type": "text",
-        "value": "ERP-PAY-202609-001"
-      },
-      {
-        "key": "发放说明",
-        "label": "发放说明",
-        "type": "textarea",
-        "value": "按本月工资条批次发布，员工确认后归档",
-        "required": false,
-        "full": true
+        "value": "ERP-PAY-202609-001",
+        "hidden": true
       },
       {
         "key": "相关附件",
@@ -2649,9 +2679,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "原单编号",
@@ -2733,9 +2763,27 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+      },
+      {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明"
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部"
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员"
       },
       {
         "key": "事项类型",
@@ -2826,9 +2874,27 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+      },
+      {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明"
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部"
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员"
       },
       {
         "key": "事项类型",
@@ -2918,9 +2984,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "年度计划",
@@ -3057,9 +3123,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "关联培训",
@@ -3183,9 +3249,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "员工姓名",
@@ -3322,9 +3388,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
+        "type": "select",
         "value": "精美",
-        "readonly": true
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "员工姓名",

@@ -9,6 +9,14 @@
     { 员工编号: 'EMP-2025-089', 金额: 8600 },
     { 员工编号: 'EMP-2024-133', 金额: 7200 },
   ];
+  const PAY_NUM = HrWorkspace.payCols.slice(5);
+  const payItem = (item, month) => {
+    const row = HrWorkspace.payRow(item.员工编号, month);
+    row.岗位工资 = Math.max(0, Number(item.金额 || 0) - 500);
+    row.加班工资 = Math.min(500, Number(item.金额 || 0));
+    return HrWorkspace.payTotals(row);
+  };
+  const normalizeItem = (item, month) => item && item.岗位工资 !== undefined ? item : payItem(item || { 员工编号: '', 金额: 0 }, month);
 
   const isBatchRecord = (record, batch) =>
     record &&
@@ -45,18 +53,25 @@
         HrWorkspace.store.records.push(record);
       }
       record.employeeId = item.员工编号;
-      record.items = [copy(item)];
+      record.items = [payItem(item, master.f.月份)];
       rebuildBusiness(record);
     }
   }
 
   seedDefaultBatch();
+  for (const record of HrWorkspace.store.records.filter(item => item.key === PAY_KEY)) {
+    if (record.items?.some(item => item.岗位工资 === undefined)) {
+      record.items = record.items.map(item => normalizeItem(item, record.f.月份));
+      delete record.business;
+      HrBusiness.ensure(record);
+    }
+  }
 
   const originalCreate = HrWorkspace.create;
   HrWorkspace.create = function createPayrollBatch(key) {
     const result = originalCreate.apply(this, arguments);
     if (key === PAY_KEY && HrWorkspace.ui.edit?.key === PAY_KEY) {
-      HrWorkspace.ui.edit.items = copy(defaultItems);
+      HrWorkspace.ui.edit.items = defaultItems.map(item => payItem(item, HrWorkspace.ui.edit.f.月份));
       render();
     }
     return result;
@@ -70,7 +85,7 @@
     if (current?.key === PAY_KEY && draft?.key === PAY_KEY) {
       const records = batchRecords(current.f.导入批次);
       if (records.length) {
-        draft.items = records.map(record => copy(record.items[0] || { 员工编号: record.employeeId, 金额: 0 }));
+        draft.items = records.map(record => copy(normalizeItem(record.items[0] || { 员工编号: record.employeeId, 金额: 0 }, current.f.月份)));
         render();
       }
     }
@@ -85,7 +100,7 @@
       const items = HrWorkspace.ui.edit.items;
       const used = new Set(items.slice(0, -1).map(item => item.员工编号));
       const nextEmployee = db.employees.find(employee => !used.has(employee.id));
-      if (nextEmployee && items.length) items[items.length - 1].员工编号 = nextEmployee.id;
+      if (nextEmployee && items.length) items[items.length - 1] = payItem({ 员工编号: nextEmployee.id, 金额: 0 }, HrWorkspace.ui.edit.f.月份);
       render();
     }
     return result;
@@ -103,14 +118,14 @@
     const items = [...document.querySelectorAll('#hw-edit-items tr')].map(row => {
       const item = {};
       for (const input of row.querySelectorAll('[data-item]')) {
-        item[input.dataset.item] = input.dataset.item === '金额' ? Number(input.value) : input.value.trim();
+        item[input.dataset.item] = input.dataset.item === '金额' || PAY_NUM.includes(input.dataset.item) ? Number(input.value) : input.value.trim();
       }
-      return item;
+      return HrWorkspace.payTotals(item);
     });
 
     if (!items.length) return HrWorkspace.fail('工资条至少保留一条人员明细');
-    if (items.some(item => !db.employees.some(employee => employee.id === item.员工编号) || !Number.isFinite(item.金额) || item.金额 < 0)) {
-      return HrWorkspace.fail('工资条人员或金额无效');
+    if (items.some(item => !db.employees.some(employee => employee.id === item.员工编号) || !item.姓名 || !item.所属部门 || !item.岗位 || PAY_NUM.some(k => !Number.isFinite(item[k]) || item[k] < 0))) {
+      return HrWorkspace.fail('工资条人员、部门岗位或工资项目无效');
     }
     if (new Set(items.map(item => item.员工编号)).size !== items.length) return HrWorkspace.fail('工资条含重复人员');
 

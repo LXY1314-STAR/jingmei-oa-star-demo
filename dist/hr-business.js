@@ -51,7 +51,7 @@ const HrBusiness = (() => {
     else if(r.key==='11'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.变更前信息,x.变更后信息,x.变更原因]);
     else for(const row of b.rows){s.columns.forEach((k,i)=>{if(k==='员工编号')row[i]=r.employeeId;if(r.f[k]!==undefined&&k!=='核验结论')row[i]=r.f[k];});}
     if(r.key==='21')b.rows=r.items.map(x=>[x.指标,x.目标值,x.单位,x.权重]);
-    if(r.key==='24')b.rows=r.items.map(x=>[x.员工编号,Number(x.金额)-500,500,0,Number(x.金额)]);
+    if(r.key==='24')b.rows=r.items.map(x=>{const net=x.实发工资!==undefined?Number(x.实发工资):Number(x.金额)||0;return [x.员工编号,Math.max(0,net-500),500,0,net];});
     if(r.key==='14')b.rows=H.people(r).map(id=>[id,Number(r.f.小时数),Number(r.f.小时数),r.f.加班类别,'待核验']);
     if(r.key==='15'){const e=employee(r.employeeId),cat=r.f.来源类别||'平时';b.rows[0][1]=cat;b.rows[0][2]=Number(e?.hrBalance?.comp?.[cat]||0);b.rows[0][3]=Number(r.f.小时数)||b.rows[0][3];}
     if(r.key==='28')b.rows=H.people(r).map(id=>[id,r.f.年度计划,r.f.课程,0,'待核验']);
@@ -129,7 +129,7 @@ const HrBusiness = (() => {
     if(r.key==='21')r.items=rows.map(x=>({指标:x[0],目标值:Number(x[1]),单位:x[2],权重:Number(x[3])}));
     if(r.key==='22'){r.f.原评分=String(Math.round(rows.reduce((s,x)=>s+Number(x[1])*Number(x[2])/100,0)*100)/100);r.f.校准分=String(score(r));r.f.校准依据=rows.map(x=>x[5]).join('；');}
     if(r.key==='23'){r.f.奖惩类型=x[0];r.f.依据=x[1];r.f.审批来源=x[2];r.f.生效日期=x[3];}
-    if(r.key==='24')r.items=rows.map(x=>({员工编号:x[0],金额:Number(x[4])}));
+    if(r.key==='24')r.items=r.items.map((it,i)=>{const net=Number(rows[i]?.[4]??it.实发工资??it.金额)||0;return {...it,员工编号:rows[i]?.[0]||it.员工编号,实发工资:net,金额:net};});
     if(r.key==='25'){const src=H.get(r.f.原单编号);r.f.修订金额=String(Number(src?.items[0]?.金额||0)+rows.reduce((n,x)=>n+(x[0]==='扣减'?-1:1)*(Number(x[2])-Number(x[1])),0));r.f.处理结论=rows.map(x=>x[3]).join('；');}
     if(r.key==='26'){r.f.险种=x[1];r.f.事项类型=x[2];r.f.月份=x[3];r.f.金额=String(rows.reduce((n,x)=>n+Number(x[4]),0));}
     if(r.key==='27')r.f.费用=String(rows.reduce((n,x)=>n+Number(x[1]),0));
@@ -167,7 +167,7 @@ const HrBusiness = (() => {
   }
   async function importFile(file){const r=H.get();if(!file||!editable(r)||r.stage>=0)return error('请在草稿状态导入');if(file.size>2*1024*1024)return error('演示CSV限2MB');try{const x=inspectImport(r,await file.text());if(store.imports.some(y=>y.source===r.id&&y.status==='已导入'&&y.fingerprint===x.fingerprint))return error('此文件内容已导入，禁止重复');dialog={type:'import',id:r.id,version:r.version,role:state.role,stage:r.stage,import:x};openModal('导入预览与逐行校验',`<div id="hw-error"></div><p>${x.rows.length}行数据，${x.errors.length}项错误。${r.key==='24'?'确认后按员工拆分工资条草稿。':''}</p>${table(specs[r.key].columns,x.rows.map(row=>row.map(esc)))}${table(['文件行号','错误原因'],x.errors.map(e=>[e.line||'整批',esc(e.reason)]))}`,button('取消','close()')+button('确认导入','commitImport()',!!x.errors.length,'primary'));}catch(e){error(e.message);}}
   function commitImport(){const r=validDialog(),x=dialog?.import;if(!r||!x||x.errors.length||r.stage>=0)return error('导入条件已变化');if(store.imports.some(y=>y.source===r.id&&y.status==='已导入'&&y.fingerprint===x.fingerprint))return error('禁止重复导入');
-    if(r.key==='24'){for(const row of x.rows){let target=row[0]===r.employeeId?r:null;if(!target){target=H.createRecord('24',row[0]);target.f=copy(r.f);target.employeeId=row[0];H.store.records.unshift(target);}ensure(target).rows=[copy(row)];sync(target);event(target,'导入工资条明细',x.id+' · '+row[0]);}if(!x.rows.some(row=>row[0]===r.employeeId))return error('批次须包含当前单据员工');}
+    if(r.key==='24'){for(const row of x.rows){let target=row[0]===r.employeeId?r:null;if(!target){target=H.createRecord('24',row[0]);target.f=copy(r.f);target.employeeId=row[0];H.store.records.unshift(target);}const item=H.payRow(row[0],r.f.月份);item.岗位工资=Math.max(0,Number(row[4])-500);item.加班工资=Math.min(500,Number(row[4]));H.payTotals(item);target.items=[item];ensure(target).rows=[copy(row)];sync(target);event(target,'导入工资条明细',x.id+' · '+row[0]);}if(!x.rows.some(row=>row[0]===r.employeeId))return error('批次须包含当前单据员工');}
     else{ensure(r).rows=copy(x.rows);sync(r);if(r.key==='18'){for(const row of x.rows){if(!H.store.attendance.some(a=>a.employeeId===row[0]&&a.date===row[1]&&a.source===x.id))H.store.attendance.push({id:'CLOCK-'+seq++,employeeId:row[0],date:row[1],end:row[1],type:row[2],source:x.id,version:1,anomaly:row[2]!=='正常'});}}}
     x.status='已导入';store.imports.push(x);event(r,'确认文件导入',x.id+' / '+x.rows.length+'行');H.todoSync();close();render();return true;
   }
