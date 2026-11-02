@@ -2205,12 +2205,6 @@ const HR_DEFINITIONS = [
         "readonly": true
       },
       {
-        "key": "周期",
-        "label": "考核周期",
-        "type": "text",
-        "value": "2026年下半年"
-      },
-      {
         "key": "计划类型",
         "label": "计划类型",
         "type": "select",
@@ -2218,8 +2212,79 @@ const HR_DEFINITIONS = [
         "options": ["新制定", "调整"]
       },
       {
-        "key": "计划说明",
-        "label": "计划说明",
+        "key": "新计划名称",
+        "label": "新计划名称",
+        "type": "text",
+        "value": "2026年下半年绩效计划"
+      },
+      {
+        "key": "新计划编号",
+        "label": "新计划编号",
+        "type": "text",
+        "value": "HR-PLAN-2026H2"
+      },
+      {
+        "key": "原计划名称",
+        "label": "原计划名称",
+        "type": "text",
+        "value": "2026年上半年绩效计划"
+      },
+      {
+        "key": "原计划编号",
+        "label": "原计划编号",
+        "type": "text",
+        "value": "HR-PLAN-001"
+      },
+      {
+        "key": "被考核人",
+        "label": "被考核人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员",
+        "readonly": true
+      },
+      {
+        "key": "考核周期类型",
+        "label": "考核周期类型",
+        "type": "select",
+        "value": "半年",
+        "options": ["月度", "季度", "半年", "年度"]
+      },
+      {
+        "key": "考核开始日期",
+        "label": "考核开始日期",
+        "type": "date",
+        "value": "2026-07-01"
+      },
+      {
+        "key": "考核结束日期",
+        "label": "考核结束日期",
+        "type": "date",
+        "value": "2026-12-31"
+      },
+      {
+        "key": "考核周期",
+        "label": "考核周期（天）",
+        "type": "number",
+        "value": "184",
+        "readonly": true
+      },
+      {
+        "key": "考核内容",
+        "label": "考核内容",
         "type": "textarea",
         "value": "经营分析与改进目标",
         "full": true

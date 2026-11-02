@@ -55,21 +55,27 @@ const AdminBusiness = (() => {
       if(r.sourceVersion!==(s.effectiveVersion||s.version))return '来源版本已变化，请重新选择当前有效版本';
       if(['report','rsvp','meetingChange','meetingCancel','minutes'].includes(r.key)&&!s.effectiveVersion)return '来源尚未签发或批准';
     }
-    if(r.key==='receipt'&&(!f['来文单位']||!f['来文字号']||!f['办理要求']))return '请补充来文单位、字号及办理要求';
+    if(r.key==='receipt'&&(!f['收文编号']||!f['来文单位']||!f['来文字号']||!f['来文日期']||!f['承办部门']||!f['办理要求']))return '请补充收文编号、来文单位、字号、日期、承办部门及办理要求';
     if(r.key==='receipt'&&r.step===1&&rows.some(x=>f['办理分类']==='传阅'?x['阅知状态']!=='已阅':!x['反馈'].trim()))return '逐人完成阅知或填写承办反馈';
     if(r.key==='issue'){
+      if(!f['发文分类']||!f['发文文种']||!f['发文标题'].trim()||!f['发文编号'].trim())return '请补齐发文分类、文种、标题及发文编号';
+      if(!f['主送单位'].trim())return '主送单位不能为空';
       if(!f['正文'].trim()||!f['签发依据'].trim())return '正文与签发依据必填';
       if(rows.some(x=>!config.companies.includes(x['发送公司'])||!x['接收部门']))return '发送公司及接收部门不能为空';
       if(r.step===1&&rows.some(x=>!x['会签意见'].trim()))return '请逐项填写部门会签意见';
       if(r.step===3&&r.effectiveVersion!==r.version)return '签发后正文已变化，必须重新会签签发';
     }
+    if(r.key==='review'&&(!f['文件名称']?.trim()||!f['评审说明']?.trim()))return '请填写文件名称及评审说明';
     if(r.key==='review'&&r.step===1&&rows.some(x=>x['结论']!=='同意'||!x['评审意见']))return '各部门须填写意见并同意；需修改请执行退回';
     if(r.key==='report'){
+      if(!f['报送材料名称']?.trim()||!f['报送对象']?.trim()||!f['报送说明']?.trim())return '请补齐报送材料名称、报送对象及报送说明';
       if(f['报送对象']!==f['授权范围'])return '报送对象超出演示授权范围';
       if(rows.some(x=>x['版本']!=='V'+r.sourceVersion||x['核验结论']!=='一致'))return '报送材料版本应与来源一致并逐项核验';
-      if(r.step===2&&f['报送结果']!=='成功')return f['报送结果']==='失败'?'报送失败，请登记异常后修正并重试':'请登记报送结果';
+      if(r.step===2&&f['报送方式']==='线下送达登记'&&r.files.length<2)return '线下送达须补充签收或送达佐证';
     }
+    if(r.key==='cleanup'&&(!f['清理范围']?.trim()||!f['清理依据']?.trim()||!f['处置说明']?.trim()))return '请补齐清理范围、清理依据及处置说明';
     if(r.key==='cleanup'&&rows.some(x=>!visible(get(x['文件编号']))||get(x['文件编号']).company!==r.company||get(x['文件编号']).key!=='issue'||!x['处置原因']||x['处置']==='修订'&&!x['修订正文']))return '每项须关联现有文件，填写处置依据及修订正文';
+    if(r.key==='meeting'&&(!f['会议类型']||!f['会议形式']||Number(f['参会人数'])<=0||!f['会议议程']?.trim()))return '请补齐会议类型、形式、参会人数及会议议程';
     if(['meeting','meetingChange'].includes(r.key)){
       if(!f['会议开始']||f['会议结束']<=f['会议开始'])return '会议结束必须晚于开始时间';
       if(store.reservations.some(x=>x.active&&x.meetingId!==(r.key==='meeting'?r.id:r.sourceId)&&x.room===f['会议室']&&f['会议开始']<x.end&&f['会议结束']>x.start))return '会议室时段冲突，请调整时间或会议室';
@@ -79,15 +85,18 @@ const AdminBusiness = (() => {
     }
     if(r.key==='meetingCancel'&&!f['取消原因'].trim())return '取消原因不能为空';
     if(r.key==='rsvp'&&rows.some(x=>x['回执']==='未回复'||x['回执']==='委托'&&!x['委托人']))return '请完成回执，委托参会必须指定委托人';
-    if(r.key==='minutes'&&(!f['纪要正文'].trim()||rows.some(x=>!x['议定事项']||x['转督办']==='是'&&(!x['责任人']||!x['期限']||!x['目标']))))return '请补齐纪要正文及需转督办事项的责任、目标、期限';
+    if(r.key==='minutes'&&(!f['纪要编号']?.trim()||!f['会议名称']?.trim()||!f['发布范围']?.trim()||!f['纪要正文'].trim()||rows.some(x=>!x['议定事项']||x['转督办']==='是'&&(!x['责任人']||!x['期限']||!x['目标']))))return '请补齐纪要编号、会议名称、发布范围、纪要正文及需转督办事项';
+    if(r.key==='supervision'&&(!f['来源文号']?.trim()||!f['牵头部门']||!f['督办要求']?.trim()))return '请补齐来源文号、牵头部门及督办要求';
     if(['supervision','supervisionChange'].includes(r.key)&&rows.some(x=>!x['任务']||!x['责任人']||!x['目标']||!x['期限']||Number(x['进度'])<0||Number(x['进度'])>100))return '逐项填写任务、责任、目标、期限和0至100进度';
     if(r.key==='supervision'&&r.step===1&&rows.some(x=>Number(x['进度'])!==100||!x['反馈'].trim()))return '请完成全部任务并逐项填写成果反馈';
     if(r.key==='supervision'&&r.step===1&&r.files.length<2)return '请补充一份实际成果佐证，可使用页面演示成果文件';
     if(r.key==='supervisionChange'&&(!f['调整原因']||terminal(s)))return '请填写调整原因；已结束督办不可变更';
+    if(r.key==='supervisionChange'&&f['调整类型']!=='取消'&&(!f['调整后期限']||f['调整后期限']<=f['原完成期限']))return '调整后期限必须晚于原完成期限';
     if(r.key==='acceptance'){
       if(s.closed)return '来源已销号，不可重复验收';
+      if(r.step===0&&(!f['成果说明']?.trim()||!f['佐证清单']?.trim()||rows.some(x=>!x['佐证说明']?.trim())))return '请填写成果说明、佐证清单并逐项说明佐证';
       if(r.step===0&&(s.rows.some(x=>Number(x['进度'])!==100||!x['反馈'])||r.files.length<2))return '来源任务须完成并提交成果佐证';
-      if(r.step===1&&(f['验收结论']!=='通过'||!f['验收意见']||rows.some(x=>x['核验结果']!=='通过'||!x['佐证说明'])))return '填写验收意见并逐项核验；不通过请执行验收退回';
+      if(r.step===1&&(rows.some(x=>!x['佐证说明']?.trim())||r.files.length<2))return '请逐项核验佐证；不通过请执行验收退回';
     }
     return '';
   }
@@ -98,6 +107,7 @@ const AdminBusiness = (() => {
     if(r.key==='issue'&&r.step===2){r.effectiveVersion=r.version;r.approved=snapshot(r);}
     if(r.key==='issue'&&r.step===3){r.documentNumber=r.company+'〔2026〕演示'+r.id.split('-').pop()+'号';r.rows.forEach(x=>x['发布状态']='已发布');r.deliveries=r.rows.map((x,i)=>({id:r.id+'-PUB-'+(i+1),company:x['发送公司'],department:x['接收部门'],version:r.effectiveVersion,status:'已发布',date:config.date}));evidence(r,'签发发布正文.txt',r.documentNumber+'\nV'+r.effectiveVersion+'\n'+f['正文']);notify(r,r.rows.map(x=>x['接收部门']),'公文发布');}
     if(r.key==='review'&&r.step===2)r.effectiveVersion=r.version;
+    if(r.key==='report'&&r.step===2){r.reportStatus='成功';evidence(r,'报送回执.txt','报送对象：'+f['报送对象']+'\n报送材料：'+f['报送材料名称']+'\n版本：'+f['文件版本']+'\n方式：'+f['报送方式']+'\n结果：成功\n经办：'+person());}
     if(r.key==='cleanup'&&r.step===2)for(const row of r.rows){const d=get(row['文件编号']);d.snapshots.push(snapshot(d));d.disposition=row['处置'];if(row['处置']==='修订'){d.version++;d.fields['正文']=row['修订正文'];d.effectiveVersion=d.version;}d.revision++;log(d,'清理目录更新',r.id+' / '+row['处置']+' / '+row['处置原因']);r.links.push(d.id);}
     if(['meeting','meetingChange'].includes(r.key)&&r.step===1){const target=r.key==='meeting'?r:s;if(target!==r){target.snapshots.push(snapshot(target));Object.assign(target.fields,clone(f));target.rows=clone(r.rows);target.version++;target.revision++;log(target,'会议变更生效',r.id+' / '+f['变更原因']);}target.effectiveVersion=target.version;store.reservations=store.reservations.filter(x=>x.meetingId!==target.id);store.reservations.push({id:'BOOK-'+target.id,meetingId:target.id,room:f['会议室'],start:f['会议开始'],end:f['会议结束'],active:true,version:target.effectiveVersion});r.links.push(target.id,'BOOK-'+target.id);r.sourceVersion=target.effectiveVersion;}
     if(r.key==='meetingCancel'&&r.step===1){s.cancelled=true;s.revision++;store.reservations.filter(x=>x.meetingId===s.id).forEach(x=>x.active=false);log(s,'会议取消',r.id+' / '+f['取消原因']);}
@@ -109,7 +119,7 @@ const AdminBusiness = (() => {
     if(r.key==='supervision'&&r.step===0){r.due=r.rows.map(x=>x['期限']).sort().at(-1);notify(r,r.rows.map(x=>x['责任人']),'督办分派');}
     if(r.key==='supervision'&&r.step===2){r.effectiveVersion=r.version;evidence(r,'验收结论.txt','验收对象：'+r.id+'\n通过\n'+r.actionNote);}
     if(r.key==='supervisionChange'&&r.step===1){s.snapshots.push(snapshot(s));if(f['调整类型']==='取消'){s.cancelled=true;}else{s.rows=clone(r.rows);s.due=r.rows.map(x=>x['期限']).sort().at(-1);s.version++;}s.revision++;r.sourceVersion=s.effectiveVersion||s.version;log(s,'督办调整生效',r.id+' / '+f['调整类型']+' / '+f['调整原因']);notify(r,s.rows.map(x=>x['责任人']),'督办调整');}
-    if(r.key==='acceptance'&&r.step===2){archive(s);s.revision++;log(s,'独立验收销号',r.id+' / '+f['验收意见']);r.links.push(s.id);}
+    if(r.key==='acceptance'&&r.step===2){archive(s);s.revision++;log(s,'独立验收销号',r.id+' / '+(r.actionNote||'验收通过'));r.links.push(s.id);}
     if(r.sourceId&&!r.links.includes(r.sourceId))r.links.push(r.sourceId);
   }
   function act(id,expected,note,action='advance'){
@@ -145,7 +155,7 @@ const AdminBusiness = (() => {
       if(d.key==='report'){r.fields['报送结果']='成功';r.rows[0]['核验结论']='一致';}
       if(d.key==='rsvp')r.rows[0]['回执']='参加';
       if(d.key==='supervision')r.rows.forEach(x=>{x['进度']=100;x['反馈']='已完成检查并形成报告'});
-      if(d.key==='acceptance'){r.fields['验收结论']='通过';r.fields['验收意见']='逐项核验报告与成果，通过';r.rows.forEach(x=>{x['核验结果']='通过';x['佐证说明']='设备报告与清单一致'});}
+      if(d.key==='acceptance'){r.fields['完成情况']='全部完成';r.fields['验收申请说明']='逐项核验报告与成果，申请验收销号';r.rows.forEach(x=>{x['佐证说明']='设备报告与清单一致'});}
       evidence(r,'完成案例成果.txt','演示历史成果：'+r.title+'，明细与成果已核验。');
       let guard=0;
       while(!terminal(r)&&guard++<8){state.role=assignedRole(r);const error=act(r.id,r.revision,'演示历史：已按该节点核验对象、明细及证据');if(error)throw new Error(d.key+' completed seed: '+error);}

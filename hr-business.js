@@ -53,6 +53,7 @@ const HrBusiness = (() => {
     if(r.key==='21')b.rows=r.items.map(x=>[x.指标,x.目标值,x.单位,x.权重]);
     if(r.key==='24')b.rows=r.items.map(x=>[x.员工编号,Number(x.金额)-500,500,0,Number(x.金额)]);
     if(r.key==='14')b.rows=H.people(r).map(id=>[id,Number(r.f.小时数),Number(r.f.小时数),r.f.加班类别,'待核验']);
+    if(r.key==='15'){const e=employee(r.employeeId),cat=r.f.来源类别||'平时';b.rows[0][1]=cat;b.rows[0][2]=Number(e?.hrBalance?.comp?.[cat]||0);b.rows[0][3]=Number(r.f.小时数)||b.rows[0][3];}
     if(r.key==='28')b.rows=H.people(r).map(id=>[id,r.f.年度计划,r.f.课程,0,'待核验']);
     if(r.key==='17')b.rows=H.people(r).map(id=>[id,r.f.开始日期,r.f.原班次,r.f.目标班次,'待核验']);
     return b;
@@ -69,7 +70,8 @@ const HrBusiness = (() => {
     if(r.key==='21')html+=panel('计划生效与修订',pairs({考核周期:r.f.周期,适用员工:employee(r.employeeId)?.name,当前有效版本:r.effective?'V'+r.effective.version:H.done(r)?'V'+r.version:'尚未生效',当前申请:'V'+r.version+' · '+H.status(r),调整原因:r.reason||'首次制定'}));
     if(r.key==='22')html+=panel('评分来源与发布状态',pairs({考核周期:r.f.周期,绑定计划版本:r.checks.planVersion?'V'+r.checks.planVersion:'提交时锁定',评分来源:r.f.来源批次,结果发布:r.checks.published?'已发布':'未发布',员工确认:r.checks.finalPublished?'最终反馈已发送':H.done(r)?'已收悉':'待确认',加权结果:score(r)+' / 等级 '+r.f.结果等级}),link(r.f.计划编号));
     if(r.key==='05')html+=panel(r.f.异动类型==='部门内调动'?'部门内岗位调整':'组织与人员调配',pairs({异动类型:r.f.异动类型,主负责人:r.f.主负责人,协办人:r.f.协办人||'—',异动原因:r.f.异动原因||'—'}));
-    if(['12','13','14','15','16'].includes(r.key))html+=panel('时段与计算口径',pairs({开始:r.f.开始日期+' '+(r.f.开始时刻||'08:30'),结束:r.f.结束日期+' '+(r.f.结束时刻||'17:30'),计算小时:hours(r),日历:'演示：工作日8小时，午休1小时；加班按实际时段',余额控制:'占用 → 释放 / 扣减 → 差额核对'}));
+    if(['12','13','14','16'].includes(r.key))html+=panel('时段与计算口径',pairs({开始:r.f.开始日期+' '+(r.f.开始时刻||'08:30'),结束:r.f.结束日期+' '+(r.f.结束时刻||'17:30'),计算小时:hours(r),日历:'演示：工作日8小时，午休1小时；加班按实际时段',余额控制:'占用 → 释放 / 扣减 → 差额核对'}));
+    if(r.key==='15'){const h=Number(r.f.小时数)||0,start=new Date(r.f.开始日期+'T08:30'),end=new Date(start.getTime()+h*3600000);html+=panel('时段与计算口径',pairs({开始:r.f.开始日期+' 08:30',结束:end.toLocaleString('sv-SE').slice(0,16),计算小时:h,日历:'按申请小时计；演示工作日8小时，午休1小时',余额控制:'占用 → 释放 / 扣减 → 差额核对'}));}
     if(r.key==='17')html+=calendarView(r);
     if(['18','19','20'].includes(r.key))html+=attendanceView(r);
     const editingBlocked=['21','24'].includes(r.key)&&r.stage>=0||r.key==='22'&&r.stage>=0&&!(r.stage===1&&!r.appealSteps);
