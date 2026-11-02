@@ -101,7 +101,7 @@ const AuditWorkspace = (() => {
     let content=ui.tab==='附件资料'?attachments(r):ui.tab==='审批与操作记录'?auditView(r):business(r);
     return shell(`<div class="aw-back">${btn('返回来源台账','back')}${['草稿','已退回','待分派'].includes(r.status)?btn('编辑业务资料','edit','', 'secondary',!canEdit(r)):''}</div>${basic}${content}<div class="aw-sticky">${actions(r)}</div>`,d.name,'',btn('演示身份与规则','settings'));
   }
-  function business(r){const d=defs[r.kind];const base=panel('业务信息',`<div class="aw-info">${d.fields.map(([key,label])=>['contractId','riskId','supervisionId'].includes(key)?`<div><span>${label}</span>${link(r[key])}</div>`:kv(label,r[key])).join('')}</div>`);let extra='';
+  function business(r){const d=defs[r.kind];const base=panel('业务信息',`<div class="aw-info">${kv('发起人',roles[state.role]?.name||'')}${kv('发起时间',r.createdAt||'2026-09-07')}${kv('发起部门',identities[state.role]?.department||'')}${kv('发起公司','精美')}${d.fields.map(([key,label])=>['contractId','riskId','supervisionId'].includes(key)?`<div><span>${label}</span>${link(r[key])}</div>`:kv(label,r[key])).join('')}</div>`);let extra='';
     if(r.kind==='contractTemplate'||r.kind==='compliance')extra=clausesView(r)+versions(r);
     if(r.kind==='contractReview')extra=contractView(r);
     if(r.kind==='contractChange')extra=panel('变更前后对照',table(['变更项','原有效值','拟批准值'],[['合同金额',money((r.before||get('contractReview',r.contractId)||{}).amount),money(r.newAmount)],['合同范围',esc(r.before?.scope||get('contractReview',r.contractId)?.businessScope),esc(r.newScope)],['付款安排',esc(r.before?.payment||get('contractReview',r.contractId)?.paymentTerms),esc(r.newPayment)]]));
