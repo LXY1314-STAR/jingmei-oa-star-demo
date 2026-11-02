@@ -78,27 +78,113 @@ const HR_DEFINITIONS = [
     "key": "02",
     "code": "OA-L3-070102",
     "name": "拟录用人员审批流程",
-    "scope": "对候选人资格、面试评价、拟录用岗位、薪酬建议和录用条件进行审批，形成录用结论。",
+    "scope": "对拟录用人员基本信息、资格材料、招聘岗位、用工类型、薪酬建议和面试结果进行审批，形成录用结论。",
     "short": "拟录用",
     "domain": "recruit",
     "fields": [
       {
-        "key": "候选人",
-        "label": "候选人",
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "吴欣",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "人力资源部",
+        "readonly": true
+      },
+      {
+        "key": "发起分部",
+        "label": "发起分部",
+        "type": "text",
+        "value": "宜宾总部",
+        "readonly": true
+      },
+      {
+        "key": "录用人员",
+        "label": "录用人员",
         "type": "text",
         "value": "赵宁"
       },
       {
-        "key": "岗位",
-        "label": "岗位",
+        "key": "年龄",
+        "label": "年龄",
+        "type": "number",
+        "value": "28"
+      },
+      {
+        "key": "性别",
+        "label": "性别",
+        "type": "select",
+        "value": "男",
+        "options": ["男", "女"]
+      },
+      {
+        "key": "学历",
+        "label": "学历",
+        "type": "select",
+        "value": "本科",
+        "options": ["博士", "硕士", "本科", "大专", "中专及以下"]
+      },
+      {
+        "key": "身份证号",
+        "label": "身份证号",
+        "type": "text",
+        "value": "5115**********0028"
+      },
+      {
+        "key": "电子邮箱",
+        "label": "电子邮箱",
+        "type": "email",
+        "value": "zhaoning@jingmei.example"
+      },
+      {
+        "key": "政治面貌",
+        "label": "政治面貌",
+        "type": "select",
+        "value": "群众",
+        "options": ["中共党员", "中共预备党员", "共青团员", "群众"]
+      },
+      {
+        "key": "联系电话",
+        "label": "联系电话",
+        "type": "text",
+        "value": "138****6621"
+      },
+      {
+        "key": "相关证书",
+        "label": "相关证书",
+        "type": "text",
+        "value": "质量检验员资格证（模拟）"
+      },
+      {
+        "key": "招聘岗位",
+        "label": "招聘岗位",
         "type": "text",
         "value": "质量检验员"
       },
       {
-        "key": "面试评价",
-        "label": "面试评价",
-        "type": "text",
-        "value": "专业知识及操作考核通过"
+        "key": "用工类型",
+        "label": "用工类型",
+        "type": "select",
+        "value": "正式",
+        "options": ["正式", "实习"]
+      },
+      {
+        "key": "入职日期",
+        "label": "入职日期",
+        "type": "date",
+        "value": "2026-10-01"
       },
       {
         "key": "薪酬建议",
@@ -107,16 +193,25 @@ const HR_DEFINITIONS = [
         "value": "按核准薪档（模拟）"
       },
       {
-        "key": "录用条件",
-        "label": "录用条件",
-        "type": "text",
-        "value": "体检与证明资料核验通过"
+        "key": "面试结果",
+        "label": "面试结果",
+        "type": "select",
+        "value": "通过",
+        "options": ["通过", "待定", "不通过"]
       },
       {
-        "key": "入职日期",
-        "label": "入职日期",
-        "type": "date",
-        "value": "2026-10-01"
+        "key": "面试评价",
+        "label": "面试评价",
+        "type": "textarea",
+        "value": "专业知识及操作考核通过",
+        "full": true
+      },
+      {
+        "key": "面试资料",
+        "label": "面试资料",
+        "type": "attachment",
+        "value": "已附模拟面试资料",
+        "full": true
       }
     ],
     "steps": [
@@ -125,7 +220,7 @@ const HR_DEFINITIONS = [
         "role": "hr"
       },
       {
-        "name": "录用条件审批",
+        "name": "录用结果审批",
         "role": "manager"
       },
       {
