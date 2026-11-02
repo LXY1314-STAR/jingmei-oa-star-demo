@@ -2820,6 +2820,34 @@ const HR_DEFINITIONS = [
     "domain": "learning",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "吴欣",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "人力资源部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
         "key": "年度计划",
         "label": "年度计划",
         "type": "text",
@@ -2827,15 +2855,35 @@ const HR_DEFINITIONS = [
       },
       {
         "key": "需求",
-        "label": "需求",
-        "type": "text",
-        "value": "岗位技能提升"
+        "label": "培训需求",
+        "type": "textarea",
+        "value": "岗位技能提升",
+        "full": true
       },
       {
         "key": "课程",
-        "label": "课程",
+        "label": "培训课程",
         "type": "text",
         "value": "岗位安全与质量基础"
+      },
+      {
+        "key": "培训方式",
+        "label": "培训方式",
+        "type": "select",
+        "value": "内部培训",
+        "options": ["内部培训", "外部培训", "线上学习"]
+      },
+      {
+        "key": "培训机构",
+        "label": "培训机构/讲师",
+        "type": "text",
+        "value": "公司内部讲师"
+      },
+      {
+        "key": "培训学时",
+        "label": "培训学时",
+        "type": "number",
+        "value": "8"
       },
       {
         "key": "实施日期",
@@ -2844,10 +2892,38 @@ const HR_DEFINITIONS = [
         "value": "2026-10-01"
       },
       {
-        "key": "参加人员",
-        "label": "参加人员",
+        "key": "培训地点",
+        "label": "培训地点",
         "type": "text",
-        "value": "EMP-2026-018"
+        "value": "公司培训室"
+      },
+      {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员",
+        "readonly": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟培训资料",
+        "full": true
       }
     ],
     "steps": [
@@ -2883,14 +2959,32 @@ const HR_DEFINITIONS = [
     "domain": "learning",
     "fields": [
       {
-        "key": "考试方式",
-        "label": "考试方式",
-        "type": "select",
-        "value": "线下考试",
-        "options": [
-          "线下考试",
-          "在线考试"
-        ]
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "吴欣",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "人力资源部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
       },
       {
         "key": "关联培训",
@@ -2899,10 +2993,44 @@ const HR_DEFINITIONS = [
         "value": "HR-TRAIN-001"
       },
       {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员",
+        "readonly": true
+      },
+      {
         "key": "考试名称",
         "label": "考试名称",
         "type": "text",
         "value": "岗位安全与质量考试"
+      },
+      {
+        "key": "考试方式",
+        "label": "考试方式",
+        "type": "select",
+        "value": "线下考试",
+        "options": ["线下考试", "在线考试"]
+      },
+      {
+        "key": "考试日期",
+        "label": "考试日期",
+        "type": "date",
+        "value": "2026-09-30"
       },
       {
         "key": "成绩",
@@ -2915,6 +3043,21 @@ const HR_DEFINITIONS = [
         "label": "合格线",
         "type": "number",
         "value": "80"
+      },
+      {
+        "key": "备注",
+        "label": "备注",
+        "type": "textarea",
+        "value": "",
+        "required": false,
+        "full": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟考试成绩资料",
+        "full": true
       }
     ],
     "steps": [
@@ -2942,16 +3085,60 @@ const HR_DEFINITIONS = [
     "domain": "learning",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "吴欣",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "人力资源部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员",
+        "readonly": true
+      },
+      {
         "key": "办理类型",
         "label": "办理类型",
         "type": "select",
         "value": "新增",
-        "options": [
-          "新增",
-          "更新",
-          "原件借阅",
-          "原件归还"
-        ]
+        "options": ["新增", "更新", "原件借阅", "原件归还"]
       },
       {
         "key": "证照名称",
@@ -2964,11 +3151,25 @@ const HR_DEFINITIONS = [
         "label": "类别",
         "type": "select",
         "value": "证书",
-        "options": [
-          "证书",
-          "职称",
-          "技能等级"
-        ]
+        "options": ["证书", "职称", "技能等级"]
+      },
+      {
+        "key": "证照编号",
+        "label": "证照编号",
+        "type": "text",
+        "value": "CERT-2026-018"
+      },
+      {
+        "key": "发证机构",
+        "label": "发证机构",
+        "type": "text",
+        "value": "宜宾市应急管理局"
+      },
+      {
+        "key": "发证日期",
+        "label": "发证日期",
+        "type": "date",
+        "value": "2024-09-30"
       },
       {
         "key": "到期日期",
@@ -2979,14 +3180,23 @@ const HR_DEFINITIONS = [
       {
         "key": "借阅用途",
         "label": "借阅用途",
-        "type": "text",
-        "value": "资格核验"
+        "type": "textarea",
+        "value": "资格核验",
+        "required": false,
+        "full": true
       },
       {
         "key": "归还日期",
         "label": "归还日期",
         "type": "date",
         "value": "2026-10-15"
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟证照资料",
+        "full": true
       }
     ],
     "steps": [
@@ -3014,15 +3224,59 @@ const HR_DEFINITIONS = [
     "domain": "learning",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "吴欣",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "人力资源部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员"
+      },
+      {
         "key": "办理类型",
         "label": "办理类型",
         "type": "select",
         "value": "准入",
-        "options": [
-          "准入",
-          "复审",
-          "再认证"
-        ]
+        "options": ["准入", "复审", "再认证"]
       },
       {
         "key": "关联考试",
@@ -3041,6 +3295,21 @@ const HR_DEFINITIONS = [
         "label": "到期日期",
         "type": "date",
         "value": "2027-09-30"
+      },
+      {
+        "key": "备注",
+        "label": "备注",
+        "type": "textarea",
+        "value": "",
+        "required": false,
+        "full": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟资格资料",
+        "full": true
       }
     ],
     "steps": [
