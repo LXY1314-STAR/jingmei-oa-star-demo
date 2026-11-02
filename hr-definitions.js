@@ -1300,6 +1300,19 @@ const HR_DEFINITIONS = [
         "options": ["提前销假", "延期", "时间变更"]
       },
       {
+        "key": "原结束日期",
+        "label": "原结束日期",
+        "type": "text",
+        "value": "2026-08-11",
+        "readonly": true
+      },
+      {
+        "key": "现结束日期",
+        "label": "现结束日期",
+        "type": "date",
+        "value": "2026-08-10"
+      },
+      {
         "key": "开始日期",
         "label": "变更后开始日期",
         "type": "date",
@@ -1991,8 +2004,22 @@ const HR_DEFINITIONS = [
         "readonly": true
       },
       {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
         "key": "月份",
-        "label": "确认月份",
+        "label": "考勤月份",
         "type": "text",
         "value": "2026-09"
       },
@@ -2009,17 +2036,24 @@ const HR_DEFINITIONS = [
         "value": "22"
       },
       {
-        "key": "异常天数",
-        "label": "异常天数",
+        "key": "请假天数",
+        "label": "请假天数",
+        "type": "number",
+        "value": "0"
+      },
+      {
+        "key": "缺勤天数",
+        "label": "缺勤天数",
         "type": "number",
         "value": "1"
       },
       {
-        "key": "确认意见",
-        "label": "确认结果",
-        "type": "select",
-        "value": "无异议",
-        "options": ["无异议", "退回核对"]
+        "key": "备注",
+        "label": "备注",
+        "type": "textarea",
+        "value": "",
+        "required": false,
+        "full": true
       },
       {
         "key": "相关附件",
