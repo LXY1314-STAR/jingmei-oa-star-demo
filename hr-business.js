@@ -21,7 +21,7 @@ const HrBusiness = (() => {
     '08':spec('解除依据与通知送达','核验送达依据','材料类别|依据编号|送达渠道|证据说明|核验结论',[['终止依据','REL-2026-018','当面签收','届满依据（模拟）','待核验'],['通知送达','NOTICE-2026-018','当面签收','员工签收凭据（模拟）','待核验']]),
     '09':spec('调查、调解与仲裁记录','登记调查反馈','办理轮次|事项|责任岗位|意见或证据|结论',[[1,'调查','人事','核对原始材料','待核验']]),
     '10':spec('离岗证明与后续安排','核验休养证明','证明类别|开始日期|结束日期|后续安排|核验结论',[['离岗证明（模拟）','2026-10-01','2026-10-15','复岗','待核验']]),
-    '11':spec('员工档案字段变更','核验字段变更','字段|修改前|修改后|材料依据|核验结论',[['location','生产园区','生产园区A区','员工提交的地址更新说明','待核验']]),
+    '11':spec('档案变更明细','维护变更明细','变更前信息|变更后信息|变更原因',[['生产园区','生产园区A区','员工提交的更新档案资料']]),
     '12':spec('请假时段与额度核算','核验请假时段','假别|开始日期|结束日期|核定天数|核验结论',[['年休假','2026-10-08','2026-10-08',1,'待核验']]),
     '13':spec('原请假与变更差额','核验变更差额','原单编号|原天数|变更天数|差额说明|核验结论',[['HR-LEAVE-BASE',2,1,'返还1天','待核验']]),
     '14':spec('逐人加班时长核定','核定加班时长','员工编号|申请小时|核定小时|加班类别|核验结论',[['EMP-2026-018',4,4,'平时','待核验']]),
@@ -48,10 +48,10 @@ const HrBusiness = (() => {
     if(r.key==='01'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.岗位,x.年度计划,x.编制余额,x.在岗人数,x.需求人数]);
     else if(r.key==='03'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.办理事项,x.办理人,x.办理部门,x.办理日期]);
     else if(r.key==='05'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.调动人员,x.调出公司,x.调入公司,x.调出部门,x.调入部门,x.调出岗位,x.调入岗位,x.岗位资格,x.到岗日期]);
+    else if(r.key==='11'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.变更前信息,x.变更后信息,x.变更原因]);
     else for(const row of b.rows){s.columns.forEach((k,i)=>{if(k==='员工编号')row[i]=r.employeeId;if(r.f[k]!==undefined&&k!=='核验结论')row[i]=r.f[k];});}
     if(r.key==='21')b.rows=r.items.map(x=>[x.指标,x.目标值,x.单位,x.权重]);
     if(r.key==='24')b.rows=r.items.map(x=>[x.员工编号,Number(x.金额)-500,500,0,Number(x.金额)]);
-    if(r.key==='11'){b.rows[0]=[r.f.变更字段,employee(r.employeeId)?.[r.f.变更字段]||'未填写',r.f.变更后值,r.f.变更原因,'待核验'];}
     if(r.key==='14')b.rows=H.people(r).map(id=>[id,Number(r.f.小时数),Number(r.f.小时数),r.f.加班类别,'待核验']);
     if(r.key==='28')b.rows=H.people(r).map(id=>[id,r.f.年度计划,r.f.课程,0,'待核验']);
     if(r.key==='17')b.rows=H.people(r).map(id=>[id,r.f.开始日期,r.f.原班次,r.f.目标班次,'待核验']);
@@ -97,7 +97,7 @@ const HrBusiness = (() => {
   }
   function validDialog(){if(!dialog)return null;const r=H.get(dialog.id);return r&&r.version===dialog.version&&r.stage===dialog.stage&&state.role===dialog.role&&editable(r)?r:null;}
   function saveRow(){const r=validDialog();if(!r)return error('身份、节点或版本已变化，请重新打开');const f=document.querySelector('#hb-form');if(!f.reportValidity())return false;const v=Object.fromEntries(new FormData(f)),s=specs[r.key],row=s.columns.map(k=>v[k]),b=ensure(r);const numeric=s.columns.map((k,i)=>/人数|编制|小时|天数|金额|工资|费用|扣减|权重|评分|校准分|目标值|成绩|学习进度|轮次/.test(k)?i:-1).filter(i=>i>=0);
-    if(numeric.some(i=>!Number.isFinite(Number(row[i]))||Number(row[i])<0))return error('数值须为有效非负数');if(r.key==='01'&&(!row[0]||!row[1]||!Number.isInteger(Number(row[4]))||Number(row[4])<=0||Number(row[4])>Number(row[2])-Number(row[3])))return error('岗位与年度计划须填写，需求人数须为正整数且不超过编制余额');if(r.key==='03'&&(row.some(v=>!v)))return error('办理事项、办理人、办理部门与办理日期须填写');if(r.key==='05'&&(row.some(v=>!v)||!employeeByName(row[0])||row[8]<store.date))return error('调动人员、调出/调入信息、岗位资格与到岗日期须完整填写，到岗日期不得早于当前演示日期');if(s.columns.includes('员工编号')&&!employee(row[s.columns.indexOf('员工编号')]))return error('员工编号不存在');if(['18','26','29'].includes(r.key)&&row[0]!==r.employeeId)return error('当前单据仅允许关联员工的明细，其他员工请另建单据');
+    if(numeric.some(i=>!Number.isFinite(Number(row[i]))||Number(row[i])<0))return error('数值须为有效非负数');if(r.key==='01'&&(!row[0]||!row[1]||!Number.isInteger(Number(row[4]))||Number(row[4])<=0||Number(row[4])>Number(row[2])-Number(row[3])))return error('岗位与年度计划须填写，需求人数须为正整数且不超过编制余额');if(r.key==='03'&&(row.some(v=>!v)))return error('办理事项、办理人、办理部门与办理日期须填写');if(r.key==='11'&&row.some(v=>!v))return error('变更前信息、变更后信息与变更原因须填写');if(r.key==='05'&&(row.some(v=>!v)||!employeeByName(row[0])||row[8]<store.date))return error('调动人员、调出/调入信息、岗位资格与到岗日期须完整填写，到岗日期不得早于当前演示日期');if(s.columns.includes('员工编号')&&!employee(row[s.columns.indexOf('员工编号')]))return error('员工编号不存在');if(['18','26','29'].includes(r.key)&&row[0]!==r.employeeId)return error('当前单据仅允许关联员工的明细，其他员工请另建单据');
     if(r.key==='22'&&[row[2],row[3]].some(v=>Number(v)>100))return error('评分须为0到100');if(r.key==='28'&&Number(row[3])>100||r.key==='29'&&Number(row[3])>100)return error('进度或成绩须在0到100');
     if(r.key==='22'&&r.stage>=0&&(dialog.index<0||[0,1,2,4].some(i=>String(row[i])!==String(b.rows[dialog.index][i]))))return error('校准节点仅允许修改校准分与原因；指标、权重和原评分须保持来源版本');
     const candidate=copy(b.rows);if(dialog.index<0)candidate.push(row);else candidate[dialog.index]=row;
@@ -115,7 +115,7 @@ const HrBusiness = (() => {
     if(r.key==='05')r.items=rows.map(x=>({调动人员:x[0],调出公司:x[1],调入公司:x[2],调出部门:x[3],调入部门:x[4],调出岗位:x[5],调入岗位:x[6],岗位资格:x[7],到岗日期:x[8]}));
     if(r.key==='06'){r.f.合同编号=x[0];r.f.办理类型=x[1];r.f.签署方式=x[2];}
     if(r.key==='10'){r.f.开始日期=x[1];r.f.结束日期=x[2];r.f.后续结果=x[3];}
-    if(r.key==='11'){r.f.变更字段=x[0];r.f.变更后值=x[2];r.f.变更原因=x[3];}
+    if(r.key==='11')r.items=rows.map(x=>({变更前信息:x[0],变更后信息:x[1],变更原因:x[2]}));
     if(r.key==='12'){r.f.假别=x[0];r.f.开始日期=x[1];r.f.结束日期=x[2];r.f.天数=String(x[3]);}
     if(r.key==='13'){r.f.原单编号=x[0];r.f.新天数=String(x[2]);}
     if(r.key==='14'){r.f.人员明细=rows.map(x=>x[0]).join(',');r.f.小时数=String(x[2]);r.f.加班类别=x[3];}
@@ -172,7 +172,6 @@ const HrBusiness = (() => {
   function check(r){const b=ensure(r),rows=b.rows,s=specs[r.key];if(!rows.length)return '请先填写'+s.title;
     if(r.key==='01'&&rows.some(x=>!x[0]||!x[1]||!Number.isInteger(Number(x[4]))||Number(x[4])<=0||Number(x[4])>Number(x[2])-Number(x[3])))return '招聘明细须填写岗位与年度计划，需求人数须为正整数且不超过编制余额';
     if(r.key==='02'&&!b.links.some(x=>H.get(x.id)?.key==='01'&&H.done(H.get(x.id))))return '请关联已批准的招聘需求';
-    if(r.key==='11'&&r.f.变更字段==='mobile'&&!/^1\d{10}$/.test(r.f.变更后值))return '手机号须为11位有效格式；地址请选择工作地点字段';
     if(r.key==='22'){const p=H.get(r.f.计划编号),effective=p?.effective||p;const items=r.checks.planSnapshot?.items||effective?.items||[];if(rows.length!==items.length||rows.some(x=>!items.some(y=>y.指标===x[0]&&Number(y.权重)===Number(x[1]))))return '评分指标与所绑定的有效计划版本不一致，请重新载入计划指标';if(rows.some(x=>!x[4]||!x[5]||Number(x[2])<0||Number(x[3])<0||Number(x[2])>100||Number(x[3])>100))return '评分依据、校准原因及0到100的分值必须完整';}
     if(r.key==='23'&&r.f.审批来源!=='本流程审批'){const src=H.get(r.f.审批来源);if(!src||!H.done(src)||src.employeeId!==r.employeeId||!['22','23'].includes(src.key))return '奖惩审批来源必须是该员工已确认的有效结果';}
     if(['12','15'].includes(r.key)&&Math.abs(hours(r)/8-Number(r.f.天数))>0.001)return '申请天数与演示工作日历计算不一致，请核对起止时段';

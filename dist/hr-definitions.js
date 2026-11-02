@@ -1062,26 +1062,47 @@ const HR_DEFINITIONS = [
     "domain": "relation",
     "fields": [
       {
-        "key": "变更字段",
-        "label": "变更字段",
-        "type": "select",
-        "value": "location",
-        "options": [
-          "mobile",
-          "location"
-        ]
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
       },
       {
-        "key": "变更后值",
-        "label": "变更后值",
-        "type": "text",
-        "value": "生产园区A区"
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
       },
       {
-        "key": "变更原因",
-        "label": "变更原因",
+        "key": "发起部门",
+        "label": "发起部门",
         "type": "text",
-        "value": "员工申请更新档案资料"
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟档案资料",
+        "full": true
+      },
+      {
+        "key": "补充说明",
+        "label": "补充说明",
+        "type": "textarea",
+        "value": "",
+        "required": false,
+        "full": true
       }
     ],
     "steps": [
