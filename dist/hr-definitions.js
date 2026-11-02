@@ -30,13 +30,6 @@ const HR_DEFINITIONS = [
         "readonly": true
       },
       {
-        "key": "年度计划",
-        "label": "年度计划",
-        "type": "select",
-        "value": "2026",
-        "options": ["2026", "2025", "2024", "2023"]
-      },
-      {
         "key": "招聘方式",
         "label": "招聘方式",
         "type": "select",
