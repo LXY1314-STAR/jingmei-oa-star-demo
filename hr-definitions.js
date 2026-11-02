@@ -25,9 +25,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
-        "value": "五粮液精美印务",
-        "readonly": true
+        "type": "select",
+        "value": "精美",
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "招聘方式",
@@ -99,9 +99,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
-        "value": "五粮液精美印务",
-        "readonly": true
+        "type": "select",
+        "value": "精美",
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "录用人员",
@@ -334,9 +334,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
-        "value": "五粮液精美印务",
-        "readonly": true
+        "type": "select",
+        "value": "精美",
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "负责人",
@@ -440,9 +440,9 @@ const HR_DEFINITIONS = [
       {
         "key": "发起公司",
         "label": "发起公司",
-        "type": "text",
-        "value": "五粮液精美印务",
-        "readonly": true
+        "type": "select",
+        "value": "精美",
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "发起部门",
@@ -1422,8 +1422,9 @@ const HR_DEFINITIONS = [
       {
         "key": "公司",
         "label": "公司",
-        "type": "text",
-        "value": "五粮液精美印务"
+        "type": "select",
+        "value": "精美",
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "组织",
@@ -1630,8 +1631,9 @@ const HR_DEFINITIONS = [
       {
         "key": "公司",
         "label": "公司",
-        "type": "text",
-        "value": "五粮液精美印务"
+        "type": "select",
+        "value": "精美",
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
       },
       {
         "key": "月份",
