@@ -976,39 +976,65 @@ const HR_DEFINITIONS = [
     "domain": "relation",
     "fields": [
       {
-        "key": "开始日期",
-        "label": "开始日期",
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "精美",
+        "readonly": true
+      },
+      {
+        "key": "离岗开始日期",
+        "label": "离岗开始日期",
         "type": "date",
         "value": "2026-10-01"
       },
       {
-        "key": "结束日期",
-        "label": "结束日期",
+        "key": "离岗结束日期",
+        "label": "离岗结束日期",
         "type": "date",
         "value": "2026-10-15"
       },
       {
+        "key": "离岗周期",
+        "label": "离岗周期",
+        "type": "text",
+        "value": "15天",
+        "readonly": true
+      },
+      {
         "key": "休养原因",
         "label": "休养原因",
-        "type": "text",
-        "value": "依据证明申请离岗休养（模拟）"
+        "type": "textarea",
+        "value": "依据证明申请离岗休养（模拟）",
+        "full": true
       },
       {
-        "key": "后续结果",
-        "label": "后续结果",
-        "type": "select",
-        "value": "复岗",
-        "options": [
-          "复岗",
-          "延期",
-          "终止"
-        ]
-      },
-      {
-        "key": "后续日期",
-        "label": "后续日期",
-        "type": "date",
-        "value": "2026-10-16"
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附模拟休养资料",
+        "full": true
       }
     ],
     "steps": [
