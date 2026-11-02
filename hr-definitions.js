@@ -431,6 +431,34 @@ const HR_DEFINITIONS = [
     "domain": "recruit",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "吴欣",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "text",
+        "value": "五粮液精美印务",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "人力资源部",
+        "readonly": true
+      },
+      {
         "key": "调动人员",
         "label": "调动人员",
         "type": "text",
@@ -438,64 +466,17 @@ const HR_DEFINITIONS = [
         "readonly": true
       },
       {
-        "key": "调出公司",
-        "label": "调出公司",
-        "type": "text",
-        "value": "五粮液精美印务",
-        "readonly": true
-      },
-      {
-        "key": "调出部门",
-        "label": "调出部门",
-        "type": "text",
-        "value": "经营发展部",
-        "readonly": true
-      },
-      {
-        "key": "调入公司",
-        "label": "调入公司",
-        "type": "select",
-        "value": "五粮液精美印务",
-        "options": ["五粮液精美印务"]
-      },
-      {
-        "key": "调入部门",
-        "label": "调入部门",
-        "type": "text",
-        "value": "经营发展部"
-      },
-      {
-        "key": "调出岗位",
-        "label": "调出岗位",
-        "type": "text",
-        "value": "经营分析专员",
-        "readonly": true
-      },
-      {
-        "key": "调入岗位",
-        "label": "调入岗位",
-        "type": "text",
-        "value": "经营分析专员"
-      },
-      {
-        "key": "到岗日期",
-        "label": "到岗日期",
-        "type": "date",
-        "value": "2026-10-01"
-      },
-      {
         "key": "异动类型",
         "label": "异动类型",
         "type": "select",
-        "value": "部门异动",
-        "options": ["公司异动", "部门异动", "岗位异动"]
+        "value": "部门内调动",
+        "options": ["部门内调动", "跨部门调动", "转岗", "批量调动", "机构调整", "调配池转入转出"]
       },
       {
-        "key": "资格要求",
-        "label": "资格要求",
-        "type": "select",
-        "value": "有效资格",
-        "options": ["有效资格", "无特殊资格"]
+        "key": "主负责人",
+        "label": "主负责人",
+        "type": "text",
+        "value": "周敏"
       },
       {
         "key": "协办人",
@@ -505,11 +486,10 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
-        "key": "备注",
-        "label": "备注",
+        "key": "异动原因",
+        "label": "异动原因",
         "type": "textarea",
         "value": "",
-        "required": false,
         "full": true
       },
       {
