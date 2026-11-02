@@ -1198,7 +1198,8 @@ const HR_DEFINITIONS = [
         "key": "天数",
         "label": "请假时长",
         "type": "number",
-        "value": "1"
+        "value": "1",
+        "readonly": true
       },
       {
         "key": "事由",
@@ -1422,7 +1423,8 @@ const HR_DEFINITIONS = [
         "key": "小时数",
         "label": "加班时长（小时）",
         "type": "number",
-        "value": "4"
+        "value": "4",
+        "readonly": true
       },
       {
         "key": "事由",
