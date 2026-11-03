@@ -27,14 +27,23 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "招聘方式",
         "label": "招聘方式",
         "type": "select",
         "value": "公开招聘",
-        "options": ["公开招聘", "内部竞聘"]
+        "options": [
+          "公开招聘",
+          "内部竞聘"
+        ]
       },
       {
         "key": "招聘原因",
@@ -101,7 +110,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "录用人员",
@@ -120,14 +135,23 @@ const HR_DEFINITIONS = [
         "label": "性别",
         "type": "select",
         "value": "男",
-        "options": ["男", "女"]
+        "options": [
+          "男",
+          "女"
+        ]
       },
       {
         "key": "学历",
         "label": "学历",
         "type": "select",
         "value": "本科",
-        "options": ["博士", "硕士", "本科", "大专", "中专及以下"]
+        "options": [
+          "博士",
+          "硕士",
+          "本科",
+          "大专",
+          "中专及以下"
+        ]
       },
       {
         "key": "身份证号",
@@ -146,7 +170,12 @@ const HR_DEFINITIONS = [
         "label": "政治面貌",
         "type": "select",
         "value": "群众",
-        "options": ["中共党员", "中共预备党员", "共青团员", "群众"]
+        "options": [
+          "中共党员",
+          "中共预备党员",
+          "共青团员",
+          "群众"
+        ]
       },
       {
         "key": "联系电话",
@@ -177,7 +206,10 @@ const HR_DEFINITIONS = [
         "label": "用工类型",
         "type": "select",
         "value": "正式",
-        "options": ["正式", "实习"]
+        "options": [
+          "正式",
+          "实习"
+        ]
       },
       {
         "key": "入职日期",
@@ -196,7 +228,11 @@ const HR_DEFINITIONS = [
         "label": "面试结果",
         "type": "select",
         "value": "通过",
-        "options": ["通过", "待定", "不通过"]
+        "options": [
+          "通过",
+          "待定",
+          "不通过"
+        ]
       },
       {
         "key": "面试评价",
@@ -263,7 +299,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "员工姓名",
@@ -291,14 +333,20 @@ const HR_DEFINITIONS = [
         "label": "用工类型",
         "type": "select",
         "value": "正式",
-        "options": ["正式", "实习"]
+        "options": [
+          "正式",
+          "实习"
+        ]
       },
       {
         "key": "人员类别",
         "label": "人员类别",
         "type": "select",
         "value": "生产员工",
-        "options": ["生产员工", "管理人员"]
+        "options": [
+          "生产员工",
+          "管理人员"
+        ]
       },
       {
         "key": "入职日期",
@@ -364,7 +412,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "员工姓名",
@@ -389,7 +443,10 @@ const HR_DEFINITIONS = [
         "label": "人员类别",
         "type": "select",
         "value": "生产员工",
-        "options": ["生产员工", "管理人员"]
+        "options": [
+          "生产员工",
+          "管理人员"
+        ]
       },
       {
         "key": "入职日期",
@@ -426,6 +483,37 @@ const HR_DEFINITIONS = [
         "label": "考核结果",
         "type": "text",
         "value": "已完成试用期工作任务"
+      },
+      {
+        "key": "带教老师",
+        "label": "带教老师",
+        "type": "select",
+        "value": "吴欣",
+        "options": [
+          "吴欣",
+          "何静",
+          "刘强",
+          "李明",
+          "张薇"
+        ]
+      },
+      {
+        "key": "带教协议编号",
+        "label": "带教协议编号",
+        "type": "text",
+        "value": "BETA-2026-018"
+      },
+      {
+        "key": "转正意见",
+        "label": "转正意见",
+        "type": "select",
+        "value": "同意转正",
+        "options": [
+          "同意转正",
+          "提前转正",
+          "调整岗位",
+          "不予转正"
+        ]
       },
       {
         "key": "员工总结",
@@ -493,7 +581,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "发起部门",
@@ -507,7 +601,14 @@ const HR_DEFINITIONS = [
         "label": "异动类型",
         "type": "select",
         "value": "跨部门调动",
-        "options": ["部门内调动", "跨部门调动", "转岗", "批量调动", "机构调整", "调配池转入转出"]
+        "options": [
+          "部门内调动",
+          "跨部门调动",
+          "转岗",
+          "批量调动",
+          "机构调整",
+          "调配池转入转出"
+        ]
       },
       {
         "key": "主负责人",
@@ -587,7 +688,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "员工姓名",
@@ -628,14 +735,21 @@ const HR_DEFINITIONS = [
         "label": "办理类型",
         "type": "select",
         "value": "签订",
-        "options": ["签订", "续签", "变更"]
+        "options": [
+          "签订",
+          "续签",
+          "变更"
+        ]
       },
       {
         "key": "签署方式",
         "label": "签署方式",
         "type": "select",
         "value": "线下签署",
-        "options": ["线下签署", "电子签模拟"]
+        "options": [
+          "线下签署",
+          "电子签模拟"
+        ]
       },
       {
         "key": "合同开始日期",
@@ -719,7 +833,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "离职日期",
@@ -744,7 +864,10 @@ const HR_DEFINITIONS = [
         "label": "是否完成交接",
         "type": "select",
         "value": "是",
-        "options": ["是", "否"]
+        "options": [
+          "是",
+          "否"
+        ]
       },
       {
         "key": "交接内容",
@@ -822,7 +945,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "员工姓名",
@@ -856,14 +985,20 @@ const HR_DEFINITIONS = [
         "label": "办理类型",
         "type": "select",
         "value": "解除",
-        "options": ["解除", "终止"]
+        "options": [
+          "解除",
+          "终止"
+        ]
       },
       {
         "key": "是否涉及补偿金",
         "label": "是否涉及补偿金",
         "type": "select",
         "value": "否",
-        "options": ["是", "否"]
+        "options": [
+          "是",
+          "否"
+        ]
       },
       {
         "key": "补偿金金额",
@@ -940,14 +1075,24 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "事项类型",
         "label": "事项类型",
         "type": "select",
         "value": "投诉",
-        "options": ["投诉", "申诉", "劳动争议"]
+        "options": [
+          "投诉",
+          "申诉",
+          "劳动争议"
+        ]
       },
       {
         "key": "事项发生日期",
@@ -1030,7 +1175,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "离岗开始日期",
@@ -1116,7 +1267,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "相关附件",
@@ -1180,7 +1337,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "流程编号",
@@ -1194,7 +1357,11 @@ const HR_DEFINITIONS = [
         "label": "请假类型",
         "type": "select",
         "value": "年休假",
-        "options": ["年休假", "事假", "补休"]
+        "options": [
+          "年休假",
+          "事假",
+          "补休"
+        ]
       },
       {
         "key": "可调休时长",
@@ -1237,25 +1404,48 @@ const HR_DEFINITIONS = [
         "full": true
       },
       {
+        "key": "补录原因",
+        "label": "补录原因",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false
+      },
+      {
         "key": "车间审核人员",
         "label": "请选择车间审核人员",
         "type": "select",
         "value": "刘强",
-        "options": ["刘强", "周敏", "何静", "吴欣"]
+        "options": [
+          "刘强",
+          "周敏",
+          "何静",
+          "吴欣"
+        ]
       },
       {
         "key": "二级审核人员",
         "label": "请选择二级审核人员",
         "type": "select",
         "value": "周敏",
-        "options": ["刘强", "周敏", "何静", "吴欣"]
+        "options": [
+          "刘强",
+          "周敏",
+          "何静",
+          "吴欣"
+        ]
       },
       {
         "key": "工作交接人",
         "label": "工作交接人",
         "type": "select",
         "value": "李明",
-        "options": ["李明", "张薇", "王晓雨", "陈杰"]
+        "options": [
+          "李明",
+          "张薇",
+          "王晓雨",
+          "陈杰"
+        ]
       },
       {
         "key": "相关附件",
@@ -1315,7 +1505,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "原单编号",
@@ -1328,7 +1524,11 @@ const HR_DEFINITIONS = [
         "label": "办理类型",
         "type": "select",
         "value": "提前销假",
-        "options": ["提前销假", "延期", "时间变更"]
+        "options": [
+          "提前销假",
+          "延期",
+          "时间变更"
+        ]
       },
       {
         "key": "原结束日期",
@@ -1426,14 +1626,24 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "加班类别",
         "label": "加班类别",
         "type": "select",
         "value": "平时",
-        "options": ["平时", "周末", "节假日"]
+        "options": [
+          "平时",
+          "周末",
+          "节假日"
+        ]
       },
       {
         "key": "加班开始时间",
@@ -1455,6 +1665,14 @@ const HR_DEFINITIONS = [
         "readonly": true
       },
       {
+        "key": "时长调整原因",
+        "label": "时长调整原因",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false
+      },
+      {
         "key": "事由",
         "label": "加班事由",
         "type": "textarea",
@@ -1473,21 +1691,44 @@ const HR_DEFINITIONS = [
         "label": "是否安排调休",
         "type": "select",
         "value": "否",
-        "options": ["是", "否"]
+        "options": [
+          "是",
+          "否"
+        ]
+      },
+      {
+        "key": "加班处置方式",
+        "label": "加班处置方式",
+        "type": "select",
+        "value": "换补休",
+        "options": [
+          "换补休",
+          "申报加班工资"
+        ]
       },
       {
         "key": "车间审核人员",
         "label": "请选择车间审核人员",
         "type": "select",
         "value": "刘强",
-        "options": ["刘强", "周敏", "何静", "吴欣"]
+        "options": [
+          "刘强",
+          "周敏",
+          "何静",
+          "吴欣"
+        ]
       },
       {
         "key": "二级审核人员",
         "label": "请选择二级审核人员",
         "type": "select",
         "value": "周敏",
-        "options": ["刘强", "周敏", "何静", "吴欣"]
+        "options": [
+          "刘强",
+          "周敏",
+          "何静",
+          "吴欣"
+        ]
       },
       {
         "key": "相关附件",
@@ -1547,14 +1788,24 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "来源类别",
         "label": "调休来源",
         "type": "select",
         "value": "平时",
-        "options": ["平时", "周末", "节假日"]
+        "options": [
+          "平时",
+          "周末",
+          "节假日"
+        ]
       },
       {
         "key": "可调休时长",
@@ -1593,14 +1844,22 @@ const HR_DEFINITIONS = [
         "label": "是否已交接工作",
         "type": "select",
         "value": "否",
-        "options": ["是", "否"]
+        "options": [
+          "是",
+          "否"
+        ]
       },
       {
         "key": "负责人（监交人）",
         "label": "负责人（监交人）",
         "type": "select",
         "value": "周敏",
-        "options": ["刘强", "周敏", "何静", "吴欣"]
+        "options": [
+          "刘强",
+          "周敏",
+          "何静",
+          "吴欣"
+        ]
       },
       {
         "key": "交接事项",
@@ -1614,7 +1873,12 @@ const HR_DEFINITIONS = [
         "label": "工作交接人",
         "type": "select",
         "value": "张薇",
-        "options": ["李明", "张薇", "王晓雨", "陈杰"]
+        "options": [
+          "李明",
+          "张薇",
+          "王晓雨",
+          "陈杰"
+        ]
       },
       {
         "key": "相关附件",
@@ -1674,14 +1938,24 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "事项类型",
         "label": "事项类型",
         "type": "select",
         "value": "出差",
-        "options": ["出差", "临时外出", "外勤"]
+        "options": [
+          "出差",
+          "临时外出",
+          "外勤"
+        ]
       },
       {
         "key": "开始日期",
@@ -1722,11 +1996,27 @@ const HR_DEFINITIONS = [
         "full": true
       },
       {
+        "key": "补录原因",
+        "label": "补录原因",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false
+      },
+      {
         "key": "交通方式",
         "label": "交通方式",
         "type": "multiselect",
         "value": "公司公务车",
-        "options": ["公司公务车", "大巴", "火车", "飞机", "轮船", "自驾", "其他"]
+        "options": [
+          "公司公务车",
+          "大巴",
+          "火车",
+          "飞机",
+          "轮船",
+          "自驾",
+          "其他"
+        ]
       },
       {
         "key": "同行人员",
@@ -1739,35 +2029,52 @@ const HR_DEFINITIONS = [
         "label": "出差人员是否包含中层（正、副）职",
         "type": "select",
         "value": "否",
-        "options": ["是", "否"]
+        "options": [
+          "是",
+          "否"
+        ]
       },
       {
         "key": "出差人员是否有中层正职（含主持工作的副职）",
         "label": "出差人员是否有中层正职（含主持工作的副职）",
         "type": "select",
         "value": "否",
-        "options": ["是", "否"]
+        "options": [
+          "是",
+          "否"
+        ]
       },
       {
         "key": "是否盖电子章",
         "label": "是否盖电子章",
         "type": "select",
         "value": "否",
-        "options": ["是", "否"]
+        "options": [
+          "是",
+          "否"
+        ]
       },
       {
         "key": "部门用印负责人",
         "label": "部门用印负责人",
         "type": "select",
         "value": "何静",
-        "options": ["何静", "周敏", "刘强", "吴欣"]
+        "options": [
+          "何静",
+          "周敏",
+          "刘强",
+          "吴欣"
+        ]
       },
       {
         "key": "是否需预订票务住宿",
         "label": "是否需预订票务住宿",
         "type": "select",
         "value": "否",
-        "options": ["是", "否"]
+        "options": [
+          "是",
+          "否"
+        ]
       },
       {
         "key": "相关附件",
@@ -1827,14 +2134,24 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "办理类型",
         "label": "办理类型",
         "type": "select",
         "value": "排班发布",
-        "options": ["排班发布", "调班", "换班"]
+        "options": [
+          "排班发布",
+          "调班",
+          "换班"
+        ]
       },
       {
         "key": "班组",
@@ -1855,6 +2172,14 @@ const HR_DEFINITIONS = [
         "value": "2026-10-14"
       },
       {
+        "key": "补录原因",
+        "label": "补录原因",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false
+      },
+      {
         "key": "原班次",
         "label": "原班次",
         "type": "text",
@@ -1865,7 +2190,11 @@ const HR_DEFINITIONS = [
         "label": "目标班次",
         "type": "select",
         "value": "早班",
-        "options": ["早班", "中班", "晚班"]
+        "options": [
+          "早班",
+          "中班",
+          "晚班"
+        ]
       },
       {
         "key": "排班人员",
@@ -1938,14 +2267,25 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "异常类型",
         "label": "异常类型",
         "type": "select",
         "value": "缺卡",
-        "options": ["缺卡", "迟到", "早退", "班次冲突"]
+        "options": [
+          "缺卡",
+          "迟到",
+          "早退",
+          "班次冲突"
+        ]
       },
       {
         "key": "开始日期",
@@ -1964,7 +2304,11 @@ const HR_DEFINITIONS = [
         "label": "申请更正结果",
         "type": "select",
         "value": "正常",
-        "options": ["正常", "请假", "外勤"]
+        "options": [
+          "正常",
+          "请假",
+          "外勤"
+        ]
       },
       {
         "key": "说明",
@@ -1975,10 +2319,15 @@ const HR_DEFINITIONS = [
       },
       {
         "key": "车间审核人员",
-        "label": "请选择车间审核人员",
+        "label": "请选择部门内勤员",
         "type": "select",
         "value": "刘强",
-        "options": ["刘强", "周敏", "何静", "吴欣"]
+        "options": [
+          "刘强",
+          "周敏",
+          "何静",
+          "吴欣"
+        ]
       },
       {
         "key": "相关附件",
@@ -2038,7 +2387,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "员工姓名",
@@ -2083,6 +2438,36 @@ const HR_DEFINITIONS = [
         "label": "缺勤天数",
         "type": "number",
         "value": "1"
+      },
+      {
+        "key": "加班时长",
+        "label": "加班时长（小时）",
+        "type": "number",
+        "value": 0
+      },
+      {
+        "key": "加班处置方式",
+        "label": "加班处置方式",
+        "type": "select",
+        "value": "换补休",
+        "options": [
+          "换补休",
+          "申报加班工资"
+        ]
+      },
+      {
+        "key": "出差外出天数",
+        "label": "出差/外出/外勤天数",
+        "type": "number",
+        "value": 0
+      },
+      {
+        "key": "人员变动说明",
+        "label": "人员变动说明",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false
       },
       {
         "key": "备注",
@@ -2150,7 +2535,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "年度",
@@ -2159,18 +2550,38 @@ const HR_DEFINITIONS = [
         "value": "2026"
       },
       {
+        "key": "查询部门",
+        "label": "查询部门",
+        "type": "text",
+        "value": "",
+        "required": false
+      },
+      {
+        "key": "查询员工",
+        "label": "查询员工",
+        "type": "text",
+        "value": "",
+        "required": false
+      },
+      {
         "key": "输出类型",
         "label": "输出类型",
         "type": "select",
         "value": "年度汇总",
-        "options": ["年度汇总", "考勤明细"]
+        "options": [
+          "年度汇总",
+          "考勤明细"
+        ]
       },
       {
         "key": "输出格式",
         "label": "输出格式",
         "type": "select",
         "value": "Excel",
-        "options": ["Excel", "PDF"]
+        "options": [
+          "Excel",
+          "PDF"
+        ]
       },
       {
         "key": "用途说明",
@@ -2230,14 +2641,23 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "计划类型",
         "label": "计划类型",
         "type": "select",
         "value": "新制定",
-        "options": ["新制定", "调整"]
+        "options": [
+          "新制定",
+          "调整"
+        ]
       },
       {
         "key": "新计划名称",
@@ -2289,7 +2709,12 @@ const HR_DEFINITIONS = [
         "label": "考核周期类型",
         "type": "select",
         "value": "半年",
-        "options": ["月度", "季度", "半年", "年度"]
+        "options": [
+          "月度",
+          "季度",
+          "半年",
+          "年度"
+        ]
       },
       {
         "key": "考核开始日期",
@@ -2375,7 +2800,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "周期",
@@ -2421,7 +2852,10 @@ const HR_DEFINITIONS = [
         "label": "确认结果",
         "type": "select",
         "value": "确认",
-        "options": ["确认", "有异议"],
+        "options": [
+          "确认",
+          "有异议"
+        ],
         "onchange": "HrWorkspace.toggleResult()"
       },
       {
@@ -2502,7 +2936,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "员工姓名",
@@ -2527,7 +2967,11 @@ const HR_DEFINITIONS = [
         "label": "奖惩类型",
         "type": "select",
         "value": "表彰",
-        "options": ["表彰", "奖励", "处分"]
+        "options": [
+          "表彰",
+          "奖励",
+          "处分"
+        ]
       },
       {
         "key": "依据",
@@ -2615,7 +3059,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "月份",
@@ -2628,15 +3078,16 @@ const HR_DEFINITIONS = [
         "label": "工资条模板",
         "type": "select",
         "value": "PAY-V1",
-        "options": ["PAY-V1"],
+        "options": [
+          "PAY-V1"
+        ],
         "hidden": true
       },
       {
         "key": "导入批次",
-        "label": "导入批次",
+        "label": "发布批次",
         "type": "text",
-        "value": "ERP-PAY-202609-001",
-        "hidden": true
+        "value": "ERP-PAY-202609-001"
       },
       {
         "key": "相关附件",
@@ -2700,7 +3151,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "原单编号",
@@ -2777,7 +3234,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "员工姓名",
@@ -2802,14 +3265,23 @@ const HR_DEFINITIONS = [
         "label": "事项类型",
         "type": "select",
         "value": "增员",
-        "options": ["增员", "减员", "缴费审批", "基数调整"]
+        "options": [
+          "增员",
+          "减员",
+          "缴费审批",
+          "基数调整"
+        ]
       },
       {
         "key": "险种",
         "label": "险种",
         "type": "select",
         "value": "社保",
-        "options": ["社保", "公积金", "企业年金"]
+        "options": [
+          "社保",
+          "公积金",
+          "企业年金"
+        ]
       },
       {
         "key": "月份",
@@ -2888,7 +3360,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "员工姓名",
@@ -2913,7 +3391,11 @@ const HR_DEFINITIONS = [
         "label": "事项类型",
         "type": "select",
         "value": "生育待遇",
-        "options": ["生育待遇", "工伤待遇", "保险理赔"]
+        "options": [
+          "生育待遇",
+          "工伤待遇",
+          "保险理赔"
+        ]
       },
       {
         "key": "发生日期",
@@ -2998,17 +3480,24 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "年度计划",
         "label": "年度计划",
         "type": "text",
-        "value": "2026年度培训计划"
+        "value": "2026年度培训计划",
+        "hidden": true
       },
       {
         "key": "需求",
-        "label": "培训需求",
+        "label": "培训",
         "type": "textarea",
         "value": "岗位技能提升",
         "full": true
@@ -3024,7 +3513,17 @@ const HR_DEFINITIONS = [
         "label": "培训方式",
         "type": "select",
         "value": "内部培训",
-        "options": ["内部培训", "外部培训", "线上学习"]
+        "options": [
+          "内部培训",
+          "外部培训",
+          "线上学习"
+        ]
+      },
+      {
+        "key": "参训人数",
+        "label": "参训人数",
+        "type": "number",
+        "value": 1
       },
       {
         "key": "培训机构",
@@ -3039,10 +3538,17 @@ const HR_DEFINITIONS = [
         "value": "8"
       },
       {
+        "key": "计划月份",
+        "label": "计划",
+        "type": "month",
+        "value": "2026-09"
+      },
+      {
         "key": "实施日期",
         "label": "实施日期",
         "type": "date",
-        "value": "2026-10-01"
+        "value": "2026-10-01",
+        "hidden": true
       },
       {
         "key": "培训地点",
@@ -3137,7 +3643,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "关联培训",
@@ -3177,7 +3689,10 @@ const HR_DEFINITIONS = [
         "label": "考试方式",
         "type": "select",
         "value": "线下考试",
-        "options": ["线下考试", "在线考试"]
+        "options": [
+          "线下考试",
+          "在线考试"
+        ]
       },
       {
         "key": "考试日期",
@@ -3263,7 +3778,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "员工姓名",
@@ -3291,7 +3812,11 @@ const HR_DEFINITIONS = [
         "label": "办理类型",
         "type": "select",
         "value": "新增",
-        "options": ["新增", "更新", "原件借阅", "原件归还"]
+        "options": [
+          "新增",
+          "更新",
+          "电子版导出"
+        ]
       },
       {
         "key": "证照名称",
@@ -3304,7 +3829,11 @@ const HR_DEFINITIONS = [
         "label": "类别",
         "type": "select",
         "value": "证书",
-        "options": ["证书", "职称", "技能等级"]
+        "options": [
+          "证书",
+          "职称",
+          "技能等级"
+        ]
       },
       {
         "key": "证照编号",
@@ -3325,10 +3854,26 @@ const HR_DEFINITIONS = [
         "value": "2024-09-30"
       },
       {
+        "key": "申请用途",
+        "label": "申请用途",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false
+      },
+      {
+        "key": "电子版导出日期",
+        "label": "电子版导出日期",
+        "type": "date",
+        "value": "",
+        "required": false
+      },
+      {
         "key": "到期日期",
         "label": "到期日期",
         "type": "date",
-        "value": "2027-09-30"
+        "value": "2027-09-30",
+        "hidden": true
       },
       {
         "key": "借阅用途",
@@ -3336,13 +3881,15 @@ const HR_DEFINITIONS = [
         "type": "textarea",
         "value": "资格核验",
         "required": false,
-        "full": true
+        "full": true,
+        "hidden": true
       },
       {
         "key": "归还日期",
         "label": "归还日期",
         "type": "date",
-        "value": "2026-10-15"
+        "value": "2026-10-15",
+        "hidden": true
       },
       {
         "key": "相关附件",
@@ -3402,7 +3949,13 @@ const HR_DEFINITIONS = [
         "label": "发起公司",
         "type": "select",
         "value": "精美",
-        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ]
       },
       {
         "key": "员工姓名",
@@ -3429,7 +3982,36 @@ const HR_DEFINITIONS = [
         "label": "办理类型",
         "type": "select",
         "value": "准入",
-        "options": ["准入", "复审", "再认证"]
+        "options": [
+          "准入",
+          "复审",
+          "再认证"
+        ]
+      },
+      {
+        "key": "考试类别",
+        "label": "考试类别",
+        "type": "select",
+        "value": "生产操作",
+        "options": [
+          "生产操作",
+          "专业技术",
+          "职能管理",
+          "特种作业"
+        ]
+      },
+      {
+        "key": "考核方式",
+        "label": "考核方式",
+        "type": "select",
+        "value": "理论+实操",
+        "options": [
+          "理论+实操",
+          "实操",
+          "业务模拟",
+          "答辩",
+          "笔试"
+        ]
       },
       {
         "key": "关联考试",

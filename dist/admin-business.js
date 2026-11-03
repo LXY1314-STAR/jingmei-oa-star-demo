@@ -23,7 +23,7 @@ const AdminBusiness = (() => {
   }
   const legacy=db.adminCenter.filter((r,i)=>![0,1,2,3,4,9,10,11,12,13,14,15,16].includes(i));
   function create(key,variant='可办理'){
-    const d=def(key),r={id:'ADM17-'+key+'-'+String(++store.seq).padStart(3,'0'),key,code:d.code,title:d.initial+' · '+variant,company:config.company,department:'生产管理部',applicant:key==='rsvp'?'李明':'何静',owner:'刘强',due:'2026-09-25',version:1,revision:0,effectiveVersion:0,step:0,closed:false,cancelled:false,returned:false,fields:Object.fromEntries(d.fields.map(f=>[f.key,f.value])),rows:clone(d.rows),files:[],history:[],snapshots:[],links:[],sourceId:'',sourceVersion:0,variant};
+    const d=def(key),promotion=key==='promotion',r={id:'ADM17-'+key+'-'+String(++store.seq).padStart(3,'0'),key,code:d.code,title:d.initial+' · '+variant,company:config.company,department:promotion?'经营发展部':'生产管理部',applicant:key==='rsvp'?'李明':promotion?'周敏':'何静',owner:promotion?'周敏':'刘强',due:'2026-09-25',version:1,revision:0,effectiveVersion:0,step:0,closed:false,cancelled:false,returned:false,fields:Object.fromEntries(d.fields.map(f=>[f.key,f.value])),rows:clone(d.rows),files:[],history:[],snapshots:[],links:[],sourceId:'',sourceVersion:0,variant};
     evidence(r,'业务依据.txt','脱敏演示材料\n'+r.title+'\n依据：2026年度工作安排。\n对象：'+r.id+'\n仅演示用途，非真实审批文件。');
     store.records.push(r);log(r,'登记草稿','建立专属业务明细');return r;
   }

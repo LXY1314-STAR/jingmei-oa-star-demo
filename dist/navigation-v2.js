@@ -85,11 +85,12 @@ function starMenu(){
 }
 function renderNav(){const current=navDepartmentForPage(state.page);const item=primaryNavigation.find(function(x){return x.key===current;})||primaryNavigation[0];const menus={workbench:workbenchMenu,hr:hrMenu,admin:adminMenu,audit:auditMenu,it:itMenu,operations:operationsMenu,star:starMenu};return '<nav class="nav-v2 nav-secondary-pane" aria-label="二三级菜单"><div class="side-nav-heading"><span>当前菜单</span><b>'+item.label+'</b></div>'+menus[current]()+'</nav>';}
 
-function promotionPage(){
+function promotionLegacyPage(){
   const x=state.promotionRecord;
   const content='<div class="role-banner"><div><span class="eyebrow">经营发展部 · 宣传管理</span><h2>宣传内容发布审批</h2><p>对外宣传材料在发布前完成内容、品牌、保密与渠道审核，发布版和审批版保持一致。</p></div><div class="session-note">当前为静态 Demo<br>会话内操作可见，刷新后恢复基线。</div></div><div class="stat-row"><button class="stat active"><b>1</b><span>待审核宣传事项</span></button><button class="stat"><b>'+x.files+'</b><span>送审材料</span></button><button class="stat"><b>1</b><span>发布渠道</span></button><button class="stat"><b>0</b><span>逾期事项</span></button></div><section class="card"><div class="card-h"><div><h2>'+x.id+' · '+x.title+'</h2><span class="meta">'+x.version+' · '+x.channel+'</span></div>'+badge(x.status)+'</div><div class="info-grid">'+info('申请部门',x.requester)+info('审核责任',x.reviewer)+info('计划完成',x.due)+info('发布渠道',x.channel)+info('送审版本',x.version)+info('附件材料',x.files+'份')+'</div><div class="promotion-flow"><span>材料提交</span><i>→</i><span>业务审核</span><i>→</i><span>品牌/保密复核</span><i>→</i><span>审批发布</span><i>→</i><span>发布版归档</span></div><div class="card-footer"><button class="secondary" onclick="toast(\'已打开送审材料预览；当前为脱敏模拟文件\')">预览材料</button><button class="primary" onclick="approvePromotion()">审核并发布</button></div></section>';
   return shell(content,'宣传内容发布审批','经营发展部负责宣传内容发起与归集，相关责任部门完成审核后方可对外发布。');
 }
+function promotionPage(){if(typeof AdminWorkspace!=="undefined"){AdminWorkspace.ui.legacy=false;if(AdminWorkspace.ui.key!=="promotion"){AdminWorkspace.ui.key="promotion";AdminWorkspace.ui.id=null;}return AdminWorkspace.view();}return promotionLegacyPage();}
 function approvePromotion(){if(!['operations','admin','manager'].includes(state.role)){toast('请切换至经营发展部、党政综合办或公司管理层视角办理');return;}state.promotionRecord.status='已发布';state.promotionRecord.version='V1.0发布版';render();toast('审批状态、发布版本和归档结果已同步；刷新后恢复 Demo 基线');}
 
 const renderBeforeNavigationV2=render;
