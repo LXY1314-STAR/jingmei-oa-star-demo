@@ -35,7 +35,7 @@ const HrBusiness = (() => {
     '22':spec('逐指标评分与校准','登记评分校准','指标|权重|原评分|校准分|评分依据|校准原因',[['经营分析及时率',70,86,88,'经营分析成果（模拟）','补充已核实成果'],['问题闭环率',30,86,88,'问题闭环记录（模拟）','补充已核实成果']]),
     '23':spec('奖惩依据与档案预览','核验奖惩依据','事项|依据|来源|生效日期|核验结论',[['表彰','安全生产表彰决定（模拟）','本流程审批','2026-10-01','待核验']]),
     '24':spec('工资项目与定向发布','核验工资项目','员工编号|基本工资|加班工资|扣减|实发金额',[['EMP-2026-018',7500,500,0,8000]]),
-    '25':spec('工资修订项目对比','核验修订差异','项目|原金额|修订金额|处理依据|核验结论',[['加班工资',500,600,'核对加班确认记录','待核验']]),
+    '25':spec('工资修订项目对比','核验修订差异','异议类型|原金额|现金额|处理说明|核验结论',[['加班工资',500,600,'核对加班确认记录','待核验']]),
     '26':spec('分险种增减员与缴费','核验参保明细','员工编号|险种|事项|期间|基数或金额|核验结论',[['EMP-2026-018','社保','增员','2026-09',2000,'待核验']]),
     '27':spec('理赔材料补充与费用','核验待遇材料','材料类别|费用|材料版本|补充说明|核验结论',[['费用凭证（模拟）',1000,'V1','已提供申请证明','待核验'],['待遇证明（模拟）',0,'V1','已提供资格依据','待核验']]),
     '28':spec('年度培训项目与学习任务','登记学习进度','员工编号|年度计划|课程|学习进度|核验结论',[['EMP-2026-018','2026年度培训计划','岗位安全与质量基础',0,'待核验']]),
@@ -52,6 +52,7 @@ const HrBusiness = (() => {
     else for(const row of b.rows){s.columns.forEach((k,i)=>{if(k==='员工编号')row[i]=r.employeeId;if(r.f[k]!==undefined&&k!=='核验结论')row[i]=r.f[k];});}
     if(r.key==='21')b.rows=r.items.map(x=>[x.指标,x.目标值,x.单位,x.权重]);
     if(r.key==='24')b.rows=r.items.map(x=>{const net=x.实发工资!==undefined?Number(x.实发工资):Number(x.金额)||0;return [x.员工编号,Math.max(0,net-500),500,0,net];});
+    if(r.key==='25')b.rows=(r.items||[]).map(x=>[x.异议类型,Number(x.原金额),Number(x.现金额),'员工异议明细','待核验']);
     if(r.key==='14')b.rows=H.people(r).map(id=>[id,Number(r.f.小时数),Number(r.f.小时数),r.f.加班类别,'待核验']);
     if(r.key==='15'){const e=employee(r.employeeId),cat=r.f.来源类别||'平时';b.rows[0][1]=cat;b.rows[0][2]=Number(e?.hrBalance?.comp?.[cat]||0);b.rows[0][3]=Number(r.f.小时数)||b.rows[0][3];}
     if(r.key==='28')b.rows=H.people(r).map(id=>[id,r.f.年度计划,r.f.课程,0,'待核验']);
@@ -130,7 +131,7 @@ const HrBusiness = (() => {
     if(r.key==='22'){r.f.原评分=String(Math.round(rows.reduce((s,x)=>s+Number(x[1])*Number(x[2])/100,0)*100)/100);r.f.校准分=String(score(r));r.f.校准依据=rows.map(x=>x[5]).join('；');}
     if(r.key==='23'){r.f.奖惩类型=x[0];r.f.依据=x[1];r.f.审批来源=x[2];r.f.生效日期=x[3];}
     if(r.key==='24')r.items=r.items.map((it,i)=>{const net=Number(rows[i]?.[4]??it.实发工资??it.金额)||0;return {...it,员工编号:rows[i]?.[0]||it.员工编号,实发工资:net,金额:net};});
-    if(r.key==='25'){const src=H.get(r.f.原单编号);r.f.修订金额=String(Number(src?.items[0]?.金额||0)+rows.reduce((n,x)=>n+(x[0]==='扣减'?-1:1)*(Number(x[2])-Number(x[1])),0));r.f.处理结论=rows.map(x=>x[3]).join('；');}
+    if(r.key==='25'){const src=H.get(r.f.原单编号),item=copy(src?.items?.[0]||{});for(const row of rows)if(item[row[0]]!==undefined)item[row[0]]=Number(row[2]);H.payTotals(item);r.f.修订金额=String(item.实发工资??src?.items?.[0]?.金额??0);r.f.处理结论=rows.map(x=>x[0]+'：'+x[1]+'→'+x[2]).join('；');}
     if(r.key==='26'){r.f.险种=x[1];r.f.事项类型=x[2];r.f.月份=x[3];r.f.金额=String(rows.reduce((n,x)=>n+Number(x[4]),0));}
     if(r.key==='27')r.f.费用=String(rows.reduce((n,x)=>n+Number(x[1]),0));
     if(r.key==='28'){r.f.参加人员=rows.map(x=>x[0]).join(',');r.f.年度计划=x[1];r.f.课程=x[2];}
@@ -181,7 +182,7 @@ const HrBusiness = (() => {
     if(r.key==='14'&&rows.some(x=>Number(x[2])>Number(x[1])||Number(x[1])>hours(r)))return '逐人核定时长不得超过申请及实际时段';
     if(r.key==='15'){if(rows.length!==1)return '本次调休须指定一个来源批次，多个来源请分单核销';const lot=store.compLots.find(x=>x.id===rows[0][0]&&x.employeeId===r.employeeId);if(!lot||lot.expires<store.date||lot.category!==r.f.来源类别||lot.hours-lot.held+Number(r.checks.compHeld||0)<Number(r.f.天数)*8)return '补休来源批次无效、已到期或可用额度不足';}
     if(r.key==='17'){const days=rows.map(x=>x[0]+'|'+x[1]);if(new Set(days).size!==days.length)return '同一员工同一天不能重复排班';if(r.f.办理类型!=='排班发布'&&!b.links.some(x=>H.get(x.id)?.key==='17'))return '调班或换班须关联原排班';if(H.store.records.some(x=>x.key==='17'&&!x.historical&&x.id!==r.id&&x.stage>=0&&!b.links.some(l=>l.id===x.id)&&ensure(x).rows.some(y=>days.includes(y[0]+'|'+y[1]))))return '与已提交排班存在人员日期冲突';}
-    if(r.key==='25'&&rows.some(x=>!['基本工资','加班工资','扣减'].includes(x[0])))return '修订项目须选择基本工资、加班工资或扣减';
+    if(r.key==='25'&&rows.some(x=>!H.payCols.slice(5).includes(x[0])||!Number.isFinite(Number(x[1]))||!Number.isFinite(Number(x[2]))||Number(x[1])<0||Number(x[2])<0))return '异议项目须选择工资条项目，并填写非负的原金额与现金额';
     if(r.key==='25'&&H.store.records.some(x=>x.id!==r.id&&!x.historical&&x.key==='25'&&x.f.原单编号===r.f.原单编号&&x.stage>=0&&!H.done(x)))return '原工资条已有未完成的异议，请先处理该异议';
     if(r.key==='30'&&r.f.办理类型==='原件借阅'&&store.loans.some(x=>x.employeeId===r.employeeId&&x.name===r.f.证照名称&&!x.returned))return '此证照原件尚未归还，不能重复借阅';
     if(r.key==='30'&&r.f.办理类型==='原件归还'&&!store.loans.some(x=>x.employeeId===r.employeeId&&x.name===r.f.证照名称&&!x.returned&&b.links.some(l=>l.id===x.source)))return '请关联尚未归还的原借阅单';
@@ -191,7 +192,7 @@ const HrBusiness = (() => {
     return '';
   }
   function before(r,kind){if(kind!=='advance')return '';return check(r);}
-  function after(r,stage,kind){ensure(r);if(r.key==='25'&&stage===2&&kind==='advance'){const src=H.get(r.f.原单编号),row=ensure(src).rows[0];for(const change of ensure(r).rows){const index={'基本工资':1,'加班工资':2,'扣减':3}[change[0]];if(index)row[index]=Number(change[2]);}row[4]=Number(src.items[0].金额);src.checks.revisionSource=r.id;ensure(src).links.push({id:r.id,kind:'工资修订再次确认'});event(src,'修订工资项目',r.id+' / V'+src.version);}if(['reject','withdraw'].includes(kind)){if(r.checks.compHeld)releaseComp(r);return;}
+  function after(r,stage,kind){ensure(r);if(r.key==='25'&&stage===2&&kind==='advance'){const src=H.get(r.f.原单编号),item=src?.items?.[0],row=ensure(src).rows[0];if(item){for(const change of ensure(r).rows)if(item[change[0]]!==undefined)item[change[0]]=Number(change[2]);H.payTotals(item);src.items[0]=item;r.f.修订金额=String(item.实发工资);row[4]=Number(item.实发工资);row[1]=Number(item.岗位工资);row[2]=Number(item.加班工资);row[3]=Number(item.缺勤);}src.checks.revisionSource=r.id;ensure(src).links.push({id:r.id,kind:'工资修订再次确认'});event(src,'修订工资项目',r.id+' / V'+src.version);}if(['reject','withdraw'].includes(kind)){if(r.checks.compHeld)releaseComp(r);return;}
     if(stage<0&&r.key==='15'){const lot=store.compLots.find(x=>x.id===ensure(r).rows[0][0]);r.checks.compHeld=Number(r.f.天数)*8;lot.held+=r.checks.compHeld;}
     if(H.done(r)&&kind==='advance'){const key=r.id+':'+r.version;if(store.snapshots.some(x=>x.key===key))return;store.snapshots.push({key,id:r.id,version:r.version,employeeId:r.employeeId,fields:copy(r.f),rows:copy(ensure(r).rows),date:store.date});
       if(r.key==='05'){for(const item of ensure(r).rows){if(String(item[8]||'')>store.date){const emp=employeeByName(item[0]);store.pendingChanges.push({source:r.id,date:item[8],version:r.version,status:'待生效',employeeId:emp?.id,org:item[4],position:item[6]});}}}

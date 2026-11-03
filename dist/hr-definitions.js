@@ -2672,13 +2672,6 @@ const HR_DEFINITIONS = [
         "value": "HR-PAYSLIP-001"
       },
       {
-        "key": "异议类型",
-        "label": "异议类型",
-        "type": "select",
-        "value": "金额",
-        "options": ["金额", "项目", "考勤"]
-      },
-      {
         "key": "异议说明",
         "label": "异议说明",
         "type": "textarea",
