@@ -58,9 +58,11 @@ DEMO_RELEASE.version='V1.7.0-ADMIN-B1-dev';
 DEMO_RELEASE.scope='党政第一批13条开发版，页面验收未完成；其余16条保留原基线。人力31条、审计15条和IT10条范围不变。';
 // Older dashboard and group tabs must resolve the same live objects.
 const adminLegacyDetail=openAdminCenterDetail,adminLegacyAdvance=advanceAdminItem,adminLegacyForm=openAdminCenterForm;
+const adminLegacySetTab=setAdminTab;
+setAdminTab=function(tab){const first={'行政档案':'taskLedger','治理中心':'boardMatter'}[tab];if(first){AdminWorkspace.ui.legacy=false;state.adminTab=tab;state.adminQuery='';AdminWorkspace.list(first);return;}return adminLegacySetTab(tab);};
 openAdminCenterDetail=function(id){if(AdminBusiness.get(id)){AdminWorkspace.ui.legacy=false;return AdminWorkspace.open(id);}return adminLegacyDetail(id);};
 advanceAdminItem=function(id){if(AdminBusiness.get(id)){AdminWorkspace.ui.legacy=false;return AdminWorkspace.open(id);}return adminLegacyAdvance(id);};
-openAdminCenterForm=function(){if(['公文','会议督办'].includes(state.adminTab)){AdminWorkspace.ui.legacy=false;AdminWorkspace.list(ADMIN_DEFINITIONS.find(d=>d.group===state.adminTab).key);return;}return adminLegacyForm();};
+openAdminCenterForm=function(){if(['公文','会议督办','行政档案','治理中心'].includes(state.adminTab)){AdminWorkspace.ui.legacy=false;AdminWorkspace.list(ADMIN_DEFINITIONS.find(d=>d.group===state.adminTab).key);return;}return adminLegacyForm();};
 function adminMessageVisible(m){return !AdminBusiness.get(m.objectId)||AdminBusiness.visible(AdminBusiness.get(m.objectId))&&(m.receiver===currentRole().name||m.role===state.role||['admin','manager'].includes(state.role));}
 
 /* Current V1.7 detail interaction: one page, explicit view / view-and-handle modes. */
