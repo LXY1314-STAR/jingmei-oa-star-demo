@@ -2368,8 +2368,8 @@ const HR_DEFINITIONS = [
         "value": "经营分析岗2026年下半年绩效计划"
       },
       {
-        "key": "原评分",
-        "label": "原评分",
+        "key": "加权总分",
+        "label": "加权总分",
         "type": "number",
         "value": "86",
         "readonly": true
@@ -2393,11 +2393,20 @@ const HR_DEFINITIONS = [
         "label": "确认结果",
         "type": "select",
         "value": "确认",
-        "options": ["确认", "有异议"]
+        "options": ["确认", "有异议"],
+        "onchange": "HrWorkspace.toggleResult()"
       },
       {
-        "key": "申诉理由",
-        "label": "申诉理由",
+        "key": "异常",
+        "label": "异常指标（多选）",
+        "type": "multiselect",
+        "value": "",
+        "required": false,
+        "full": true
+      },
+      {
+        "key": "异常原因",
+        "label": "异常原因",
         "type": "textarea",
         "value": "",
         "required": false,

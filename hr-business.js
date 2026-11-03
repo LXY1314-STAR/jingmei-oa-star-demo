@@ -31,7 +31,7 @@ const HrBusiness = (() => {
     '18':spec('考勤异常逐条核对','核对异常明细','员工编号|日期|原始异常|更正结果|核验结论',[['EMP-2026-018','2026-09-06','缺卡','正常','待核验']]),
     '19':spec('月度考勤行级确认','登记月度核对','员工编号|日期|排班与打卡|日结果|核验结论',[['EMP-2026-018','2026-09-06','行政班 / 缺卡','待补卡','待核验']]),
     '20':spec('年度汇总与输出条件','核验输出范围','员工编号|年度|输出类型|输出格式|核验结论',[['EMP-2026-018',2026,'年度汇总','Excel','待核验']]),
-    '21':spec('考核指标与目标','调整考核指标','指标|目标值|单位|权重',[]),
+    '21':spec('考核指标与目标','调整考核指标','指标|目标|权重%',[]),
     '22':spec('逐指标评分与校准','登记评分校准','指标|权重|原评分|校准分|评分依据|校准原因',[['经营分析及时率',70,86,88,'经营分析成果（模拟）','补充已核实成果'],['问题闭环率',30,86,88,'问题闭环记录（模拟）','补充已核实成果']]),
     '23':spec('奖惩依据与档案预览','核验奖惩依据','事项|依据|来源|生效日期|核验结论',[['表彰','安全生产表彰决定（模拟）','本流程审批','2026-10-01','待核验']]),
     '24':spec('工资项目与定向发布','核验工资项目','员工编号|基本工资|加班工资|扣减|实发金额',[['EMP-2026-018',7500,500,0,8000]]),
@@ -50,7 +50,7 @@ const HrBusiness = (() => {
     else if(r.key==='05'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.调动人员,x.调出公司,x.调入公司,x.调出部门,x.调入部门,x.调出岗位,x.调入岗位,x.岗位资格,x.到岗日期]);
     else if(r.key==='11'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.变更前信息,x.变更后信息,x.变更原因]);
     else for(const row of b.rows){s.columns.forEach((k,i)=>{if(k==='员工编号')row[i]=r.employeeId;if(r.f[k]!==undefined&&k!=='核验结论')row[i]=r.f[k];});}
-    if(r.key==='21')b.rows=r.items.map(x=>[x.指标,x.目标值,x.单位,x.权重]);
+    if(r.key==='21')b.rows=r.items.map(x=>[x.指标,x.目标,x.权重]);
     if(r.key==='24')b.rows=r.items.map(x=>{const net=x.实发工资!==undefined?Number(x.实发工资):Number(x.金额)||0;return [x.员工编号,Math.max(0,net-500),500,0,net];});
     if(r.key==='25')b.rows=(r.items||[]).map(x=>[x.异议类型,Number(x.原金额),Number(x.现金额),'员工异议明细','待核验']);
     if(r.key==='14')b.rows=H.people(r).map(id=>[id,Number(r.f.小时数),Number(r.f.小时数),r.f.加班类别,'待核验']);
@@ -127,7 +127,7 @@ const HrBusiness = (() => {
     if(r.key==='17'){r.f.人员明细=rows.map(x=>x[0]).join(',');r.f.原班次=x[2];r.f.目标班次=x[3];}
     if(r.key==='18'){r.f.开始日期=x[1];r.f.更正结果=x[3];}
     if(r.key==='20'){r.f.年度=x[1];r.f.输出类型=x[2];r.f.输出格式=x[3];}
-    if(r.key==='21')r.items=rows.map(x=>({指标:x[0],目标值:Number(x[1]),单位:x[2],权重:Number(x[3])}));
+    if(r.key==='21')r.items=rows.map(x=>({指标:x[0],目标:x[1],权重:Number(x[2])}));
     if(r.key==='22'){r.f.原评分=String(Math.round(rows.reduce((s,x)=>s+Number(x[1])*Number(x[2])/100,0)*100)/100);r.f.校准分=String(score(r));r.f.校准依据=rows.map(x=>x[5]).join('；');}
     if(r.key==='23'){r.f.奖惩类型=x[0];r.f.依据=x[1];r.f.审批来源=x[2];r.f.生效日期=x[3];}
     if(r.key==='24')r.items=r.items.map((it,i)=>{const net=Number(rows[i]?.[4]??it.实发工资??it.金额)||0;return {...it,员工编号:rows[i]?.[0]||it.员工编号,实发工资:net,金额:net};});
