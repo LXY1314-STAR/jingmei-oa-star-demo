@@ -2362,10 +2362,10 @@ const HR_DEFINITIONS = [
         "value": "HR-PLAN-001"
       },
       {
-        "key": "来源批次",
-        "label": "结果来源批次",
+        "key": "计划名称",
+        "label": "计划名称",
         "type": "text",
-        "value": "ERP-PER-2026H2-001"
+        "value": "经营分析岗2026年下半年绩效计划"
       },
       {
         "key": "原评分",
