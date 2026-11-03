@@ -238,6 +238,34 @@ const HR_DEFINITIONS = [
     "domain": "recruit",
     "fields": [
       {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "吴欣",
+        "readonly": true
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-10",
+        "readonly": true
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "人力资源部",
+        "readonly": true
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "select",
+        "value": "精美",
+        "options": ["精美", "丽彩", "五彩", "欣兴", "嘉美"]
+      },
+      {
         "key": "员工姓名",
         "label": "员工姓名",
         "type": "text",

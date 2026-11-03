@@ -1531,4 +1531,1617 @@ const ADMIN_DEFINITIONS = [
     ],
     "initial": "设备复核督办验收"
   }
+,
+{
+  "key": "taskLedger",
+  "code": "OA-L3-030113",
+  "name": "工作任务台账管理",
+  "group": "行政档案",
+  "fields": [
+    {
+      "key": "任务类型",
+      "label": "任务类型",
+      "type": "select",
+      "value": "重点工作",
+      "options": [
+        "重点工作",
+        "日常任务",
+        "专项任务"
+      ]
+    },
+    {
+      "key": "任务来源",
+      "label": "任务来源",
+      "type": "text",
+      "value": "年度工作安排",
+      "options": null
+    },
+    {
+      "key": "责任部门",
+      "label": "责任部门",
+      "type": "select",
+      "value": "生产管理部",
+      "options": [
+        "生产管理部",
+        "党政综合办",
+        "质量管理部",
+        "经营发展部",
+        "财务部"
+      ]
+    },
+    {
+      "key": "责任人",
+      "label": "责任人",
+      "type": "text",
+      "value": "刘强",
+      "options": null
+    },
+    {
+      "key": "计划开始日期",
+      "label": "计划开始日期",
+      "type": "date",
+      "value": "2026-09-10",
+      "options": null
+    },
+    {
+      "key": "计划完成日期",
+      "label": "计划完成日期",
+      "type": "date",
+      "value": "2026-09-30",
+      "options": null
+    },
+    {
+      "key": "任务目标",
+      "label": "任务目标",
+      "type": "textarea",
+      "value": "按期完成专项任务并形成成果。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "工作内容",
+      "label": "工作内容",
+      "type": "textarea",
+      "value": "明确任务步骤、协同部门、节点成果和检查要求。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "成果要求",
+      "label": "成果要求",
+      "type": "textarea",
+      "value": "提交成果报告及佐证材料。",
+      "options": null,
+      "full": true
+    }
+  ],
+  "columns": [
+    {
+      "key": "节点",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "责任人",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "计划完成",
+      "type": "date",
+      "options": null
+    },
+    {
+      "key": "进度",
+      "type": "number",
+      "options": null
+    },
+    {
+      "key": "成果",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "状态",
+      "type": "select",
+      "options": [
+        "待办理",
+        "进行中",
+        "已完成"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "节点": "制定任务方案",
+      "责任人": "刘强",
+      "计划完成": "2026-09-12",
+      "进度": 0,
+      "成果": "",
+      "状态": "待办理"
+    },
+    {
+      "节点": "完成现场检查",
+      "责任人": "刘强",
+      "计划完成": "2026-09-25",
+      "进度": 0,
+      "成果": "",
+      "状态": "待办理"
+    }
+  ],
+  "steps": [
+    "登记任务",
+    "部门执行",
+    "进度反馈",
+    "检查验收",
+    "归档"
+  ],
+  "roles": [
+    "admin",
+    "owner",
+    "owner",
+    "admin",
+    "admin"
+  ],
+  "initial": "专项工作任务台账"
+},
+{
+  "key": "expenseAudit",
+  "code": "OA-L3-030114",
+  "name": "办公费及交通费合规审核",
+  "group": "行政档案",
+  "fields": [
+    {
+      "key": "费用类型",
+      "label": "费用类型",
+      "type": "select",
+      "value": "办公费",
+      "options": [
+        "办公费",
+        "交通费",
+        "通讯费"
+      ]
+    },
+    {
+      "key": "申报月份",
+      "label": "申报月份",
+      "type": "text",
+      "value": "2026-09",
+      "options": null
+    },
+    {
+      "key": "申报部门",
+      "label": "申报部门",
+      "type": "select",
+      "value": "生产管理部",
+      "options": [
+        "生产管理部",
+        "党政综合办",
+        "质量管理部",
+        "经营发展部",
+        "财务部"
+      ]
+    },
+    {
+      "key": "申报金额",
+      "label": "申报金额",
+      "type": "number",
+      "value": 3200,
+      "options": null
+    },
+    {
+      "key": "申报人数",
+      "label": "申报人数",
+      "type": "number",
+      "value": 8,
+      "options": null
+    },
+    {
+      "key": "费用标准依据",
+      "label": "费用标准依据",
+      "type": "text",
+      "value": "公司办公费及交通费标准（模拟）",
+      "options": null
+    },
+    {
+      "key": "是否超标准",
+      "label": "是否超标准",
+      "type": "select",
+      "value": "否",
+      "options": [
+        "否",
+        "是"
+      ]
+    },
+    {
+      "key": "费用明细说明",
+      "label": "费用明细说明",
+      "type": "textarea",
+      "value": "按部门月度实际发生费用汇总申报。",
+      "options": null,
+      "full": true
+    }
+  ],
+  "columns": [
+    {
+      "key": "人员",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "费用项目",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "金额",
+      "type": "number",
+      "options": null
+    },
+    {
+      "key": "标准",
+      "type": "number",
+      "options": null
+    },
+    {
+      "key": "是否合规",
+      "type": "select",
+      "options": [
+        "待核验",
+        "合规",
+        "不合规"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "人员": "刘强",
+      "费用项目": "办公用品",
+      "金额": 1200,
+      "标准": 1500,
+      "是否合规": "待核验"
+    }
+  ],
+  "steps": [
+    "部门申报",
+    "标准预校验",
+    "党政综合办审核",
+    "转ERP财务流程",
+    "归档"
+  ],
+  "roles": [
+    "owner",
+    "admin",
+    "admin",
+    "admin",
+    "admin"
+  ],
+  "initial": "九月办公费合规审核"
+},
+{
+  "key": "archiveTransfer",
+  "code": "OA-L3-030119",
+  "name": "档案移交及延期归档",
+  "group": "行政档案",
+  "fields": [
+    {
+      "key": "移交类型",
+      "label": "移交类型",
+      "type": "select",
+      "value": "按期归档",
+      "options": [
+        "按期归档",
+        "延期归档"
+      ]
+    },
+    {
+      "key": "关联事项/文号",
+      "label": "关联事项/文号",
+      "type": "text",
+      "value": "精印〔2026〕18号",
+      "options": null
+    },
+    {
+      "key": "档案类别",
+      "label": "档案类别",
+      "type": "select",
+      "value": "公文档案",
+      "options": [
+        "公文档案",
+        "会议档案",
+        "合同档案",
+        "财务档案",
+        "人事档案",
+        "其他"
+      ]
+    },
+    {
+      "key": "档案数量",
+      "label": "档案数量",
+      "type": "number",
+      "value": 3,
+      "options": null
+    },
+    {
+      "key": "保管期限",
+      "label": "保管期限",
+      "type": "select",
+      "value": "10年",
+      "options": [
+        "5年",
+        "10年",
+        "30年",
+        "永久"
+      ]
+    },
+    {
+      "key": "原定归档日期",
+      "label": "原定归档日期",
+      "type": "date",
+      "value": "2026-09-20",
+      "options": null
+    },
+    {
+      "key": "申请延期至",
+      "label": "申请延期至",
+      "type": "date",
+      "value": "2026-10-15",
+      "options": null
+    },
+    {
+      "key": "移交部门",
+      "label": "移交部门",
+      "type": "select",
+      "value": "生产管理部",
+      "options": [
+        "生产管理部",
+        "党政综合办",
+        "质量管理部",
+        "经营发展部",
+        "财务部"
+      ]
+    },
+    {
+      "key": "接收部门",
+      "label": "接收部门",
+      "type": "text",
+      "value": "党政综合办档案室",
+      "options": null
+    },
+    {
+      "key": "移交说明",
+      "label": "移交说明",
+      "type": "textarea",
+      "value": "按档案目录移交纸质及电子材料。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "延期原因",
+      "label": "延期原因",
+      "type": "textarea",
+      "value": "材料补充未完成，申请延期归档。",
+      "options": null,
+      "full": true
+    }
+  ],
+  "columns": [
+    {
+      "key": "档案目录",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "份数",
+      "type": "number",
+      "options": null
+    },
+    {
+      "key": "载体",
+      "type": "select",
+      "options": [
+        "纸质",
+        "电子",
+        "纸质+电子"
+      ]
+    },
+    {
+      "key": "密级",
+      "type": "select",
+      "options": [
+        "公开",
+        "内部",
+        "秘密"
+      ]
+    },
+    {
+      "key": "备注",
+      "type": "text",
+      "options": null
+    }
+  ],
+  "rows": [
+    {
+      "档案目录": "发文审批单及正文",
+      "份数": 1,
+      "载体": "纸质+电子",
+      "密级": "内部",
+      "备注": ""
+    }
+  ],
+  "steps": [
+    "提交档案目录",
+    "部门审核",
+    "档案接收",
+    "归档或延期登记",
+    "归档"
+  ],
+  "roles": [
+    "owner",
+    "admin",
+    "admin",
+    "admin",
+    "admin"
+  ],
+  "initial": "九月公文档案移交"
+},
+{
+  "key": "archiveAccess",
+  "code": "OA-L3-030120",
+  "name": "档案查阅、借阅及复制",
+  "group": "行政档案",
+  "fields": [
+    {
+      "key": "办理类型",
+      "label": "办理类型",
+      "type": "select",
+      "value": "查阅",
+      "options": [
+        "查阅",
+        "借阅",
+        "复制"
+      ]
+    },
+    {
+      "key": "档案名称",
+      "label": "档案名称",
+      "type": "text",
+      "value": "九月经营分析会纪要",
+      "options": null
+    },
+    {
+      "key": "档案编号",
+      "label": "档案编号",
+      "type": "text",
+      "value": "ARC-2026-09-001",
+      "options": null
+    },
+    {
+      "key": "档案类别",
+      "label": "档案类别",
+      "type": "select",
+      "value": "会议档案",
+      "options": [
+        "公文档案",
+        "会议档案",
+        "合同档案",
+        "财务档案",
+        "人事档案",
+        "其他"
+      ]
+    },
+    {
+      "key": "利用目的",
+      "label": "利用目的",
+      "type": "textarea",
+      "value": "核对会议议定事项及责任分工。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "借阅期限",
+      "label": "借阅期限",
+      "type": "date",
+      "value": "2026-09-20",
+      "options": null
+    },
+    {
+      "key": "复制份数",
+      "label": "复制份数",
+      "type": "number",
+      "value": 1,
+      "options": null
+    },
+    {
+      "key": "是否涉及密级",
+      "label": "是否涉及密级",
+      "type": "select",
+      "value": "否",
+      "options": [
+        "否",
+        "是"
+      ]
+    },
+    {
+      "key": "归还日期",
+      "label": "归还日期",
+      "type": "date",
+      "value": "",
+      "options": null
+    }
+  ],
+  "columns": [
+    {
+      "key": "档案条目",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "载体",
+      "type": "select",
+      "options": [
+        "纸质",
+        "电子"
+      ]
+    },
+    {
+      "key": "份数",
+      "type": "number",
+      "options": null
+    },
+    {
+      "key": "密级",
+      "type": "select",
+      "options": [
+        "公开",
+        "内部",
+        "秘密"
+      ]
+    },
+    {
+      "key": "用途",
+      "type": "text",
+      "options": null
+    }
+  ],
+  "rows": [
+    {
+      "档案条目": "会议纪要正文",
+      "载体": "纸质",
+      "份数": 1,
+      "密级": "内部",
+      "用途": "事项核对"
+    }
+  ],
+  "steps": [
+    "提交申请",
+    "部门审核",
+    "档案管理员审批",
+    "借出或复制",
+    "归还归档"
+  ],
+  "roles": [
+    "owner",
+    "admin",
+    "admin",
+    "admin",
+    "admin"
+  ],
+  "initial": "会议纪要查阅申请"
+},
+{
+  "key": "archiveDestroy",
+  "code": "OA-L3-030121",
+  "name": "档案鉴定及销毁",
+  "group": "行政档案",
+  "fields": [
+    {
+      "key": "鉴定批次",
+      "label": "鉴定批次",
+      "type": "text",
+      "value": "2026年档案鉴定第一批",
+      "options": null
+    },
+    {
+      "key": "鉴定范围",
+      "label": "鉴定范围",
+      "type": "text",
+      "value": "2016年度行政档案",
+      "options": null
+    },
+    {
+      "key": "保管期限",
+      "label": "保管期限",
+      "type": "select",
+      "value": "10年",
+      "options": [
+        "5年",
+        "10年",
+        "30年",
+        "永久"
+      ]
+    },
+    {
+      "key": "鉴定日期",
+      "label": "鉴定日期",
+      "type": "date",
+      "value": "2026-09-18",
+      "options": null
+    },
+    {
+      "key": "处置方式",
+      "label": "处置方式",
+      "type": "select",
+      "value": "继续保存",
+      "options": [
+        "继续保存",
+        "延期保存",
+        "销毁"
+      ]
+    },
+    {
+      "key": "监销人",
+      "label": "监销人",
+      "type": "text",
+      "value": "何静",
+      "options": null
+    },
+    {
+      "key": "销毁依据",
+      "label": "销毁依据",
+      "type": "textarea",
+      "value": "依据档案保管期限及鉴定结果处置。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "鉴定意见",
+      "label": "鉴定意见",
+      "type": "textarea",
+      "value": "逐卷鉴定，形成继续保存或销毁意见。",
+      "options": null,
+      "full": true
+    }
+  ],
+  "columns": [
+    {
+      "key": "档案编号",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "档案名称",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "形成日期",
+      "type": "date",
+      "options": null
+    },
+    {
+      "key": "保管期限",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "鉴定结论",
+      "type": "select",
+      "options": [
+        "继续保存",
+        "延期保存",
+        "销毁"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "档案编号": "ARC-2016-001",
+      "档案名称": "2016年度行政文件",
+      "形成日期": "2016-12-31",
+      "保管期限": "10年",
+      "鉴定结论": "销毁"
+    }
+  ],
+  "steps": [
+    "编制鉴定清单",
+    "鉴定小组鉴定",
+    "销毁审批",
+    "销毁处置",
+    "归档"
+  ],
+  "roles": [
+    "admin",
+    "admin",
+    "manager",
+    "admin",
+    "admin"
+  ],
+  "initial": "2016年度档案鉴定"
+},
+{
+  "key": "externalInspection",
+  "code": "OA-L3-030124",
+  "name": "外部检查登记及整改",
+  "group": "行政档案",
+  "fields": [
+    {
+      "key": "检查类型",
+      "label": "检查类型",
+      "type": "select",
+      "value": "安全生产检查",
+      "options": [
+        "安全生产检查",
+        "环保检查",
+        "质量检查",
+        "消防检查",
+        "其他"
+      ]
+    },
+    {
+      "key": "检查单位",
+      "label": "检查单位",
+      "type": "text",
+      "value": "宜宾市应急管理局",
+      "options": null
+    },
+    {
+      "key": "检查日期",
+      "label": "检查日期",
+      "type": "date",
+      "value": "2026-09-12",
+      "options": null
+    },
+    {
+      "key": "检查事项",
+      "label": "检查事项",
+      "type": "text",
+      "value": "生产现场安全管理及消防设施",
+      "options": null
+    },
+    {
+      "key": "责任部门",
+      "label": "责任部门",
+      "type": "select",
+      "value": "生产管理部",
+      "options": [
+        "生产管理部",
+        "党政综合办",
+        "质量管理部",
+        "经营发展部",
+        "财务部"
+      ]
+    },
+    {
+      "key": "整改期限",
+      "label": "整改期限",
+      "type": "date",
+      "value": "2026-09-30",
+      "options": null
+    },
+    {
+      "key": "发现问题",
+      "label": "发现问题",
+      "type": "textarea",
+      "value": "现场部分消防通道标识不清晰。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "整改要求",
+      "label": "整改要求",
+      "type": "textarea",
+      "value": "补充标识并完成现场复查。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "迎检准备说明",
+      "label": "迎检准备说明",
+      "type": "textarea",
+      "value": "已完成资料准备和现场自查。",
+      "options": null,
+      "full": true
+    }
+  ],
+  "columns": [
+    {
+      "key": "问题",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "整改措施",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "责任人",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "期限",
+      "type": "date",
+      "options": null
+    },
+    {
+      "key": "状态",
+      "type": "select",
+      "options": [
+        "待整改",
+        "整改中",
+        "待复核",
+        "已关闭"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "问题": "消防通道标识不清晰",
+      "整改措施": "补充标识并复查",
+      "责任人": "刘强",
+      "期限": "2026-09-25",
+      "状态": "待整改"
+    }
+  ],
+  "steps": [
+    "登记检查",
+    "分派整改",
+    "责任部门反馈",
+    "复核",
+    "关闭归档"
+  ],
+  "roles": [
+    "admin",
+    "admin",
+    "owner",
+    "admin",
+    "admin"
+  ],
+  "initial": "外部安全检查登记"
+},
+{
+  "key": "boardMatter",
+  "code": "OA-L3-030126",
+  "name": "董事会事项管理",
+  "group": "治理中心",
+  "fields": [
+    {
+      "key": "事项类型",
+      "label": "事项类型",
+      "type": "select",
+      "value": "董事会议案",
+      "options": [
+        "董事会议案",
+        "关联交易",
+        "子公司董事会",
+        "外派董事事项"
+      ]
+    },
+    {
+      "key": "会议届次",
+      "label": "会议届次",
+      "type": "text",
+      "value": "2026年第三次董事会",
+      "options": null
+    },
+    {
+      "key": "议案名称",
+      "label": "议案名称",
+      "type": "text",
+      "value": "年度投资计划调整议案",
+      "options": null
+    },
+    {
+      "key": "议案编号",
+      "label": "议案编号",
+      "type": "text",
+      "value": "BOARD-2026-003",
+      "options": null
+    },
+    {
+      "key": "提案部门",
+      "label": "提案部门",
+      "type": "select",
+      "value": "经营发展部",
+      "options": [
+        "生产管理部",
+        "党政综合办",
+        "质量管理部",
+        "经营发展部",
+        "财务部"
+      ]
+    },
+    {
+      "key": "汇报人",
+      "label": "汇报人",
+      "type": "text",
+      "value": "周敏",
+      "options": null
+    },
+    {
+      "key": "是否需法律审核",
+      "label": "是否需法律审核",
+      "type": "select",
+      "value": "是",
+      "options": [
+        "是",
+        "否"
+      ]
+    },
+    {
+      "key": "审议依据",
+      "label": "审议依据",
+      "type": "textarea",
+      "value": "依据公司章程及董事会议事规则。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "议案内容",
+      "label": "议案内容",
+      "type": "textarea",
+      "value": "说明投资计划调整背景、金额及实施安排。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "拟决议事项",
+      "label": "拟决议事项",
+      "type": "textarea",
+      "value": "提请董事会审议并形成决议。",
+      "options": null,
+      "full": true
+    }
+  ],
+  "columns": [
+    {
+      "key": "议题",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "汇报人",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "审议意见",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "决议结果",
+      "type": "select",
+      "options": [
+        "待审议",
+        "通过",
+        "不通过",
+        "暂缓"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "议题": "年度投资计划调整",
+      "汇报人": "周敏",
+      "审议意见": "",
+      "决议结果": "待审议"
+    }
+  ],
+  "steps": [
+    "提交议案",
+    "部门审核",
+    "法务审核",
+    "董事会审议",
+    "决议归档"
+  ],
+  "roles": [
+    "admin",
+    "manager",
+    "manager",
+    "manager",
+    "admin"
+  ],
+  "initial": "年度投资计划调整议案"
+},
+{
+  "key": "partyMatter",
+  "code": "OA-L3-030127",
+  "name": "党建事项管理",
+  "group": "治理中心",
+  "fields": [
+    {
+      "key": "事项类型",
+      "label": "事项类型",
+      "type": "select",
+      "value": "理论学习",
+      "options": [
+        "年度计划考核",
+        "理论学习",
+        "党员发展",
+        "关系转接",
+        "党费用款",
+        "党建活动",
+        "廉政责任"
+      ]
+    },
+    {
+      "key": "事项名称",
+      "label": "事项名称",
+      "type": "text",
+      "value": "第三季度理论学习",
+      "options": null
+    },
+    {
+      "key": "所属党组织",
+      "label": "所属党组织",
+      "type": "text",
+      "value": "精美印务党支部",
+      "options": null
+    },
+    {
+      "key": "办理日期",
+      "label": "办理日期",
+      "type": "date",
+      "value": "2026-09-20",
+      "options": null
+    },
+    {
+      "key": "参与人数",
+      "label": "参与人数",
+      "type": "number",
+      "value": 30,
+      "options": null
+    },
+    {
+      "key": "经费金额",
+      "label": "经费金额",
+      "type": "number",
+      "value": 0,
+      "options": null
+    },
+    {
+      "key": "事项内容",
+      "label": "事项内容",
+      "type": "textarea",
+      "value": "组织专题学习并形成学习记录。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "申请依据",
+      "label": "申请依据",
+      "type": "textarea",
+      "value": "依据年度党建工作计划。",
+      "options": null,
+      "full": true
+    }
+  ],
+  "columns": [
+    {
+      "key": "事项",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "责任人",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "完成日期",
+      "type": "date",
+      "options": null
+    },
+    {
+      "key": "结果",
+      "type": "text",
+      "options": null
+    }
+  ],
+  "rows": [
+    {
+      "事项": "专题理论学习",
+      "责任人": "何静",
+      "完成日期": "2026-09-20",
+      "结果": ""
+    }
+  ],
+  "steps": [
+    "支部提交",
+    "党建审核",
+    "审批",
+    "组织实施",
+    "归档"
+  ],
+  "roles": [
+    "admin",
+    "admin",
+    "manager",
+    "admin",
+    "admin"
+  ],
+  "initial": "第三季度党建活动"
+},
+{
+  "key": "youthMatter",
+  "code": "OA-L3-030128",
+  "name": "团委事项管理",
+  "group": "治理中心",
+  "fields": [
+    {
+      "key": "事项类型",
+      "label": "事项类型",
+      "type": "select",
+      "value": "团建活动",
+      "options": [
+        "年度计划考核",
+        "理论学习",
+        "团员发展",
+        "关系转接",
+        "团费用款",
+        "团建活动",
+        "廉政责任"
+      ]
+    },
+    {
+      "key": "事项名称",
+      "label": "事项名称",
+      "type": "text",
+      "value": "青年员工技能交流活动",
+      "options": null
+    },
+    {
+      "key": "所属团组织",
+      "label": "所属团组织",
+      "type": "text",
+      "value": "精美印务团支部",
+      "options": null
+    },
+    {
+      "key": "办理日期",
+      "label": "办理日期",
+      "type": "date",
+      "value": "2026-09-25",
+      "options": null
+    },
+    {
+      "key": "参与人数",
+      "label": "参与人数",
+      "type": "number",
+      "value": 20,
+      "options": null
+    },
+    {
+      "key": "经费金额",
+      "label": "经费金额",
+      "type": "number",
+      "value": 1500,
+      "options": null
+    },
+    {
+      "key": "事项内容",
+      "label": "事项内容",
+      "type": "textarea",
+      "value": "组织青年员工技能交流与团建活动。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "申请依据",
+      "label": "申请依据",
+      "type": "textarea",
+      "value": "依据年度团委工作计划。",
+      "options": null,
+      "full": true
+    }
+  ],
+  "columns": [
+    {
+      "key": "事项",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "责任人",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "完成日期",
+      "type": "date",
+      "options": null
+    },
+    {
+      "key": "结果",
+      "type": "text",
+      "options": null
+    }
+  ],
+  "rows": [
+    {
+      "事项": "技能交流活动",
+      "责任人": "李明",
+      "完成日期": "2026-09-25",
+      "结果": ""
+    }
+  ],
+  "steps": [
+    "团支部提交",
+    "团委审核",
+    "审批",
+    "组织实施",
+    "归档"
+  ],
+  "roles": [
+    "admin",
+    "admin",
+    "manager",
+    "admin",
+    "admin"
+  ],
+  "initial": "青年员工团建活动"
+},
+{
+  "key": "unionMatter",
+  "code": "OA-L3-030129",
+  "name": "工会事项管理",
+  "group": "治理中心",
+  "fields": [
+    {
+      "key": "事项类型",
+      "label": "事项类型",
+      "type": "select",
+      "value": "活动立项",
+      "options": [
+        "会员变更",
+        "活动立项",
+        "慰问",
+        "预算决算",
+        "职代会提案"
+      ]
+    },
+    {
+      "key": "事项名称",
+      "label": "事项名称",
+      "type": "text",
+      "value": "中秋慰问活动",
+      "options": null
+    },
+    {
+      "key": "会员/对象",
+      "label": "会员/对象",
+      "type": "text",
+      "value": "全体工会会员",
+      "options": null
+    },
+    {
+      "key": "活动日期",
+      "label": "活动日期",
+      "type": "date",
+      "value": "2026-09-28",
+      "options": null
+    },
+    {
+      "key": "预算金额",
+      "label": "预算金额",
+      "type": "number",
+      "value": 20000,
+      "options": null
+    },
+    {
+      "key": "事项说明",
+      "label": "事项说明",
+      "type": "textarea",
+      "value": "按工会年度计划开展会员慰问。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "申请依据",
+      "label": "申请依据",
+      "type": "textarea",
+      "value": "依据工会经费管理办法。",
+      "options": null,
+      "full": true
+    }
+  ],
+  "columns": [
+    {
+      "key": "项目",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "金额",
+      "type": "number",
+      "options": null
+    },
+    {
+      "key": "负责人",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "完成情况",
+      "type": "text",
+      "options": null
+    }
+  ],
+  "rows": [
+    {
+      "项目": "会员慰问品",
+      "金额": 20000,
+      "负责人": "何静",
+      "完成情况": "待采购"
+    }
+  ],
+  "steps": [
+    "工会提交",
+    "工会审核",
+    "审批",
+    "组织实施",
+    "归档"
+  ],
+  "roles": [
+    "admin",
+    "admin",
+    "manager",
+    "admin",
+    "admin"
+  ],
+  "initial": "中秋工会慰问"
+},
+{
+  "key": "preReview",
+  "code": "OA-L3-030130",
+  "name": "会前评审",
+  "group": "治理中心",
+  "fields": [
+    {
+      "key": "评审类型",
+      "label": "评审类型",
+      "type": "select",
+      "value": "议题评审",
+      "options": [
+        "议题评审",
+        "方案评审",
+        "材料评审"
+      ]
+    },
+    {
+      "key": "关联会议/议题",
+      "label": "关联会议/议题",
+      "type": "text",
+      "value": "2026年第三次董事会",
+      "options": null
+    },
+    {
+      "key": "议题名称",
+      "label": "议题名称",
+      "type": "text",
+      "value": "年度投资计划调整",
+      "options": null
+    },
+    {
+      "key": "汇报部门",
+      "label": "汇报部门",
+      "type": "select",
+      "value": "经营发展部",
+      "options": [
+        "生产管理部",
+        "党政综合办",
+        "质量管理部",
+        "经营发展部",
+        "财务部"
+      ]
+    },
+    {
+      "key": "汇报人",
+      "label": "汇报人",
+      "type": "text",
+      "value": "周敏",
+      "options": null
+    },
+    {
+      "key": "会签部门",
+      "label": "会签部门",
+      "type": "text",
+      "value": "财务部、审计监督部",
+      "options": null
+    },
+    {
+      "key": "材料清单",
+      "label": "材料清单",
+      "type": "textarea",
+      "value": "议案正文、测算依据、风险评估材料。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "评审要点",
+      "label": "评审要点",
+      "type": "textarea",
+      "value": "核验材料完整性、数据一致性和决策依据。",
+      "options": null,
+      "full": true
+    }
+  ],
+  "columns": [
+    {
+      "key": "评审部门",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "评审意见",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "结论",
+      "type": "select",
+      "options": [
+        "待评审",
+        "同意",
+        "修改后再审"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "评审部门": "财务部",
+      "评审意见": "",
+      "结论": "待评审"
+    }
+  ],
+  "steps": [
+    "提交评审材料",
+    "材料完整性校验",
+    "部门会签",
+    "形成评审结论",
+    "归档"
+  ],
+  "roles": [
+    "admin",
+    "admin",
+    "manager",
+    "admin",
+    "admin"
+  ],
+  "initial": "投资计划议题会前评审"
+},
+{
+  "key": "meetingRequest",
+  "code": "OA-L3-030131",
+  "name": "上会请示",
+  "group": "治理中心",
+  "fields": [
+    {
+      "key": "会议类型",
+      "label": "会议类型",
+      "type": "select",
+      "value": "董事会",
+      "options": [
+        "董事会",
+        "党委会",
+        "经营分析会",
+        "专题会"
+      ]
+    },
+    {
+      "key": "议题名称",
+      "label": "议题名称",
+      "type": "text",
+      "value": "年度投资计划调整",
+      "options": null
+    },
+    {
+      "key": "汇报人",
+      "label": "汇报人",
+      "type": "text",
+      "value": "周敏",
+      "options": null
+    },
+    {
+      "key": "拟参会范围",
+      "label": "拟参会范围",
+      "type": "text",
+      "value": "董事、监事、经营班子",
+      "options": null
+    },
+    {
+      "key": "列席部门",
+      "label": "列席部门",
+      "type": "text",
+      "value": "财务部、审计监督部",
+      "options": null
+    },
+    {
+      "key": "是否已会前评审",
+      "label": "是否已会前评审",
+      "type": "select",
+      "value": "是",
+      "options": [
+        "是",
+        "否"
+      ]
+    },
+    {
+      "key": "上会依据",
+      "label": "上会依据",
+      "type": "textarea",
+      "value": "依据董事会议事规则及年度会议安排。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "汇报材料",
+      "label": "汇报材料",
+      "type": "textarea",
+      "value": "议案正文、投资测算及风险说明。",
+      "options": null,
+      "full": true
+    },
+    {
+      "key": "审议事项",
+      "label": "审议事项",
+      "type": "textarea",
+      "value": "提请审议投资计划调整方案。",
+      "options": null,
+      "full": true
+    }
+  ],
+  "columns": [
+    {
+      "key": "议题",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "汇报人",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "审议事项",
+      "type": "text",
+      "options": null
+    },
+    {
+      "key": "结论",
+      "type": "select",
+      "options": [
+        "待审议",
+        "通过",
+        "不通过"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "议题": "年度投资计划调整",
+      "汇报人": "周敏",
+      "审议事项": "投资计划调整方案",
+      "结论": "待审议"
+    }
+  ],
+  "steps": [
+    "提交请示",
+    "部门审核",
+    "会前评审核验",
+    "领导审批",
+    "关联会议归档"
+  ],
+  "roles": [
+    "admin",
+    "manager",
+    "admin",
+    "manager",
+    "admin"
+  ],
+  "initial": "投资计划上会请示"
+}
 ];
