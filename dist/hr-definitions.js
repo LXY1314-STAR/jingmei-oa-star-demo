@@ -3263,116 +3263,84 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
-        "key": "加班类别",
-        "label": "加班类别",
+        "key": "标题",
+        "label": "标题",
+        "type": "text",
+        "value": "生产支持加班申请（演示）"
+      },
+      {
+        "key": "附件",
+        "label": "附件",
+        "type": "attachment",
+        "value": "已附模拟加班资料",
+        "full": true,
+        "required": false
+      },
+      {
+        "key": "部门审核人员",
+        "label": "请选择相关部门审核人员（仅发起多部门加班时选择此项）",
+        "type": "multiselect",
+        "options": [
+          "刘强",
+          "周敏",
+          "何静",
+          "吴欣"
+        ],
+        "value": "",
+        "required": false,
+        "full": true
+      }
+    ],
+    "detail": [
+      {
+        "key": "姓名",
+        "label": "姓名",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "加班类型",
+        "label": "加班类型",
         "type": "select",
-        "value": "平时",
         "options": [
           "平时",
           "周末",
           "节假日"
-        ]
-      },
-      {
-        "key": "加班开始时间",
-        "label": "加班开始时间",
-        "type": "datetime-local",
-        "value": "2026-10-10T18:00"
-      },
-      {
-        "key": "加班结束时间",
-        "label": "加班结束时间",
-        "type": "datetime-local",
-        "value": "2026-10-10T22:00"
-      },
-      {
-        "key": "小时数",
-        "label": "加班时长（小时）",
-        "type": "number",
-        "value": "4",
-        "readonly": true,
+        ],
         "required": false
       },
       {
-        "key": "是否安排调休",
-        "label": "是否安排调休",
-        "type": "select",
-        "value": "否",
-        "options": [
-          "是",
-          "否"
-        ]
+        "key": "加班事由",
+        "label": "加班事由",
+        "type": "text",
+        "required": false
       },
       {
-        "key": "加班处置方式",
-        "label": "加班处置方式",
+        "key": "加班开始日期时间",
+        "label": "加班开始日期时间",
+        "type": "datetime-local",
+        "required": false
+      },
+      {
+        "key": "加班结束日期时间",
+        "label": "加班结束日期时间",
+        "type": "datetime-local",
+        "required": false
+      },
+      {
+        "key": "加班时长",
+        "label": "加班时长",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "加班处置",
+        "label": "加班处置",
         "type": "select",
-        "value": "换补休",
         "options": [
           "换补休",
           "申报加班工资"
-        ]
-      },
-      {
-        "key": "车间审核人员",
-        "label": "请选择车间审核人员",
-        "type": "select",
-        "value": "刘强",
-        "options": [
-          "刘强",
-          "周敏",
-          "何静",
-          "吴欣"
-        ]
-      },
-      {
-        "key": "二级审核人员",
-        "label": "请选择二级审核人员",
-        "type": "select",
-        "value": "周敏",
-        "options": [
-          "刘强",
-          "周敏",
-          "何静",
-          "吴欣"
-        ]
-      },
-      {
-        "key": "负数原因及调整依据",
-        "label": "负数原因及调整依据",
-        "type": "textarea",
-        "value": "",
-        "full": true,
-        "required": false
-      },
-      {
-        "key": "时长调整原因",
-        "label": "时长调整原因",
-        "type": "textarea",
-        "value": "",
-        "full": true,
-        "required": false
-      },
-      {
-        "key": "事由",
-        "label": "加班事由",
-        "type": "textarea",
-        "value": "生产支持",
-        "full": true
-      },
-      {
-        "key": "工作内容",
-        "label": "工作内容",
-        "type": "textarea",
-        "value": "完成当日生产计划及设备点检",
-        "full": true
-      },
-      {
-        "key": "相关附件",
-        "label": "相关附件",
-        "type": "attachment",
-        "value": "已附模拟加班资料",
-        "full": true,
+        ],
         "required": false
       }
     ],
