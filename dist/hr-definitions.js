@@ -4393,25 +4393,6 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
-        "key": "员工姓名",
-        "label": "员工姓名",
-        "type": "text",
-        "value": "李明",
-        "required": false
-      },
-      {
-        "key": "所属部门",
-        "label": "所属部门",
-        "type": "text",
-        "value": "经营发展部"
-      },
-      {
-        "key": "岗位",
-        "label": "岗位",
-        "type": "text",
-        "value": "经营分析专员"
-      },
-      {
         "key": "计划类型",
         "label": "计划类型",
         "type": "select",
@@ -4422,123 +4403,334 @@ const HR_DEFINITIONS = [
         ]
       },
       {
-        "key": "新计划名称",
-        "label": "新计划名称",
-        "type": "text",
-        "value": "2026年下半年绩效计划",
+        "key": "考核类别",
+        "label": "考核类别",
+        "type": "select",
+        "value": "个人绩效",
+        "options": [
+          "组织绩效",
+          "个人绩效"
+        ]
+      },
+      {
+        "key": "被考核单位",
+        "label": "被考核单位",
+        "type": "select",
+        "value": "经营发展部",
+        "options": [
+          "经营发展部",
+          "生产管理部",
+          "质量管理部",
+          "设备动力部",
+          "采购部",
+          "人力资源部",
+          "信息工程部",
+          "印刷二车间",
+          "后加工车间"
+        ],
+        "required": false,
         "showWhen": {
-          "field": "计划类型",
+          "field": "考核类别",
           "in": [
-            "新制定"
+            "组织绩效"
           ]
         }
       },
       {
-        "key": "新计划编号",
-        "label": "新计划编号",
+        "key": "被考核人",
+        "label": "被考核人",
         "type": "text",
-        "value": "HR-PLAN-2026H2",
+        "value": "李明",
+        "required": false,
         "showWhen": {
-          "field": "计划类型",
+          "field": "考核类别",
           "in": [
-            "新制定"
+            "个人绩效"
           ]
         }
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部",
+        "required": false,
+        "showWhen": {
+          "field": "考核类别",
+          "in": [
+            "个人绩效"
+          ]
+        }
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员",
+        "required": false,
+        "showWhen": {
+          "field": "考核类别",
+          "in": [
+            "个人绩效"
+          ]
+        }
+      },
+      {
+        "key": "人员类别",
+        "label": "人员类别",
+        "type": "select",
+        "value": "员工",
+        "options": [
+          "单位负责人",
+          "其他管理人员（组长、主管）",
+          "员工"
+        ],
+        "required": false,
+        "showWhen": {
+          "field": "考核类别",
+          "in": [
+            "个人绩效"
+          ]
+        }
+      },
+      {
+        "key": "考核年度",
+        "label": "考核年度",
+        "type": "select",
+        "value": "2026",
+        "options": [
+          "2027",
+          "2026",
+          "2025"
+        ]
       },
       {
         "key": "考核周期类型",
         "label": "考核周期类型",
         "type": "select",
-        "value": "半年",
+        "value": "季度",
         "options": [
-          "月度",
           "季度",
-          "半年",
           "年度"
         ]
       },
       {
-        "key": "考核开始日期",
-        "label": "考核开始日期",
-        "type": "date",
-        "value": "2026-07-01"
+        "key": "考核季度",
+        "label": "考核季度",
+        "type": "select",
+        "value": "第四季度",
+        "options": [
+          "第一季度",
+          "第二季度",
+          "第三季度",
+          "第四季度"
+        ],
+        "required": false,
+        "showWhen": {
+          "field": "考核周期类型",
+          "in": [
+            "季度"
+          ]
+        }
       },
       {
-        "key": "考核结束日期",
-        "label": "考核结束日期",
+        "key": "计划名称",
+        "label": "计划名称",
+        "type": "text",
+        "value": "2026年第四季度个人绩效考核计划（演示）"
+      },
+      {
+        "key": "计划编号",
+        "label": "计划编号",
+        "type": "text",
+        "value": "HR-PLAN-2026Q4-001"
+      },
+      {
+        "key": "适用开始日期",
+        "label": "适用开始日期",
+        "type": "date",
+        "value": "2026-10-01"
+      },
+      {
+        "key": "适用结束日期",
+        "label": "适用结束日期",
         "type": "date",
         "value": "2026-12-31"
       },
       {
-        "key": "考核周期",
-        "label": "考核周期（天）",
-        "type": "number",
-        "value": "184",
-        "readonly": true,
+        "key": "评分主体及权重",
+        "label": "评分主体及权重",
+        "type": "text",
+        "value": "主要领导40%（董事长、总经理各占50%）、分管领导30%、其他班子成员30%",
         "required": false
       },
       {
-        "key": "考核内容",
-        "label": "考核内容",
-        "type": "textarea",
-        "value": "经营分析与改进目标",
-        "full": true
+        "key": "审核单位",
+        "label": "审核单位",
+        "type": "select",
+        "value": "分管领导",
+        "options": [
+          "经营发展部",
+          "分管领导",
+          "薪酬与绩效考核领导小组"
+        ]
       },
       {
-        "key": "相关附件",
-        "label": "相关附件",
-        "type": "attachment",
-        "value": "已附模拟绩效计划资料",
-        "full": true,
+        "key": "备案单位",
+        "label": "备案单位",
+        "type": "text",
+        "value": "人力资源部",
+        "readonly": true,
         "required": false
       },
       {
         "key": "原计划名称",
         "label": "原计划名称",
         "type": "text",
-        "value": "2026年上半年绩效计划",
-        "hidden": false
+        "value": "",
+        "required": false,
+        "showWhen": {
+          "field": "计划类型",
+          "in": [
+            "调整"
+          ]
+        }
       },
       {
         "key": "原计划编号",
         "label": "原计划编号",
         "type": "text",
-        "value": "HR-PLAN-001",
-        "hidden": false
+        "value": "",
+        "required": false,
+        "showWhen": {
+          "field": "计划类型",
+          "in": [
+            "调整"
+          ]
+        }
+      },
+      {
+        "key": "调整原因",
+        "label": "调整原因",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false,
+        "showWhen": {
+          "field": "计划类型",
+          "in": [
+            "调整"
+          ]
+        }
+      },
+      {
+        "key": "生效日期",
+        "label": "生效日期",
+        "type": "date",
+        "value": "2026-10-01"
+      },
+      {
+        "key": "附件",
+        "label": "附件",
+        "type": "attachment",
+        "value": "已附季度绩效指标考核表（模拟）",
+        "full": true,
+        "required": false
+      },
+      {
+        "key": "备注",
+        "label": "备注",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false
+      }
+    ],
+    "detail": [
+      {
+        "key": "指标类别",
+        "label": "指标类别",
+        "type": "select",
+        "options": [
+          "重点工作完成情况",
+          "关键业绩指标（KPI）",
+          "工作满意度评价",
+          "团队建设与管理",
+          "工作能力与态度",
+          "加减分项"
+        ],
+        "required": false
+      },
+      {
+        "key": "指标维度",
+        "label": "指标维度",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "指标",
+        "label": "绩效考核指标项",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "计算公式",
+        "label": "计算公式",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "目标值",
+        "label": "目标值",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "分值",
+        "label": "分值",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "评价标准",
+        "label": "评价标准",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "权重",
+        "label": "权重",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "加减分类型",
+        "label": "加减分类型",
+        "type": "select",
+        "options": [
+          "不适用",
+          "加分项",
+          "减分项",
+          "否决项"
+        ],
+        "required": false
       }
     ],
     "steps": [
       {
-        "name": "指标与目标核验",
+        "name": "指标与权重核验",
         "role": "hr"
       },
       {
-        "name": "部门确认",
+        "name": "审批（分管领导/领导小组）",
         "role": "hrHead"
       },
       {
-        "name": "计划生效",
+        "name": "生效备案",
         "role": "hr"
       }
     ],
     "self": true,
-    "detail": [
-      {
-        "key": "指标",
-        "label": "指标",
-        "type": "text"
-      },
-      {
-        "key": "目标",
-        "label": "目标",
-        "type": "text"
-      },
-      {
-        "key": "权重",
-        "label": "权重%",
-        "type": "number"
-      }
-    ]
   },
   {
     "key": "22",
