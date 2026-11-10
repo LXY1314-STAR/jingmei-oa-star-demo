@@ -4111,6 +4111,12 @@ const HR_DEFINITIONS = [
         "value": "经营发展部"
       },
       {
+        "key": "考勤年度",
+        "label": "考勤年度",
+        "type": "text",
+        "value": "2026"
+      },
+      {
         "key": "月份",
         "label": "考勤月份",
         "type": "text",
@@ -4129,6 +4135,26 @@ const HR_DEFINITIONS = [
         "value": "22"
       },
       {
+        "key": "请假类型",
+        "label": "请假类型（多选）",
+        "type": "multiselect",
+        "options": [
+          "年休假",
+          "事假",
+          "病假",
+          "补休（换休假）",
+          "婚假",
+          "产假",
+          "护理假",
+          "丧假",
+          "工伤假",
+          "法定假",
+          "工勤假"
+        ],
+        "value": "",
+        "required": false
+      },
+      {
         "key": "请假天数",
         "label": "请假天数",
         "type": "number",
@@ -4139,6 +4165,17 @@ const HR_DEFINITIONS = [
         "label": "缺勤天数",
         "type": "number",
         "value": "1"
+      },
+      {
+        "key": "加班类型",
+        "label": "加班类型",
+        "type": "select",
+        "value": "平时",
+        "options": [
+          "平时",
+          "周末",
+          "节假日"
+        ]
       },
       {
         "key": "加班时长",
@@ -4157,8 +4194,27 @@ const HR_DEFINITIONS = [
         ]
       },
       {
-        "key": "出差外出天数",
-        "label": "出差/外出/外勤天数",
+        "key": "调休时长",
+        "label": "调休时长（小时）",
+        "type": "number",
+        "value": 0,
+        "required": false
+      },
+      {
+        "key": "出差天数",
+        "label": "出差天数",
+        "type": "number",
+        "value": 0
+      },
+      {
+        "key": "外出天数",
+        "label": "外出天数",
+        "type": "number",
+        "value": 0
+      },
+      {
+        "key": "外勤天数",
+        "label": "外勤天数",
         "type": "number",
         "value": 0
       },
@@ -4167,42 +4223,6 @@ const HR_DEFINITIONS = [
         "label": "工时合计",
         "type": "number",
         "value": "0",
-        "required": false
-      },
-      {
-        "key": "调动人数",
-        "label": "调动人数",
-        "type": "number",
-        "value": "0",
-        "required": false
-      },
-      {
-        "key": "转岗人数",
-        "label": "转岗人数",
-        "type": "number",
-        "value": "0",
-        "required": false
-      },
-      {
-        "key": "入职人数",
-        "label": "入职人数",
-        "type": "number",
-        "value": "0",
-        "required": false
-      },
-      {
-        "key": "离职人数",
-        "label": "离职人数",
-        "type": "number",
-        "value": "0",
-        "required": false
-      },
-      {
-        "key": "人员变动说明",
-        "label": "人员变动说明",
-        "type": "textarea",
-        "value": "",
-        "full": true,
         "required": false
       },
       {
