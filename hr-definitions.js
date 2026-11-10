@@ -4547,57 +4547,43 @@ const HR_DEFINITIONS = [
     ],
     "detail": [
       {
-        "key": "指标类别",
-        "label": "指标类别",
+        "key": "被考核组织",
+        "label": "被考核组织",
         "type": "select",
-        "options": ["被考核组织", "重点工作完成情况", "关键业绩", "工作满意度评价", "团队建设与管理", "工作能力与态度", "重点工作任务", "加减分项"],
+        "options": [
+          "经营发展部",
+          "生产管理部",
+          "质量管理部",
+          "设备动力部",
+          "采购部",
+          "人力资源部",
+          "信息工程部",
+          "印刷二车间",
+          "后加工车间"
+        ],
         "required": false
       },
       {
-        "key": "指标维度",
-        "label": "指标维度",
-        "type": "text",
-        "required": false
-      },
-      {
-        "key": "指标",
-        "label": "绩效考核指标项",
-        "type": "text",
-        "required": false
-      },
-      {
-        "key": "计算公式",
-        "label": "计算公式",
-        "type": "text",
-        "required": false
-      },
-      {
-        "key": "目标值",
-        "label": "目标值",
-        "type": "text",
-        "required": false
-      },
-      {
-        "key": "分值",
-        "label": "分值",
+        "key": "重点工作完成情况",
+        "label": "重点工作完成情况",
         "type": "number",
         "required": false
       },
       {
-        "key": "评价标准",
-        "label": "评价标准",
-        "type": "text",
-        "required": false
-      },
-      {
-        "key": "权重",
-        "label": "权重",
+        "key": "关键业绩",
+        "label": "关键业绩",
         "type": "number",
         "required": false
       },
       {
-        "key": "加减分类型",
-        "label": "加减分类型",
+        "key": "工作满意度评价",
+        "label": "工作满意度评价",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "加减分项",
+        "label": "加减分项",
         "type": "select",
         "options": [
           "不适用",
