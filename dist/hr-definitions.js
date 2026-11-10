@@ -4600,29 +4600,41 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
-        "key": "周期",
-        "label": "考核周期",
-        "type": "text",
-        "value": "2026年下半年"
+        "key": "绩效确认组织",
+        "label": "绩效确认组织",
+        "type": "select",
+        "value": "经营发展部",
+        "options": [
+          "经营发展部",
+          "生产管理部",
+          "质量管理部",
+          "设备动力部",
+          "采购部",
+          "人力资源部",
+          "信息工程部",
+          "印刷二车间",
+          "后加工车间"
+        ],
+        "required": false
       },
       {
-        "key": "计划编号",
-        "label": "计划编号",
-        "type": "text",
-        "value": "HR-PLAN-001"
-      },
-      {
-        "key": "计划名称",
-        "label": "计划名称",
-        "type": "text",
-        "value": "经营分析岗2026年下半年绩效计划"
+        "key": "组织绩效等级",
+        "label": "组织绩效等级",
+        "type": "select",
+        "value": "A",
+        "options": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "required": false
       },
       {
         "key": "加权总分",
         "label": "加权总分",
         "type": "number",
         "value": "86",
-        "readonly": true,
         "required": false
       },
       {
@@ -4630,90 +4642,15 @@ const HR_DEFINITIONS = [
         "label": "校准分",
         "type": "number",
         "value": "88",
-        "readonly": true,
         "required": false
       },
       {
-        "key": "结果等级",
-        "label": "结果等级",
-        "type": "text",
-        "value": "B+（演示，制度待确认）",
-        "readonly": true,
-        "required": false
-      },
-      {
-        "key": "组织绩效等级",
-        "label": "组织绩效等级",
-        "type": "select",
-        "options": [
-          "A",
-          "B",
-          "C",
-          "D"
-        ],
-        "value": "A",
-        "required": false
-      },
-      {
-        "key": "校准记录",
-        "label": "校准记录",
-        "type": "textarea",
-        "value": "",
-        "full": true,
-        "required": false
-      },
-      {
-        "key": "面谈记录",
-        "label": "面谈记录",
-        "type": "textarea",
-        "value": "",
-        "full": true,
-        "required": false
-      },
-      {
-        "key": "结果应用",
-        "label": "结果应用",
-        "type": "textarea",
-        "value": "",
-        "full": true,
-        "required": false
-      },
-      {
-        "key": "确认结果",
-        "label": "确认结果",
-        "type": "select",
-        "value": "确认",
-        "options": [
-          "确认",
-          "有异议"
-        ],
-        "onchange": "HrWorkspace.toggleResult()"
-      },
-      {
-        "key": "相关附件",
-        "label": "相关附件",
+        "key": "附件",
+        "label": "附件",
         "type": "attachment",
         "value": "已附模拟绩效结果资料",
         "full": true,
         "required": false
-      },
-      {
-        "key": "异常",
-        "label": "异常指标（多选）",
-        "type": "multiselect",
-        "value": "",
-        "required": false,
-        "full": true,
-        "hidden": false
-      },
-      {
-        "key": "异常原因",
-        "label": "异常原因",
-        "type": "textarea",
-        "value": "",
-        "required": false,
-        "full": true,
-        "hidden": false
       }
     ],
     "steps": [
@@ -4737,27 +4674,33 @@ const HR_DEFINITIONS = [
     "self": true,
     "detail": [
       {
-        "key": "指标",
-        "label": "指标",
+        "key": "员工姓名",
+        "label": "员工姓名",
         "type": "text",
         "required": false
       },
       {
-        "key": "权重%",
-        "label": "权重%",
+        "key": "考核分数",
+        "label": "考核分数",
         "type": "number",
         "required": false
       },
       {
-        "key": "评分",
-        "label": "评分",
-        "type": "number",
+        "key": "绩效等级",
+        "label": "绩效等级",
+        "type": "select",
+        "options": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
         "required": false
       },
       {
-        "key": "加权得分",
-        "label": "加权得分",
-        "type": "number",
+        "key": "考核池",
+        "label": "考核池",
+        "type": "text",
         "required": false
       }
     ]
