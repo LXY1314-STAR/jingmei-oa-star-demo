@@ -4437,63 +4437,6 @@ const HR_DEFINITIONS = [
         }
       },
       {
-        "key": "被考核人",
-        "label": "被考核人",
-        "type": "text",
-        "value": "李明",
-        "required": false,
-        "showWhen": {
-          "field": "考核类别",
-          "in": [
-            "个人绩效"
-          ]
-        }
-      },
-      {
-        "key": "所属部门",
-        "label": "所属部门",
-        "type": "text",
-        "value": "经营发展部",
-        "required": false,
-        "showWhen": {
-          "field": "考核类别",
-          "in": [
-            "个人绩效"
-          ]
-        }
-      },
-      {
-        "key": "岗位",
-        "label": "岗位",
-        "type": "text",
-        "value": "经营分析专员",
-        "required": false,
-        "showWhen": {
-          "field": "考核类别",
-          "in": [
-            "个人绩效"
-          ]
-        }
-      },
-      {
-        "key": "人员类别",
-        "label": "人员类别",
-        "type": "select",
-        "value": "员工",
-        "options": [
-          "单位负责人",
-          "其他管理人员（组长、主管）",
-          "员工"
-        ],
-        "required": false,
-        "showWhen": {
-          "field": "考核类别",
-          "in": [
-            "个人绩效"
-          ]
-        }
-      },
-      {
         "key": "考核年度",
         "label": "考核年度",
         "type": "select",
@@ -4534,18 +4477,6 @@ const HR_DEFINITIONS = [
         }
       },
       {
-        "key": "计划名称",
-        "label": "计划名称",
-        "type": "text",
-        "value": "2026年第四季度个人绩效考核计划（演示）"
-      },
-      {
-        "key": "计划编号",
-        "label": "计划编号",
-        "type": "text",
-        "value": "HR-PLAN-2026Q4-001"
-      },
-      {
         "key": "适用开始日期",
         "label": "适用开始日期",
         "type": "date",
@@ -4556,32 +4487,6 @@ const HR_DEFINITIONS = [
         "label": "适用结束日期",
         "type": "date",
         "value": "2026-12-31"
-      },
-      {
-        "key": "评分主体及权重",
-        "label": "评分主体及权重",
-        "type": "text",
-        "value": "主要领导40%（董事长、总经理各占50%）、分管领导30%、其他班子成员30%",
-        "required": false
-      },
-      {
-        "key": "审核单位",
-        "label": "审核单位",
-        "type": "select",
-        "value": "分管领导",
-        "options": [
-          "经营发展部",
-          "分管领导",
-          "薪酬与绩效考核领导小组"
-        ]
-      },
-      {
-        "key": "备案单位",
-        "label": "备案单位",
-        "type": "text",
-        "value": "人力资源部",
-        "readonly": true,
-        "required": false
       },
       {
         "key": "原计划名称",
@@ -4624,12 +4529,6 @@ const HR_DEFINITIONS = [
         }
       },
       {
-        "key": "生效日期",
-        "label": "生效日期",
-        "type": "date",
-        "value": "2026-10-01"
-      },
-      {
         "key": "附件",
         "label": "附件",
         "type": "attachment",
@@ -4651,14 +4550,7 @@ const HR_DEFINITIONS = [
         "key": "指标类别",
         "label": "指标类别",
         "type": "select",
-        "options": [
-          "重点工作完成情况",
-          "关键业绩指标（KPI）",
-          "工作满意度评价",
-          "团队建设与管理",
-          "工作能力与态度",
-          "加减分项"
-        ],
+        "options": ["被考核组织", "重点工作完成情况", "关键业绩", "工作满意度评价", "团队建设与管理", "工作能力与态度", "重点工作任务", "加减分项"],
         "required": false
       },
       {
