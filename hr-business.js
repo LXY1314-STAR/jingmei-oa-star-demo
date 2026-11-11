@@ -49,7 +49,7 @@ const HrBusiness = (() => {
     else if(r.key==='03'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.办理事项,x.办理人,x.办理部门,x.办理日期]);
     else if(r.key==='05'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.调动人员,x.调出公司,x.调入公司,x.调出部门,x.调入部门,x.调出岗位,x.调入岗位,x.岗位资格,x.到岗日期]);
     else if(r.key==='11'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.变更前信息,x.变更后信息,x.变更原因]);
-    else if(r.key==='22'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.员工姓名,x.职级,x.考核分数,x.绩效等级,x.等级校验||'符合',x.备注||'']);
+    else if(r.key==='22'){if(r.items&&r.items.length)b.rows=r.items.map(x=>[x.员工姓名,x.职级,x.考核分数,x.绩效等级,x.等级校验||'符合',x.备注||'']);}
     else for(const row of b.rows){s.columns.forEach((k,i)=>{if(k==='员工编号')row[i]=r.employeeId;if(r.f[k]!==undefined&&k!=='核验结论')row[i]=r.f[k];});}
     if(r.key==='21')b.rows=(r.items||[]).map(x=>[x.指标类型,x.指标,x.目标,x.评价标准,Number(x.权重)||0]);
     if(r.key==='24')b.rows=r.items.map(x=>{const net=x.实发工资!==undefined?Number(x.实发工资):Number(x.金额)||0;return [x.员工编号,Math.max(0,net-500),500,0,net];});
