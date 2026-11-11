@@ -85,7 +85,7 @@ const HR_DEFINITIONS = [
         "key": "年度招聘计划",
         "label": "年度招聘计划",
         "type": "text",
-        "value": ""
+        "value": "2026年度招聘计划"
       },
       {
         "key": "招聘组织方式",
@@ -110,20 +110,40 @@ const HR_DEFINITIONS = [
         "value": "校园招聘"
       },
       {
-        "key": "经办人",
-        "label": "经办人",
+        "key": "毕业院校要求",
+        "label": "毕业院校要求",
         "type": "text",
-        "value": "吴欣"
+        "value": "",
+        "required": false
       },
       {
-        "key": "联系电话",
-        "label": "联系电话",
-        "type": "text",
-        "value": "13800001234"
+        "key": "是否全日制",
+        "label": "是否全日制",
+        "type": "select",
+        "value": "是",
+        "options": [
+          "是",
+          "否"
+        ],
+        "required": false
       },
       {
-        "key": "备注",
-        "label": "备注",
+        "key": "学历",
+        "label": "学历",
+        "type": "select",
+        "value": "本科",
+        "options": [
+          "博士",
+          "硕士",
+          "本科",
+          "大专",
+          "中专及以下"
+        ],
+        "required": false
+      },
+      {
+        "key": "专业方向",
+        "label": "专业方向",
         "type": "text",
         "value": "",
         "required": false
@@ -135,25 +155,6 @@ const HR_DEFINITIONS = [
         "value": "已附模拟依据",
         "full": true,
         "required": false
-      },
-      {
-        "key": "招聘方式",
-        "label": "招聘方式",
-        "type": "select",
-        "value": "公开招聘",
-        "options": [
-          "公开招聘",
-          "内部竞聘"
-        ],
-        "hidden": true
-      },
-      {
-        "key": "招聘原因",
-        "label": "招聘原因",
-        "type": "textarea",
-        "value": "旺季质量检验产能补充",
-        "full": true,
-        "hidden": true
       }
     ],
     "steps": [
@@ -251,41 +252,6 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
-        "key": "毕业院校要求",
-        "label": "毕业院校要求",
-        "type": "text",
-        "required": false
-      },
-      {
-        "key": "是否全日制",
-        "label": "是否全日制",
-        "type": "select",
-        "options": [
-          "是",
-          "否"
-        ],
-        "required": false
-      },
-      {
-        "key": "学历",
-        "label": "学历",
-        "type": "select",
-        "options": [
-          "博士",
-          "硕士",
-          "本科",
-          "大专",
-          "中专及以下"
-        ],
-        "required": false
-      },
-      {
-        "key": "专业方向",
-        "label": "专业方向",
-        "type": "text",
-        "required": false
-      },
-      {
         "key": "资格条件",
         "label": "资格条件",
         "type": "select",
@@ -311,12 +277,6 @@ const HR_DEFINITIONS = [
         "key": "岗位职责",
         "label": "岗位职责",
         "type": "textarea",
-        "required": false
-      },
-      {
-        "key": "工作地点",
-        "label": "工作地点",
-        "type": "text",
         "required": false
       }
     ]
@@ -1008,14 +968,6 @@ const HR_DEFINITIONS = [
         "value": "已附模拟资料",
         "full": true,
         "required": false
-      },
-      {
-        "key": "附件",
-        "label": "附件",
-        "type": "attachment",
-        "value": "已附模拟入职资料",
-        "full": true,
-        "hidden": true
       }
     ],
     "steps": [
@@ -2605,7 +2557,7 @@ const HR_DEFINITIONS = [
         "key": "个人申请原因",
         "label": "个人申请原因",
         "type": "textarea",
-        "value": "",
+        "value": "因身体原因需离岗休养（演示）",
         "full": true
       },
       {
@@ -2739,14 +2691,6 @@ const HR_DEFINITIONS = [
         "value": "已附模拟休养资料",
         "full": true,
         "required": false
-      },
-      {
-        "key": "休养原因",
-        "label": "休养原因",
-        "type": "textarea",
-        "value": "依据证明申请离岗休养（模拟）",
-        "full": true,
-        "hidden": true
       }
     ],
     "steps": [
@@ -2849,14 +2793,6 @@ const HR_DEFINITIONS = [
         "value": "已附模拟资料",
         "full": true,
         "required": false
-      },
-      {
-        "key": "相关附件",
-        "label": "相关附件",
-        "type": "attachment",
-        "value": "已附模拟档案资料",
-        "full": true,
-        "hidden": true
       }
     ],
     "steps": [
@@ -3277,8 +3213,8 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
-        "key": "部门审核人员",
-        "label": "请选择相关部门审核人员（仅发起多部门加班时选择此项）",
+        "key": "相关部门审核人员",
+        "label": "相关部门审核人员",
         "type": "multiselect",
         "options": [
           "刘强",
@@ -6206,22 +6142,6 @@ const HR_DEFINITIONS = [
         "value": "已附模拟证照资料",
         "full": true,
         "required": false
-      },
-      {
-        "key": "借阅用途",
-        "label": "借阅用途",
-        "type": "textarea",
-        "value": "资格核验",
-        "required": false,
-        "full": true,
-        "hidden": true
-      },
-      {
-        "key": "归还日期",
-        "label": "归还日期",
-        "type": "date",
-        "value": "2026-10-15",
-        "hidden": true
       }
     ],
     "steps": [

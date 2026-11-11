@@ -195,8 +195,8 @@ const HrWorkspace=(()=>{
     if(r.f.开始日期&&r.f.结束日期<r.f.开始日期)return '结束日期不能早于开始日期';
     if(r.f.开始时刻&&r.f.开始日期===r.f.结束日期&&r.f.结束时刻<=r.f.开始时刻)return '结束时刻须晚于开始时刻；跨夜班请按两段登记';
     if(r.key==='14'&&(!r.items.length||r.items.some(x=>!x.姓名||!db.employees.some(e=>e.name===x.姓名)||!['平时','周末','节假日'].includes(x.加班类型)||!String(x.加班事由||'').trim()||!x.加班开始日期时间||!x.加班结束日期时间||new Date(x.加班结束日期时间)<=new Date(x.加班开始日期时间)||!(Number(x.加班时长)>0)||!['换补休','申报加班工资'].includes(x.加班处置))))return '加班明细须逐人填写姓名、加班类型、事由、起止时间（结束晚于开始）、大于0的时长与加班处置';
-    if(r.key==='01'&&(!r.items.length||r.items.some(x=>!x.岗位||!x.年度计划||!Number.isInteger(Number(x.需求人数))||Number(x.需求人数)<=0||Number(x.需求人数)>Number(x.编制余额)-Number(x.在岗人数))))return '招聘明细须填写岗位与年度计划，需求人数须为正整数且不超过编制余额';
-    if(r.key==='03'&&(!r.items.length||r.items.some(x=>!x.办理事项||!x.办理人||!x.办理部门||!x.办理日期)))return '入职资料明细须填写办理事项、办理人、办理部门与办理日期';
+    if(r.key==='01'&&(!r.items.length||r.items.some(x=>!x.招聘岗位||!Number.isInteger(Number(x.需求人数))||Number(x.需求人数)<=0||Number(x.需求人数)>Number(x.可用编制余额))))return '招聘明细须填写招聘岗位，需求人数须为正整数且不超过可用编制余额';
+    if(r.key==='03'&&(!r.items.length||r.items.some(x=>!x.协同任务类型||!x.办理责任||!x.办理状态)))return '入职资料明细须填写协同任务类型、办理责任与办理状态';
     if(r.key==='05'&&(!r.items.length||r.items.some(x=>['调动人员','调出公司','调入公司','调出部门','调入部门','调出岗位','调入岗位','岗位资格','到岗日期'].some(k=>!x[k])||!db.employees.some(e=>e.name===x.调动人员)||x.到岗日期<date)))return '调动明细须完整填写调动人员、调出/调入信息与到岗日期，到岗日期不得早于申请日期';
     if(r.key==='04'){const limits={负责人:50,负责部门:50,考核结果:100,员工总结:100,部门评价:100};for(const [k,n] of Object.entries(limits))if(String(r.f[k]||'').length>n)return k+'不得超过'+n+'字';}
     if(r.key==='08'&&r.f.是否涉及补偿金==='是'&&!(Number(r.f.补偿金金额)>0))return '涉及补偿金时须填写大于0的补偿金金额';

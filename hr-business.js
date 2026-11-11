@@ -11,9 +11,9 @@ const HrBusiness = (() => {
   const employeeByName=name=>db.employees.find(e=>e.name===name);
   const spec=(title,action,columns,rows)=>({title,action,columns:columns.split('|'),rows});
   const specs={
-    '01':spec('招聘需求明细','维护招聘明细','岗位|年度计划|编制余额|在岗人数|需求人数',[['质量检验员','2026',12,10,1]]),
+    '01':spec('招聘需求明细','维护招聘明细','所属部门/车间|招聘岗位|岗位类别|岗位级别|招聘岗位定编人数|招聘岗位现有人员|可用编制余额|需求人数|是否超编|超编报批编号|已录用人数|年龄|资格条件|工作经验要求|岗位招聘原因|岗位职责',[['生产管理部','质量检验员','生产操作与支持保障类','P3',12,10,2,1,'否','',0,'22-35','技能人员职业资格','1年以上','旺季质量检验产能补充','成品抽检与质量记录']]),
     '02':spec('候选人资格与录用资料','核验录用资料','核验项目|要求|候选人资料|核验结论',[['岗位资格','质量检验能力','面试及操作评价','待核验'],['入职条件','证明材料齐全','体检与学历证明（模拟）','待核验']]),
-    '03':spec('入职资料与办理任务','维护入职资料','办理事项|办理人|办理部门|办理日期',[['身份与任职资料','吴欣','人事','2026-09-10'],['住宿需求','何静','综合办','2026-09-10'],['物资领用','何静','综合办','2026-09-10']]),
+    '03':spec('入职资料与办理任务','维护入职资料','协同任务类型|办理责任|办理状态|完成时间',[['入职资料','人力资源部','已完成','2026-09-10'],['OA开通','信息工程部','进行中',''],['工作服/物资','综合办','待办理','']]),
     '04':spec('试用期考核与后续安排','登记转正评价','评价维度|考核结果|部门评价|结论',[['工作完成','完成试用期任务','岗位表现符合要求','待核验'],['岗位能力','培训与实操合格','具备岗位能力','待核验']]),
     '05':spec('调动明细与岗位资格','维护调动明细','调动人员|调出公司|调入公司|调出部门|调入部门|调出岗位|调入岗位|岗位资格|到岗日期',[['李明','精美','精美','经营发展部','生产管理部','经营分析专员','质量检验员','有效资格','2026-10-01']]),
     '06':spec('合同版本与签署办理','核验签署材料','合同编号|办理类型|签署渠道|文件版本|核验结论',[['LD-2026-018','签订','线下签署','签署版V1','待核验']]),
@@ -45,8 +45,8 @@ const HrBusiness = (() => {
   };
   const store={date:'2026-09-07',pendingChanges:[],dueTasks:[],imports:[],loans:[],snapshots:[],compLots:[],calendar:{dayHours:8,workStart:'08:30',workEnd:'17:30',breakStart:'12:30',breakEnd:'13:30'},positions:[{name:'经营分析专员',certificate:'经营分析岗位资格'},{name:'质量检验员',certificate:'岗位安全资格证'}]};
   function ensure(r){if(r.business)return r.business;const s=specs[r.key];r.business={rows:copy(s.rows),events:[],links:[],due:r.f.到岗日期||r.f.生效日期||r.f.实施日期||'2026-10-15'};const b=r.business;
-    if(r.key==='01'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.岗位,x.年度计划,x.编制余额,x.在岗人数,x.需求人数]);
-    else if(r.key==='03'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.办理事项,x.办理人,x.办理部门,x.办理日期]);
+    if(r.key==='01'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x['所属部门/车间'],x.招聘岗位,x.岗位类别,x.岗位级别,x.招聘岗位定编人数,x.招聘岗位现有人员,x.可用编制余额,x.需求人数,x.是否超编,x.超编报批编号,x.已录用人数,x.年龄,x.资格条件,x.工作经验要求,x.岗位招聘原因,x.岗位职责]);
+    else if(r.key==='03'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.协同任务类型,x.办理责任,x.办理状态,x.完成时间]);
     else if(r.key==='05'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.调动人员,x.调出公司,x.调入公司,x.调出部门,x.调入部门,x.调出岗位,x.调入岗位,x.岗位资格,x.到岗日期]);
     else if(r.key==='11'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.变更前信息,x.变更后信息,x.变更原因]);
     else if(r.key==='22'){if(r.items&&r.items.length)b.rows=r.items.map(x=>[x.员工姓名,x.职级,x.考核分数,x.绩效等级,x.等级校验||'符合',x.备注||'']);}
@@ -101,7 +101,7 @@ const HrBusiness = (() => {
   }
   function validDialog(){if(!dialog)return null;const r=H.get(dialog.id);return r&&r.version===dialog.version&&r.stage===dialog.stage&&state.role===dialog.role&&editable(r)?r:null;}
   function saveRow(){const r=validDialog();if(!r)return error('身份、节点或版本已变化，请重新打开');const f=document.querySelector('#hb-form');if(!f.reportValidity())return false;const v=Object.fromEntries(new FormData(f)),s=specs[r.key],row=s.columns.map(k=>v[k]),b=ensure(r);const numeric=s.columns.map((k,i)=>/人数|编制|小时|天数|时长|金额|工资|费用|扣减|权重|评分|校准分|考核分数|目标值|成绩|学习进度|轮次/.test(k)?i:-1).filter(i=>i>=0);
-    if(numeric.some(i=>!Number.isFinite(Number(row[i]))||Number(row[i])<0))return error('数值须为有效非负数');if(r.key==='01'&&(!row[0]||!row[1]||!Number.isInteger(Number(row[4]))||Number(row[4])<=0||Number(row[4])>Number(row[2])-Number(row[3])))return error('岗位与年度计划须填写，需求人数须为正整数且不超过编制余额');if(r.key==='03'&&(row.some(v=>!v)))return error('办理事项、办理人、办理部门与办理日期须填写');if(r.key==='11'&&row.some(v=>!v))return error('变更前信息、变更后信息与变更原因须填写');if(r.key==='05'&&(row.some(v=>!v)||!employeeByName(row[0])||row[8]<store.date))return error('调动人员、调出/调入信息、岗位资格与到岗日期须完整填写，到岗日期不得早于当前演示日期');if(s.columns.includes('员工编号')&&!employee(row[s.columns.indexOf('员工编号')]))return error('员工编号不存在');if(['18','26','29'].includes(r.key)&&row[0]!==r.employeeId)return error('当前单据仅允许关联员工的明细，其他员工请另建单据');
+    if(numeric.some(i=>!Number.isFinite(Number(row[i]))||Number(row[i])<0))return error('数值须为有效非负数');if(r.key==='01'&&(!row[1]||!Number.isInteger(Number(row[7]))||Number(row[7])<=0||Number(row[7])>Number(row[6])))return error('招聘岗位须填写，需求人数须为正整数且不超过可用编制余额');if(r.key==='03'&&(!row[0]||!row[1]||!row[2]))return error('协同任务类型、办理责任与办理状态须填写');if(r.key==='11'&&row.some(v=>!v))return error('变更前信息、变更后信息与变更原因须填写');if(r.key==='05'&&(row.some(v=>!v)||!employeeByName(row[0])||row[8]<store.date))return error('调动人员、调出/调入信息、岗位资格与到岗日期须完整填写，到岗日期不得早于当前演示日期');if(s.columns.includes('员工编号')&&!employee(row[s.columns.indexOf('员工编号')]))return error('员工编号不存在');if(['18','26','29'].includes(r.key)&&row[0]!==r.employeeId)return error('当前单据仅允许关联员工的明细，其他员工请另建单据');
     if(r.key==='28'&&Number(row[3])>100||r.key==='29'&&Number(row[3])>100)return error('进度或成绩须在0到100');
     if(r.key==='22'&&(Number(row[1])>100||Number(row[1])<0||!['A','B','C','D'].includes(row[2])))return error('考核分数须为0到100，绩效等级须为A/B/C/D');
     if(r.key==='22'&&r.stage>=0)return error('绩效结果提交后明细只读；请退回或撤回后修改');
@@ -115,8 +115,8 @@ const HrBusiness = (() => {
   function confirmRemove(){const r=validDialog();if(!r)return error('状态已变化');ensure(r).rows.splice(dialog.index,1);sync(r);event(r,'删除明细','删除第'+(dialog.index+1)+'行');close();render();}
   function close(){dialog=null;closeModal();}
   function sync(r){const rows=ensure(r).rows,x=rows[0];if(!x)return;
-    if(r.key==='01')r.items=rows.map(x=>({岗位:x[0],年度计划:x[1],编制余额:x[2],在岗人数:x[3],需求人数:x[4]}));
-    if(r.key==='03')r.items=rows.map(x=>({办理事项:x[0],办理人:x[1],办理部门:x[2],办理日期:x[3]}));
+    if(r.key==='01')r.items=rows.map(x=>({'所属部门/车间':x[0],招聘岗位:x[1],岗位类别:x[2],岗位级别:x[3],招聘岗位定编人数:Number(x[4])||0,招聘岗位现有人员:Number(x[5])||0,可用编制余额:Number(x[6])||0,需求人数:Number(x[7])||0,是否超编:x[8],超编报批编号:x[9],已录用人数:Number(x[10])||0,年龄:x[11],资格条件:x[12],工作经验要求:x[13],岗位招聘原因:x[14],岗位职责:x[15]}));
+    if(r.key==='03')r.items=rows.map(x=>({协同任务类型:x[0],办理责任:x[1],办理状态:x[2],完成时间:x[3]}));
     if(r.key==='05')r.items=rows.map(x=>({调动人员:x[0],调出公司:x[1],调入公司:x[2],调出部门:x[3],调入部门:x[4],调出岗位:x[5],调入岗位:x[6],岗位资格:x[7],到岗日期:x[8]}));
     if(r.key==='06'){r.f.合同编号=x[0];r.f.办理类型=x[1];r.f.签署方式=x[2];}
     if(r.key==='10'){r.f.开始日期=x[1];r.f.结束日期=x[2];r.f.后续结果=x[3];}
@@ -175,7 +175,7 @@ const HrBusiness = (() => {
     x.status='已导入';store.imports.push(x);event(r,'确认文件导入',x.id+' / '+x.rows.length+'行');H.todoSync();close();render();return true;
   }
   function check(r){const b=ensure(r),rows=b.rows,s=specs[r.key];if(!rows.length)return '请先填写'+s.title;
-    if(r.key==='01'&&rows.some(x=>!x[0]||!x[1]||!Number.isInteger(Number(x[4]))||Number(x[4])<=0||Number(x[4])>Number(x[2])-Number(x[3])))return '招聘明细须填写岗位与年度计划，需求人数须为正整数且不超过编制余额';
+    if(r.key==='01'&&rows.some(x=>!x[1]||!Number.isInteger(Number(x[7]))||Number(x[7])<=0||Number(x[7])>Number(x[6])))return '招聘明细须填写招聘岗位，需求人数须为正整数且不超过可用编制余额';
     if(r.key==='02'&&!b.links.some(x=>H.get(x.id)?.key==='01'&&H.done(H.get(x.id))))return '请关联已批准的招聘需求';
     if(r.key==='22'&&rows.some(x=>!x[0]||!employeeByName(x[0])||!['领导','组长','主管','员工'].includes(x[1])||!Number.isFinite(Number(x[2]))||Number(x[2])<0||Number(x[2])>100||!['A','B','C','D'].includes(x[3])||!['符合','超比例'].includes(x[4]||'符合')))return '员工姓名、职级、0到100的考核分数与绩效等级（A/B/C/D）必须完整';
     if(r.key==='23'&&r.f.审批来源!=='本流程审批'){const src=H.get(r.f.审批来源);if(!src||!H.done(src)||src.employeeId!==r.employeeId||!['22','23'].includes(src.key))return '奖惩审批来源必须是该员工已确认的有效结果';}
