@@ -865,6 +865,13 @@ state.auditCurrent = '';
 state.auditNavOpen = 'audit-home';
 
 const auditModules = {
+  purchaseDemand:{group:'招采管理',label:'采购需求报告',title:'采购项目需求报告流程',subtitle:'按蓝图字段新建的招采执行流程。',prefix:'PR',columns:['标题','事项概况'],action:'进入办理'},
+  purchaseImplement:{group:'招采管理',label:'采购实施审批',title:'采购实施审批流程（签章集成）',subtitle:'按蓝图字段新建的招采执行流程。',prefix:'PI',columns:['标题','项目名称'],action:'进入办理'},
+  noticePublish:{group:'招采管理',label:'公告发布审批',title:'公告发布审批流程',subtitle:'按蓝图字段新建的招采执行流程。',prefix:'NP',columns:['标题','项目名称'],action:'进入办理'},
+  procurementDoc:{group:'招采管理',label:'招采文件编制',title:'招采文件编制审批流程（签章集成）',subtitle:'按蓝图字段新建的招采执行流程。',prefix:'PD',columns:['标题','项目名称'],action:'进入办理'},
+  negotiationMemo:{group:'招采管理',label:'招投标备忘录',title:'招投标备忘录流程（签章集成）',subtitle:'按蓝图字段新建的招采执行流程。',prefix:'NM',columns:['项目实施单位','采购方式'],action:'进入办理'},
+  awardNotice:{group:'招采管理',label:'中标成交通知',title:'中标/成交通知书流程（签章集成）',subtitle:'按蓝图字段新建的招采执行流程。',prefix:'AN',columns:['标题','中标/成交通知书编号'],action:'进入办理'},
+  procurementContractReview:{group:'招采管理',label:'招采合同评审',title:'招采合同评审流程',subtitle:'按蓝图字段新建的招采执行流程。',prefix:'PC',columns:['合同标题','甲（需）方单位'],action:'进入办理'},
   contractTemplate:{group:'合同与履约',label:'模板维护',title:'合同模板维护',subtitle:'维护合同模板、适用范围、必备条款与生效版本。',prefix:'CTM',columns:['模板编号','模板名称','适用合同','版本 / 状态','维护人'],action:'发布版本'},
   contractReview:{group:'合同与履约',label:'合同评审',title:'合同评审',subtitle:'合同评审以人工结论为准；AI 仅提供条款风险提示与建议。',prefix:'CTR',columns:['合同编号','合同名称','相对方','AI提示','当前节点'],action:'进入人工复核'},
   contractSeal:{group:'合同与履约',label:'用印签署回传',title:'用印签署回传',subtitle:'登记 OA 用印和签署回传证据，不替代电子签章平台。',prefix:'CTS',columns:['申请编号','关联合同','用印类型','签署回传','状态'],action:'登记回传'},

@@ -46,7 +46,7 @@ function openItMenu(key){if(typeof ItWorkspace!=='undefined')return ItWorkspace.
 function workbenchMenu(){return navSecondLink('home','管理工作台','workbench')+navSecondLink('p0','建设与追溯总览','workbench');}
 function auditMenu(){
   let body='';
-  ['合同与履约','合规与法律','风险管理','审计整改','招采监督'].forEach(function(group){
+  ['合同与履约','合规与法律','风险管理','审计整改','招采监督','招采管理'].forEach(function(group){
     const items=Object.keys(auditModules).filter(function(k){return auditModules[k].group===group;}).map(function(k){return navProcess(auditModules[k].label,"openAuditMenu('"+k+"')",'audit:'+k);}).join('');
     body+=navSection('audit',group,group,items);
   });
