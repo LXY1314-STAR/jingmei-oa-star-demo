@@ -6826,7 +6826,7 @@ const HR_DEFINITIONS = [
     "name": "职工教育培训实施方案申报",
     "scope": "按项目类别引用已批准培训计划，填报实施方案、师资、参训人员与费用，完成部门审核、人力资源部审核与立项归档。",
     "short": "实施方案申报",
-    "domain": "training",
+    "domain": "learning",
     "fields": [
       {
         "key": "发起人",
@@ -7181,7 +7181,7 @@ const HR_DEFINITIONS = [
     "name": "培训计划新增流程",
     "scope": "年度计划外新增培训的申请、部门审核、人力资源部审核与计划归档。",
     "short": "培训计划新增",
-    "domain": "training",
+    "domain": "learning",
     "fields": [
       {
         "key": "发起人",
