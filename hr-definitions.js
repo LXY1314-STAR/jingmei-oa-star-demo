@@ -293,31 +293,30 @@ const HR_DEFINITIONS = [
         "key": "发起人",
         "label": "发起人",
         "type": "text",
-        "value": "吴欣",
-        "readonly": true,
-        "required": false
+        "value": "李明",
+        "required": false,
+        "readonly": true
       },
       {
         "key": "发起时间",
         "label": "发起时间",
         "type": "date",
         "value": "2026-09-07",
-        "readonly": true,
-        "required": false
+        "required": false,
+        "readonly": true
       },
       {
         "key": "发起部门",
         "label": "发起部门",
         "type": "text",
-        "value": "人力资源部",
-        "readonly": true,
-        "required": false
+        "value": "经营发展部",
+        "required": false,
+        "readonly": true
       },
       {
         "key": "发起公司",
         "label": "发起公司",
         "type": "select",
-        "value": "精美",
         "options": [
           "精美",
           "丽彩",
@@ -325,80 +324,99 @@ const HR_DEFINITIONS = [
           "欣兴",
           "嘉美"
         ],
-        "readonly": true,
-        "required": false
+        "value": "精美",
+        "required": false,
+        "readonly": true
       },
       {
         "key": "姓名",
         "label": "姓名",
         "type": "text",
-        "value": ""
+        "value": "张薇",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "性别",
         "label": "性别",
         "type": "select",
-        "value": "男",
         "options": [
           "男",
           "女"
-        ]
+        ],
+        "value": "女",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "年龄",
         "label": "年龄",
         "type": "number",
-        "value": "28"
+        "value": "26",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "出生年月",
         "label": "出生年月",
         "type": "month",
-        "value": "1990-01"
+        "value": "2000-01",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "民族",
         "label": "民族",
         "type": "text",
         "value": "汉族",
-        "required": false
+        "required": false,
+        "readonly": false
       },
       {
         "key": "籍贯",
         "label": "籍贯",
         "type": "text",
         "value": "四川宜宾",
-        "required": false
+        "required": false,
+        "readonly": false
       },
       {
         "key": "身份证号",
         "label": "身份证号",
         "type": "text",
-        "value": "5115**********0028"
+        "value": "511500200001010000",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "政治面貌",
         "label": "政治面貌",
         "type": "select",
-        "value": "群众",
         "options": [
           "中共党员",
           "中共预备党员",
           "共青团员",
           "群众"
-        ]
+        ],
+        "value": "共青团员",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "联系电话",
         "label": "联系电话",
         "type": "text",
-        "value": "138****6621"
+        "value": "187****0936",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "电子邮箱",
         "label": "电子邮箱",
-        "type": "email",
-        "value": "zhaoning@jingmei.example"
+        "type": "text",
+        "value": "zhangwei@example.com",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "全日制学历",
@@ -411,7 +429,9 @@ const HR_DEFINITIONS = [
           "大专",
           "中专及以下"
         ],
-        "value": "本科"
+        "value": "大专",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "在职学历",
@@ -425,19 +445,24 @@ const HR_DEFINITIONS = [
           "中专及以下"
         ],
         "value": "本科",
-        "required": false
+        "required": false,
+        "readonly": false
       },
       {
         "key": "最高学历毕业院校",
         "label": "最高学历毕业院校",
         "type": "text",
-        "value": ""
+        "value": "宜宾职业技术学院",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "专业",
         "label": "专业",
         "type": "text",
-        "value": ""
+        "value": "机电一体化",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "招聘形式",
@@ -448,7 +473,9 @@ const HR_DEFINITIONS = [
           "社会招聘",
           "内部招聘"
         ],
-        "value": "校园招聘"
+        "value": "社会招聘",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "招聘组织方式",
@@ -458,13 +485,17 @@ const HR_DEFINITIONS = [
           "集中统一招聘",
           "申请授权自主招聘"
         ],
-        "value": "集中统一招聘"
+        "value": "集中统一招聘",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "招聘岗位",
         "label": "招聘岗位",
         "type": "text",
-        "value": "质量检验员"
+        "value": "设备操作员",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "岗位类别",
@@ -476,81 +507,103 @@ const HR_DEFINITIONS = [
           "技术研发类",
           "生产操作与支持保障类"
         ],
-        "value": "职能管理类"
+        "value": "生产操作与支持保障类",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "岗位资格",
         "label": "岗位资格",
         "type": "text",
-        "value": "岗位安全资格证（模拟）"
+        "value": "印刷设备上岗资格",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "资格证书",
         "label": "资格证书",
         "type": "text",
-        "value": ""
+        "value": "无",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "用工类型",
         "label": "用工类型",
         "type": "select",
-        "value": "正式",
         "options": [
           "正式",
           "实习"
-        ]
+        ],
+        "value": "正式",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "入职日期",
         "label": "入职日期",
         "type": "date",
-        "value": "2026-10-01"
+        "value": "2026-10-08",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "工作地点",
         "label": "工作地点",
         "type": "text",
-        "value": "",
-        "required": false
+        "value": "生产园区",
+        "required": false,
+        "readonly": false
       },
       {
         "key": "笔试成绩",
         "label": "笔试成绩",
         "type": "number",
-        "value": "0"
+        "value": "82",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "面试成绩",
         "label": "面试成绩",
         "type": "number",
-        "value": "0"
+        "value": "85",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "综合成绩",
         "label": "综合成绩",
         "type": "number",
-        "value": "0"
+        "value": "84",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "综合排名",
         "label": "综合排名",
         "type": "number",
-        "value": "0"
+        "value": "2",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "面试评价",
         "label": "面试评价",
         "type": "textarea",
-        "value": "专业知识及操作考核通过",
-        "full": true
+        "value": "专业基础扎实，设备操作熟练，沟通表达清晰，符合岗位要求。",
+        "full": true,
+        "required": true,
+        "readonly": false
       },
       {
         "key": "面试资料",
         "label": "面试资料",
         "type": "attachment",
-        "value": "已附模拟面试资料",
+        "value": "已附面试资料（模拟）",
         "full": true,
-        "required": false
+        "required": false,
+        "readonly": false
       },
       {
         "key": "体检结果",
@@ -560,22 +613,26 @@ const HR_DEFINITIONS = [
           "合格",
           "不合格"
         ],
-        "value": "合格"
+        "value": "合格",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "体检医院",
         "label": "体检医院",
         "type": "text",
-        "value": "",
-        "required": false
+        "value": "宜宾市第一人民医院",
+        "required": false,
+        "readonly": false
       },
       {
         "key": "背景调查结论",
         "label": "背景调查结论",
         "type": "textarea",
-        "value": "",
+        "value": "无异常记录",
         "full": true,
-        "required": false
+        "required": false,
+        "readonly": false
       },
       {
         "key": "无犯罪记录",
@@ -585,7 +642,9 @@ const HR_DEFINITIONS = [
           "有",
           "无"
         ],
-        "value": "无"
+        "value": "有",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "信用记录",
@@ -596,36 +655,42 @@ const HR_DEFINITIONS = [
           "异常"
         ],
         "value": "正常",
-        "required": false
+        "required": false,
+        "readonly": false
       },
       {
         "key": "原单位表现",
         "label": "原单位表现",
         "type": "textarea",
-        "value": "",
+        "value": "离职原因正常，原单位评价良好。",
         "full": true,
-        "required": false
+        "required": false,
+        "readonly": false
       },
       {
         "key": "公示起止时间",
         "label": "公示起止时间",
         "type": "text",
-        "value": ""
+        "value": "2026-09-20 至 2026-09-24",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "公示反馈函编号",
         "label": "公示反馈函编号",
         "type": "text",
-        "value": "",
-        "required": false
+        "value": "无",
+        "required": false,
+        "readonly": false
       },
       {
         "key": "异议处理结论",
         "label": "异议处理结论",
         "type": "textarea",
-        "value": "",
+        "value": "无异议",
         "full": true,
-        "required": false
+        "required": false,
+        "readonly": false
       },
       {
         "key": "是否五粮液集团员工亲属",
@@ -635,7 +700,9 @@ const HR_DEFINITIONS = [
           "是",
           "否"
         ],
-        "value": "否"
+        "value": "否",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "是否涉及回避",
@@ -645,14 +712,17 @@ const HR_DEFINITIONS = [
           "是",
           "否"
         ],
-        "value": "否"
+        "value": "否",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "内部员工工作年限核验结果",
         "label": "内部员工工作年限核验结果",
         "type": "text",
-        "value": "",
-        "required": false
+        "value": "不适用",
+        "required": false,
+        "readonly": false
       },
       {
         "key": "是否属于不得招聘情形",
@@ -662,141 +732,114 @@ const HR_DEFINITIONS = [
           "是",
           "否"
         ],
-        "value": "否"
+        "value": "否",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "薪酬建议",
         "label": "薪酬建议",
         "type": "text",
-        "value": "按核准薪档（模拟）",
-        "required": false
+        "value": "5000-6000 元/月",
+        "required": false,
+        "readonly": false
       },
       {
         "key": "岗位定级",
         "label": "岗位定级",
         "type": "text",
-        "value": "",
-        "required": false
+        "value": "P3",
+        "required": false,
+        "readonly": false
       },
       {
         "key": "录用条件",
         "label": "录用条件",
         "type": "textarea",
-        "value": "",
-        "full": true
+        "value": "体检合格、背景调查无异常、公示无异议，试用期 3 个月。",
+        "full": true,
+        "required": true,
+        "readonly": false
       },
       {
         "key": "年度招聘计划",
         "label": "年度招聘计划",
         "type": "text",
-        "value": ""
+        "value": "2026年度招聘计划",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "编制人数",
         "label": "编制人数",
         "type": "number",
-        "value": "0",
-        "readonly": true,
-        "required": false
+        "value": "12",
+        "required": false,
+        "readonly": true
       },
       {
         "key": "现有人员",
         "label": "现有人员",
         "type": "number",
-        "value": "0",
-        "readonly": true,
-        "required": false
+        "value": "10",
+        "required": false,
+        "readonly": true
       },
       {
         "key": "可招聘人数",
         "label": "可招聘人数",
         "type": "number",
-        "value": "0",
-        "readonly": true,
-        "required": false
+        "value": "2",
+        "required": false,
+        "readonly": true
       },
       {
         "key": "本年度已招聘录用人数",
         "label": "本年度已招聘录用人数",
         "type": "number",
         "value": "0",
-        "readonly": true,
-        "required": false
+        "required": false,
+        "readonly": true
       },
       {
         "key": "本次校招拟录用人数",
         "label": "本次校招拟录用人数",
         "type": "number",
         "value": "0",
-        "required": false
+        "required": false,
+        "readonly": false
       },
       {
         "key": "本次社招拟录用人数",
         "label": "本次社招拟录用人数",
         "type": "number",
-        "value": "0",
-        "required": false
+        "value": "1",
+        "required": false,
+        "readonly": false
       },
       {
         "key": "本次内招拟录用人数",
         "label": "本次内招拟录用人数",
         "type": "number",
         "value": "0",
-        "required": false
+        "required": false,
+        "readonly": false
       },
       {
         "key": "本次拟录用人数",
         "label": "本次拟录用人数",
         "type": "number",
-        "value": "0"
+        "value": "1",
+        "required": true,
+        "readonly": false
       },
       {
         "key": "编制使用情况",
         "label": "编制使用情况",
         "type": "text",
-        "value": "",
-        "readonly": true,
-        "required": false
-      },
-      {
-        "key": "录用人员",
-        "label": "录用人员",
-        "type": "text",
-        "value": "赵宁",
-        "hidden": true
-      },
-      {
-        "key": "学历",
-        "label": "学历",
-        "type": "select",
-        "value": "本科",
-        "options": [
-          "博士",
-          "硕士",
-          "本科",
-          "大专",
-          "中专及以下"
-        ],
-        "hidden": true
-      },
-      {
-        "key": "相关证书",
-        "label": "相关证书",
-        "type": "text",
-        "value": "质量检验员资格证（模拟）",
-        "hidden": true
-      },
-      {
-        "key": "面试结果",
-        "label": "面试结果",
-        "type": "select",
-        "value": "通过",
-        "options": [
-          "通过",
-          "待定",
-          "不通过"
-        ],
-        "hidden": true
+        "value": "编制内",
+        "required": false,
+        "readonly": true
       }
     ],
     "steps": [
@@ -4212,8 +4255,14 @@ const HR_DEFINITIONS = [
       {
         "key": "年度",
         "label": "查询年度",
-        "type": "number",
-        "value": "2026"
+        "type": "select",
+        "value": "2026",
+        "options": [
+          "2027",
+          "2026",
+          "2025"
+        ],
+        "required": false
       },
       {
         "key": "查询部门",
@@ -4228,41 +4277,330 @@ const HR_DEFINITIONS = [
         "type": "text",
         "value": "",
         "required": false
-      },
+      }
+    ],
+    "detail": [
       {
-        "key": "输出类型",
-        "label": "输出类型",
-        "type": "select",
-        "value": "年度汇总",
-        "options": [
-          "年度汇总",
-          "考勤明细"
-        ]
-      },
-      {
-        "key": "输出格式",
-        "label": "输出格式",
-        "type": "select",
-        "value": "Excel",
-        "options": [
-          "Excel",
-          "PDF"
-        ]
-      },
-      {
-        "key": "数据来源版本",
-        "label": "数据来源版本",
+        "key": "考勤月份",
+        "label": "考勤月份",
         "type": "text",
-        "value": "",
-        "readonly": true,
         "required": false
       },
       {
-        "key": "用途说明",
-        "label": "用途说明",
-        "type": "textarea",
-        "value": "年度考勤核对",
-        "full": true
+        "key": "应出勤天数",
+        "label": "应出勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "实际出勤天数",
+        "label": "实际出勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "请假类型（多选）",
+        "label": "请假类型（多选）",
+        "type": "multiselect",
+        "options": [
+          "年休假",
+          "事假",
+          "病假",
+          "补休（换休假）",
+          "婚假",
+          "产假",
+          "护理假",
+          "丧假",
+          "工伤假",
+          "法定假",
+          "工勤假"
+        ],
+        "required": false
+      },
+      {
+        "key": "请假天数",
+        "label": "请假天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "缺勤天数",
+        "label": "缺勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "加班类型",
+        "label": "加班类型",
+        "type": "select",
+        "options": [
+          "平时",
+          "周末",
+          "节假日"
+        ],
+        "required": false
+      },
+      {
+        "key": "加班时长（小时）",
+        "label": "加班时长（小时）",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "加班处置方式",
+        "label": "加班处置方式",
+        "type": "select",
+        "options": [
+          "换补休",
+          "申报加班工资"
+        ],
+        "required": false
+      },
+      {
+        "key": "调休时长（小时）",
+        "label": "调休时长（小时）",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "出差天数",
+        "label": "出差天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "外出天数",
+        "label": "外出天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "外勤天数",
+        "label": "外勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "工时合计",
+        "label": "工时合计",
+        "type": "number",
+        "required": false
+      }
+    ],
+    "detail": [
+      {
+        "key": "考勤月份",
+        "label": "考勤月份",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "应出勤天数",
+        "label": "应出勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "实际出勤天数",
+        "label": "实际出勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "请假类型（多选）",
+        "label": "请假类型（多选）",
+        "type": "multiselect",
+        "options": [
+          "年休假",
+          "事假",
+          "病假",
+          "补休（换休假）",
+          "婚假",
+          "产假",
+          "护理假",
+          "丧假",
+          "工伤假",
+          "法定假",
+          "工勤假"
+        ],
+        "required": false
+      },
+      {
+        "key": "请假天数",
+        "label": "请假天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "缺勤天数",
+        "label": "缺勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "加班类型",
+        "label": "加班类型",
+        "type": "select",
+        "options": [
+          "平时",
+          "周末",
+          "节假日"
+        ],
+        "required": false
+      },
+      {
+        "key": "加班时长（小时）",
+        "label": "加班时长（小时）",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "加班处置方式",
+        "label": "加班处置方式",
+        "type": "select",
+        "options": [
+          "换补休",
+          "申报加班工资"
+        ],
+        "required": false
+      },
+      {
+        "key": "调休时长（小时）",
+        "label": "调休时长（小时）",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "出差天数",
+        "label": "出差天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "外出天数",
+        "label": "外出天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "外勤天数",
+        "label": "外勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "工时合计",
+        "label": "工时合计",
+        "type": "number",
+        "required": false
+      }
+    ],
+    "detail": [
+      {
+        "key": "考勤月份",
+        "label": "考勤月份",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "应出勤天数",
+        "label": "应出勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "实际出勤天数",
+        "label": "实际出勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "请假类型（多选）",
+        "label": "请假类型（多选）",
+        "type": "multiselect",
+        "options": [
+          "年休假",
+          "事假",
+          "病假",
+          "补休（换休假）",
+          "婚假",
+          "产假",
+          "护理假",
+          "丧假",
+          "工伤假",
+          "法定假",
+          "工勤假"
+        ],
+        "required": false
+      },
+      {
+        "key": "请假天数",
+        "label": "请假天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "缺勤天数",
+        "label": "缺勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "加班类型",
+        "label": "加班类型",
+        "type": "select",
+        "options": [
+          "平时",
+          "周末",
+          "节假日"
+        ],
+        "required": false
+      },
+      {
+        "key": "加班时长（小时）",
+        "label": "加班时长（小时）",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "加班处置方式",
+        "label": "加班处置方式",
+        "type": "select",
+        "options": [
+          "换补休",
+          "申报加班工资"
+        ],
+        "required": false
+      },
+      {
+        "key": "调休时长（小时）",
+        "label": "调休时长（小时）",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "出差天数",
+        "label": "出差天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "外出天数",
+        "label": "外出天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "外勤天数",
+        "label": "外勤天数",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "工时合计",
+        "label": "工时合计",
+        "type": "number",
+        "required": false
       }
     ],
     "steps": [
