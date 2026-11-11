@@ -6015,7 +6015,7 @@ const HR_DEFINITIONS = [
         "key": "发起人",
         "label": "发起人",
         "type": "text",
-        "value": "吴欣",
+        "value": "李明",
         "readonly": true,
         "required": false
       },
@@ -6031,7 +6031,7 @@ const HR_DEFINITIONS = [
         "key": "发起部门",
         "label": "发起部门",
         "type": "text",
-        "value": "人力资源部",
+        "value": "经营发展部",
         "readonly": true,
         "required": false
       },
@@ -6070,20 +6070,84 @@ const HR_DEFINITIONS = [
         "value": "经营分析专员"
       },
       {
+        "key": "培训年度",
+        "label": "培训年度",
+        "type": "select",
+        "value": "2026",
+        "options": [
+          "2027",
+          "2026",
+          "2025"
+        ]
+      },
+      {
+        "key": "培训类型",
+        "label": "培训类型",
+        "type": "select",
+        "value": "一级、二级培训",
+        "options": [
+          "一级、二级培训",
+          "技能培训",
+          "外出培训"
+        ]
+      },
+      {
         "key": "计划类型",
         "label": "计划类型",
         "type": "select",
+        "value": "年度计划",
         "options": [
           "年度计划",
           "具体实施"
-        ],
-        "value": "年度计划"
+        ]
       },
       {
-        "key": "课程",
-        "label": "培训课程",
+        "key": "培训项目分级",
+        "label": "培训项目分级",
+        "type": "select",
+        "value": "一级培训",
+        "options": [
+          "一级培训",
+          "二级培训"
+        ],
+        "required": false,
+        "showWhen": {
+          "field": "培训类型",
+          "in": [
+            "一级、二级培训"
+          ]
+        }
+      },
+      {
+        "key": "培训需求",
+        "label": "培训需求",
+        "type": "textarea",
+        "value": "经营分析与质量意识提升需求归集。",
+        "full": true
+      },
+      {
+        "key": "培训项目内容",
+        "label": "培训项目内容",
         "type": "text",
-        "value": "岗位安全与质量基础"
+        "value": "经营分析与质量基础培训"
+      },
+      {
+        "key": "计划培训时间（月份）",
+        "label": "计划培训时间（月份）",
+        "type": "month",
+        "value": "2026-11"
+      },
+      {
+        "key": "培训对象",
+        "label": "培训对象",
+        "type": "text",
+        "value": "经营发展部全体员工"
+      },
+      {
+        "key": "计划培训人数",
+        "label": "计划培训人数",
+        "type": "number",
+        "value": "12"
       },
       {
         "key": "培训方式",
@@ -6094,12 +6158,98 @@ const HR_DEFINITIONS = [
           "内部培训",
           "外部培训",
           "线上学习"
-        ]
+        ],
+        "required": false,
+        "showWhen": {
+          "field": "培训类型",
+          "in": [
+            "一级、二级培训"
+          ]
+        }
+      },
+      {
+        "key": "技能等级",
+        "label": "技能等级",
+        "type": "select",
+        "value": "中级工",
+        "options": [
+          "初级工",
+          "中级工",
+          "高级工",
+          "技师",
+          "高级技师"
+        ],
+        "required": false,
+        "showWhen": {
+          "field": "培训类型",
+          "in": [
+            "技能培训"
+          ]
+        }
+      },
+      {
+        "key": "培训地点",
+        "label": "培训地点",
+        "type": "text",
+        "value": "",
+        "required": false,
+        "showWhen": {
+          "field": "培训类型",
+          "in": [
+            "外出培训"
+          ]
+        }
+      },
+      {
+        "key": "拟用师资来源",
+        "label": "拟用师资来源",
+        "type": "select",
+        "value": "内部讲师",
+        "options": [
+          "内部讲师",
+          "外部讲师",
+          "培训机构",
+          "院校专家"
+        ],
+        "required": false,
+        "showWhen": {
+          "field": "培训类型",
+          "in": [
+            "一级、二级培训",
+            "技能培训"
+          ]
+        }
+      },
+      {
+        "key": "拟用机构",
+        "label": "拟用机构",
+        "type": "text",
+        "value": "",
+        "required": false,
+        "showWhen": {
+          "field": "培训类型",
+          "in": [
+            "外出培训"
+          ]
+        }
+      },
+      {
+        "key": "预计培训时长（小时）",
+        "label": "预计培训时长（小时）",
+        "type": "number",
+        "value": "16"
+      },
+      {
+        "key": "预算费用（元）",
+        "label": "预算费用（元）",
+        "type": "number",
+        "value": "12000"
       },
       {
         "key": "考核方式",
         "label": "考核方式",
         "type": "select",
+        "value": "理论+实操",
         "options": [
           "理论+实操",
           "实操",
@@ -6107,67 +6257,86 @@ const HR_DEFINITIONS = [
           "答辩",
           "笔试",
           "在线考试"
-        ],
-        "value": "理论+实操"
+        ]
       },
       {
-        "key": "参训人数",
-        "label": "参训人数",
-        "type": "number",
-        "value": 1
-      },
-      {
-        "key": "培训机构",
-        "label": "培训机构/讲师",
-        "type": "text",
-        "value": "公司内部讲师"
-      },
-      {
-        "key": "培训学时",
-        "label": "培训学时",
-        "type": "number",
-        "value": "8"
-      },
-      {
-        "key": "计划月份",
-        "label": "计划",
-        "type": "month",
-        "value": "2026-09"
-      },
-      {
-        "key": "培训地点",
-        "label": "培训地点",
-        "type": "text",
-        "value": "公司培训室"
-      },
-      {
-        "key": "需求",
-        "label": "培训",
+        "key": "备注",
+        "label": "备注",
         "type": "textarea",
-        "value": "岗位技能提升",
-        "full": true
+        "value": "",
+        "full": true,
+        "required": false
       },
       {
         "key": "相关附件",
         "label": "相关附件",
         "type": "attachment",
-        "value": "已附模拟培训资料",
+        "value": "已附培训计划资料（模拟）",
         "full": true,
+        "required": false
+      }
+    ],
+    "detail": [
+      {
+        "key": "单位",
+        "label": "单位",
+        "type": "select",
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ],
         "required": false
       },
       {
-        "key": "年度计划",
-        "label": "年度计划",
-        "type": "text",
-        "value": "2026年度培训计划",
-        "hidden": true
+        "key": "第一季度",
+        "label": "第一季度",
+        "type": "number",
+        "required": false
       },
       {
-        "key": "实施日期",
-        "label": "实施日期",
-        "type": "date",
-        "value": "2026-10-01",
-        "hidden": true
+        "key": "第二季度",
+        "label": "第二季度",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "第三季度",
+        "label": "第三季度",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "第四季度",
+        "label": "第四季度",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "年度培训预算总计",
+        "label": "年度培训预算总计",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "上年度培训费用支出",
+        "label": "上年度培训费用支出",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "增减率（%）",
+        "label": "增减率（%）",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "备注",
+        "label": "备注",
+        "type": "text",
+        "required": false
       }
     ],
     "steps": [
@@ -6650,5 +6819,535 @@ const HR_DEFINITIONS = [
       }
     ],
     "self": false
+  },
+  {
+    "key": "32",
+    "code": "OA-L3-090105",
+    "name": "职工教育培训实施方案申报",
+    "scope": "按项目类别引用已批准培训计划，填报实施方案、师资、参训人员与费用，完成部门审核、人力资源部审核与立项归档。",
+    "short": "实施方案申报",
+    "domain": "training",
+    "fields": [
+      {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "select",
+        "value": "精美",
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ],
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "项目类别",
+        "label": "项目类别",
+        "type": "select",
+        "value": "一级培训",
+        "options": [
+          "一级培训",
+          "二级培训",
+          "技能培训",
+          "外出培训"
+        ]
+      },
+      {
+        "key": "关联培训计划",
+        "label": "关联培训计划",
+        "type": "text",
+        "value": "2026年经营分析与质量基础培训",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "项目编号",
+        "label": "项目编号",
+        "type": "text",
+        "value": "RLZYB-01",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "培训年度",
+        "label": "培训年度",
+        "type": "text",
+        "value": "2026",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "项目名称",
+        "label": "项目名称",
+        "type": "text",
+        "value": "经营分析能力提升培训"
+      },
+      {
+        "key": "课程名称",
+        "label": "课程名称",
+        "type": "text",
+        "value": "经营分析方法与案例"
+      },
+      {
+        "key": "培训班名称",
+        "label": "培训班名称",
+        "type": "text",
+        "value": "",
+        "required": false,
+        "showWhen": {
+          "field": "项目类别",
+          "in": [
+            "外出培训"
+          ]
+        }
+      },
+      {
+        "key": "培训起止时间",
+        "label": "培训起止时间",
+        "type": "text",
+        "value": "2026-11-10 至 2026-11-11"
+      },
+      {
+        "key": "课程时长（小时）",
+        "label": "课程时长（小时）",
+        "type": "number",
+        "value": "16"
+      },
+      {
+        "key": "培训地点",
+        "label": "培训地点",
+        "type": "text",
+        "value": "公司培训室"
+      },
+      {
+        "key": "授课讲师",
+        "label": "授课讲师",
+        "type": "text",
+        "value": "内部讲师 周敏",
+        "required": false,
+        "showWhen": {
+          "field": "项目类别",
+          "in": [
+            "一级培训",
+            "二级培训"
+          ]
+        }
+      },
+      {
+        "key": "讲师类别",
+        "label": "讲师类别",
+        "type": "select",
+        "value": "内部讲师",
+        "options": [
+          "内部讲师",
+          "外部讲师"
+        ],
+        "required": false,
+        "showWhen": {
+          "field": "项目类别",
+          "in": [
+            "一级培训",
+            "二级培训"
+          ]
+        }
+      },
+      {
+        "key": "讲师等级",
+        "label": "讲师等级",
+        "type": "text",
+        "value": "一级讲师",
+        "required": false,
+        "showWhen": {
+          "field": "项目类别",
+          "in": [
+            "一级培训",
+            "二级培训"
+          ]
+        }
+      },
+      {
+        "key": "组织单位",
+        "label": "组织单位",
+        "type": "text",
+        "value": "",
+        "required": false,
+        "showWhen": {
+          "field": "项目类别",
+          "in": [
+            "外出培训",
+            "技能培训"
+          ]
+        }
+      },
+      {
+        "key": "培训内容",
+        "label": "培训内容",
+        "type": "textarea",
+        "value": "经营指标拆解、分析方法与案例复盘。",
+        "full": true,
+        "required": false,
+        "showWhen": {
+          "field": "项目类别",
+          "in": [
+            "一级培训",
+            "二级培训"
+          ]
+        }
+      },
+      {
+        "key": "考核方式",
+        "label": "考核方式",
+        "type": "select",
+        "value": "汇报+笔试",
+        "options": [
+          "汇报+笔试",
+          "笔试",
+          "实操",
+          "答辩",
+          "综合评定"
+        ],
+        "required": false,
+        "showWhen": {
+          "field": "项目类别",
+          "in": [
+            "一级培训",
+            "二级培训"
+          ]
+        }
+      },
+      {
+        "key": "参训人数（人）",
+        "label": "参训人数（人）",
+        "type": "number",
+        "value": "12"
+      },
+      {
+        "key": "培训费用（元/人）",
+        "label": "培训费用（元/人）",
+        "type": "number",
+        "value": "0",
+        "required": false,
+        "showWhen": {
+          "field": "项目类别",
+          "in": [
+            "外出培训",
+            "技能培训"
+          ]
+        }
+      },
+      {
+        "key": "费用合计（元）",
+        "label": "费用合计（元）",
+        "type": "number",
+        "value": "0",
+        "readonly": true,
+        "required": false,
+        "showWhen": {
+          "field": "项目类别",
+          "in": [
+            "外出培训",
+            "技能培训"
+          ]
+        }
+      },
+      {
+        "key": "经费预算（元）",
+        "label": "经费预算（元）",
+        "type": "number",
+        "value": "12000",
+        "required": false,
+        "showWhen": {
+          "field": "项目类别",
+          "in": [
+            "一级培训",
+            "二级培训"
+          ]
+        }
+      },
+      {
+        "key": "实施费用（批复）（元）",
+        "label": "实施费用（批复）（元）",
+        "type": "number",
+        "value": "12000",
+        "required": false,
+        "showWhen": {
+          "field": "项目类别",
+          "in": [
+            "一级培训",
+            "二级培训"
+          ]
+        }
+      },
+      {
+        "key": "单位意见",
+        "label": "单位意见",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false
+      },
+      {
+        "key": "人力资源部意见",
+        "label": "人力资源部意见",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附培训实施方案（模拟）",
+        "full": true,
+        "required": false
+      }
+    ],
+    "detail": [
+      {
+        "key": "姓名",
+        "label": "姓名",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "性别",
+        "label": "性别",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "单位/部门",
+        "label": "单位/部门",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "备注",
+        "label": "备注",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "steps": [{
+        "name": "部门负责人审核",
+        "role": "hrHead"
+      },
+      {
+        "name": "人力资源部审核",
+        "role": "hr"
+      },
+      {
+        "name": "项目立项",
+        "role": "hr"
+      },
+      {
+        "name": "关联结果归档",
+        "role": "hr"
+      }
+    ],
+    "self": true
+  },
+  {
+    "key": "33",
+    "code": "OA-L3-090106",
+    "name": "培训计划新增流程",
+    "scope": "年度计划外新增培训的申请、部门审核、人力资源部审核与计划归档。",
+    "short": "培训计划新增",
+    "domain": "training",
+    "fields": [
+      {
+        "key": "发起人",
+        "label": "发起人",
+        "type": "text",
+        "value": "李明",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "发起时间",
+        "label": "发起时间",
+        "type": "date",
+        "value": "2026-09-07",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "发起部门",
+        "label": "发起部门",
+        "type": "text",
+        "value": "经营发展部",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "发起公司",
+        "label": "发起公司",
+        "type": "select",
+        "value": "精美",
+        "options": [
+          "精美",
+          "丽彩",
+          "五彩",
+          "欣兴",
+          "嘉美"
+        ],
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "培训计划新增原因",
+        "label": "培训计划新增原因",
+        "type": "textarea",
+        "value": "年度计划外新增专项质量培训。",
+        "full": true
+      },
+      {
+        "key": "拟新增培训名称",
+        "label": "拟新增培训名称",
+        "type": "text",
+        "value": "包装质量专项提升培训"
+      },
+      {
+        "key": "培训起止时间",
+        "label": "培训起止时间",
+        "type": "text",
+        "value": "2026-12-01 至 2026-12-02"
+      },
+      {
+        "key": "培训地点",
+        "label": "培训地点",
+        "type": "text",
+        "value": "生产园区培训室"
+      },
+      {
+        "key": "培训对象",
+        "label": "培训对象",
+        "type": "text",
+        "value": "生产管理部班组长"
+      },
+      {
+        "key": "计划参训人数（人）",
+        "label": "计划参训人数（人）",
+        "type": "number",
+        "value": "20"
+      },
+      {
+        "key": "培训主要内容",
+        "label": "培训主要内容",
+        "type": "textarea",
+        "value": "包装质量缺陷识别、过程控制与改进。",
+        "full": true
+      },
+      {
+        "key": "培训形式",
+        "label": "培训形式",
+        "type": "select",
+        "value": "内部培训",
+        "options": [
+          "内部培训",
+          "外部培训",
+          "线上学习"
+        ]
+      },
+      {
+        "key": "授课讲师或培训机构",
+        "label": "授课讲师或培训机构",
+        "type": "text",
+        "value": "质量管理部 内部讲师",
+        "required": false
+      },
+      {
+        "key": "考核方式",
+        "label": "考核方式",
+        "type": "select",
+        "value": "笔试",
+        "options": [
+          "笔试",
+          "实操",
+          "汇报+笔试",
+          "答辩",
+          "综合评定"
+        ]
+      },
+      {
+        "key": "培训目标",
+        "label": "培训目标",
+        "type": "textarea",
+        "value": "班组长掌握质量缺陷判定与整改方法。",
+        "full": true
+      },
+      {
+        "key": "预算费用（元）",
+        "label": "预算费用（元）",
+        "type": "number",
+        "value": "8000"
+      },
+      {
+        "key": "费用构成说明",
+        "label": "费用构成说明",
+        "type": "textarea",
+        "value": "课酬 4000、教材 1500、场地 1500、其他 1000。",
+        "full": true,
+        "required": false
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附加盖单位印章的培训计划新增报告（模拟）",
+        "full": true
+      },
+      {
+        "key": "备注",
+        "label": "备注",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false
+      }
+    ],
+    "detail": null,
+    "steps": [{
+        "name": "部门负责人审核",
+        "role": "hrHead"
+      },
+      {
+        "name": "人力资源部审核",
+        "role": "hr"
+      },
+      {
+        "name": "计划生效归档",
+        "role": "hr"
+      }
+    ],
+    "self": true
   }
 ];

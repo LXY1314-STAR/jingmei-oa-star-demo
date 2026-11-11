@@ -38,7 +38,9 @@ const HrBusiness = (() => {
     '25':spec('工资修订项目对比','核验修订差异','异议类型|原金额|现金额|处理说明|核验结论',[['加班工资',500,600,'核对加班确认记录','待核验']]),
     '26':spec('分险种增减员与缴费','核验参保明细','员工编号|险种|事项|期间|基数或金额|核验结论',[['EMP-2026-018','社保','增员','2026-09',2000,'待核验']]),
     '27':spec('理赔材料补充与费用','核验待遇材料','材料类别|费用|材料版本|补充说明|核验结论',[['费用凭证（模拟）',1000,'V1','已提供申请证明','待核验'],['待遇证明（模拟）',0,'V1','已提供资格依据','待核验']]),
-    '28':spec('年度培训项目与学习任务','登记学习进度','员工编号|年度计划|课程|学习进度|核验结论',[['EMP-2026-018','2026年度培训计划','岗位安全与质量基础',0,'待核验']]),
+    '28':spec('培训预算明细','维护培训预算','单位|第一季度|第二季度|第三季度|第四季度|年度培训预算总计|上年度培训费用支出|增减率（%）|备注',[['精美',3000,3000,3000,3000,12000,10000,20,'']]),
+    '32':spec('参训人员明细','维护参训人员','姓名|性别|单位/部门|备注',[['李明','男','经营发展部',''],['王晓雨','女','信息工程部','']]),
+    '33':spec('申请资料说明','核验申请资料','说明',[]),
     '29':spec('考试记录与成绩确认','核验考试成绩','员工编号|考试名称|考试方式|成绩|核验结论',[['EMP-2026-018','岗位安全与质量考试','线下考试',88,'待核验']]),
     '30':spec('证照原件与借还记录','核验证照资料','证照名称|类别|到期日期|原件状态|核验结论',[['岗位安全资格证','证书','2027-09-30','在库','待核验']]),
     '31':spec('岗位标准与准入核验','核验岗位准入','目标岗位|所需证照|关联考试|有效期|核验结论',[['经营分析专员','经营分析岗位资格','HR-EXAM-001','2027-09-30','待核验']])
@@ -56,7 +58,8 @@ const HrBusiness = (() => {
     if(r.key==='25')b.rows=(r.items||[]).map(x=>[x.异议类型,Number(x.原金额),Number(x.现金额),'员工异议明细','待核验']);
     if(r.key==='14'){b.rows=(r.items||[]).map(x=>[x.姓名,x.加班类型,x.加班事由,x.加班开始日期时间,x.加班结束日期时间,Number(x.加班时长)||0,x.加班处置]);const st=b.rows.map(x=>x[3]).filter(Boolean).sort(),en=b.rows.map(x=>x[4]).filter(Boolean).sort();r.f.开始日期=(st[0]||'').slice(0,10);r.f.开始时刻=(st[0]||'').slice(11,16);r.f.结束日期=(en[en.length-1]||'').slice(0,10);r.f.结束时刻=(en[en.length-1]||'').slice(11,16);r.f.人员明细=b.rows.map(x=>employeeByName(x[0])?.id).filter(Boolean).join(',')||r.employeeId;r.f.小时数=String(b.rows.reduce((n,x)=>n+(Number(x[5])||0),0));}
     if(r.key==='15'){const e=employee(r.employeeId),cat=r.f.来源类别||'平时';b.rows[0][1]=cat;b.rows[0][2]=Number(e?.hrBalance?.comp?.[cat]||0);b.rows[0][3]=Number(r.f.小时数)||b.rows[0][3];}
-    if(r.key==='28')b.rows=H.people(r).map(id=>[id,r.f.年度计划,r.f.课程,0,'待核验']);
+    if(r.key==='32')b.rows=(r.items||[]).map(x=>[x.姓名,x.性别,x['单位/部门'],x.备注]);
+    if(r.key==='28')b.rows=(r.items||[]).map(x=>[x.单位,Number(x.第一季度)||0,Number(x.第二季度)||0,Number(x.第三季度)||0,Number(x.第四季度)||0,Number(x.年度培训预算总计)||0,Number(x.上年度培训费用支出)||0,Number(x['增减率（%）'])||0,x.备注]);
     if(r.key==='17')b.rows=H.people(r).map(id=>[id,r.f.开始日期,r.f.原班次,r.f.目标班次,'待核验']);
     return b;
   }
@@ -136,7 +139,8 @@ const HrBusiness = (() => {
     if(r.key==='25'){const src=H.get(r.f.原单编号),item=copy(src?.items?.[0]||{});for(const row of rows)if(item[row[0]]!==undefined)item[row[0]]=Number(row[2]);H.payTotals(item);r.f.修订金额=String(item.实发工资??src?.items?.[0]?.金额??0);r.f.处理结论=rows.map(x=>x[0]+'：'+x[1]+'→'+x[2]).join('；');}
     if(r.key==='26'){r.f.险种=x[1];r.f.事项类型=x[2];r.f.月份=x[3];r.f.金额=String(rows.reduce((n,x)=>n+Number(x[4]),0));}
     if(r.key==='27')r.f.费用=String(rows.reduce((n,x)=>n+Number(x[1]),0));
-    if(r.key==='28'){r.f.参加人员=rows.map(x=>x[0]).join(',');r.f.年度计划=x[1];r.f.课程=x[2];}
+    if(r.key==='32')r.items=rows.map(x=>({姓名:x[0],性别:x[1],['单位/部门']:x[2],备注:x[3]}));
+    if(r.key==='28')r.items=rows.map(x=>({单位:x[0],第一季度:Number(x[1])||0,第二季度:Number(x[2])||0,第三季度:Number(x[3])||0,第四季度:Number(x[4])||0,年度培训预算总计:Number(x[5])||0,上年度培训费用支出:Number(x[6])||0,['增减率（%）']:Number(x[7])||0,备注:x[8]}));
     if(r.key==='29'){r.f.考试名称=x[1];r.f.考试方式=x[2];r.f.成绩=String(x[3]);}
     if(r.key==='30'){r.f.证照名称=x[0];r.f.类别=x[1];r.f.到期日期=x[2];}
     if(r.key==='31'){r.f.关联考试=x[2];r.f.到期日期=x[3];}
@@ -174,7 +178,7 @@ const HrBusiness = (() => {
     else{ensure(r).rows=copy(x.rows);sync(r);if(r.key==='18'){for(const row of x.rows){if(!H.store.attendance.some(a=>a.employeeId===row[0]&&a.date===row[1]&&a.source===x.id))H.store.attendance.push({id:'CLOCK-'+seq++,employeeId:row[0],date:row[1],end:row[1],type:row[2],source:x.id,version:1,anomaly:row[2]!=='正常'});}}}
     x.status='已导入';store.imports.push(x);event(r,'确认文件导入',x.id+' / '+x.rows.length+'行');H.todoSync();close();render();return true;
   }
-  function check(r){const b=ensure(r),rows=b.rows,s=specs[r.key];if(!rows.length)return '请先填写'+s.title;
+  function check(r){const b=ensure(r),rows=b.rows,s=specs[r.key];if(!rows.length&&(H.def(r.key).detail||[]).length)return '请先填写'+s.title;
     if(r.key==='01'&&rows.some(x=>!x[1]||!Number.isInteger(Number(x[7]))||Number(x[7])<=0||Number(x[7])>Number(x[6])))return '招聘明细须填写招聘岗位，需求人数须为正整数且不超过可用编制余额';
     if(r.key==='02'&&!b.links.some(x=>H.get(x.id)?.key==='01'&&H.done(H.get(x.id))))return '请关联已批准的招聘需求';
     if(r.key==='22'&&rows.some(x=>!x[0]||!employeeByName(x[0])||!['领导','组长','主管','员工'].includes(x[1])||!Number.isFinite(Number(x[2]))||Number(x[2])<0||Number(x[2])>100||!['A','B','C','D'].includes(x[3])||!['符合','超比例'].includes(x[4]||'符合')))return '员工姓名、职级、0到100的考核分数与绩效等级（A/B/C/D）必须完整';
@@ -218,9 +222,9 @@ const HrBusiness = (() => {
   function dueFollow(id){if(state.role!=='hr')return error('无办理权限');const t=store.dueTasks.find(x=>x.id===id);if(!t)return;if(t.follow)return H.open(t.follow);const src=H.get(t.source);if(src.key==='04'){t.follow=src.id;t.status='已下发';return H.open(src.id);}const r=H.createRecord(src.key,t.employeeId);r.f=copy(src.f);r.f.办理类型=src.key==='06'?'续签':src.key==='30'?'更新':'复审';const dk=src.key==='06'?'合同结束日期':'到期日期';r.f[dk]=String(Number(store.date.slice(0,4))+1)+store.date.slice(4);H.store.records.unshift(r);ensure(r).links.push({id:src.id,version:src.version,kind:'到期后续办理'});t.follow=r.id;t.status='已下发';H.todoSync();H.open(r.id);}
   function recruitView(r){const follow=H.store.records.filter(x=>H.visible(x)&&ensure(x).links.some(l=>l.id===r.id)),rows=ensure(r).rows,isNeed=r.key==='01';const info=isNeed?{岗位:rows.map(x=>x[0]).filter(Boolean).join('、')||'待填报',年度计划:[...new Set(rows.map(x=>x[1]).filter(Boolean))].join('、')||'按年度计划选择',需求人数:rows.reduce((n,x)=>n+Number(x[4]||0),0),可用编制:rows.reduce((n,x)=>n+Number(x[2]||0)-Number(x[3]||0),0),录用结果:H.done(r)?'已形成办理结论':'待审批'}:{岗位:r.f.招聘岗位||r.f.岗位,年度计划:r.f.年度计划||'按关联招聘需求',可用编制:'见来源需求',录用结果:H.done(r)?'已形成办理结论':'待审批'};return panel('招聘执行与下游人员',pairs(info),r.key==='02'?button('关联批准招聘需求','sourceDialog()',!editable(r)):'')+panel('关联录用与入职',table(['业务编号','流程','员工 / 候选人','状态'],follow.map(x=>[link(x.id),esc(H.def(x.key).short),esc(employee(x.employeeId)?.name||x.f.录用人员||x.f.候选人),esc(H.status(x))])));}
   function lifecycleView(r){const e=employee(r.employeeId);return panel('员工当前状态与业务联动',pairs({员工:e?.name||r.f.姓名,组织:e?.org||'待录用',岗位:e?.position||r.f.岗位,人员状态:e?.status||'拟录用',考勤起点:e?.hireDate||'未形成',考勤终点:e?.leaveDate||'未离职'}))+panel('关联任务与后续申请',table(['来源编号','业务事项','状态'],ensure(r).links.map(l=>[link(l.id),esc(l.kind),esc(H.get(l.id)?H.status(H.get(l.id)):'参考依据')])));}
-  function learningView(r){const b=ensure(r);return panel('课程内容与学习进度',`<article class="hb-course"><h3>${esc(r.f.课程)}</h3><p>第一节：岗位安全检查。发现安全隐患应停止相关作业并报告。</p><p>第二节：质量记录。检验结果应关联批次，异常需登记处理及复核证据。</p><p>以上为演示教材，正式课程由企业确认。</p></article>`+table(['员工','学习任务','进度','状态'],b.rows.map(x=>[esc(employee(x[0])?.name),esc(x[2]),x[3]+'%',Number(x[3])===100?'已完成':'学习中'])),button('完成本节学习','completeLesson()',r.stage!==3||!H.people(r).includes(H.employeeForRole())));}
+  function learningView(r){const b0=ensure(r);return panel('培训预算汇总',table(['单位','一季度','二季度','三季度','四季度','年度总计','上年度支出','增减率'],b0.rows.map(x=>[esc(x[0]),x[1],x[2],x[3],x[4],x[5],x[6],x[7]+'%']))+'<p>年度预算由四个季度自动汇总；增减率＝（年度总计－上年度支出）/上年度支出。</p>');}
   function payBatchView(r){const records=H.store.records.filter(x=>x.key==='24'&&x.f.导入批次===r.f.导入批次&&H.visible(x));return panel('发布批次与员工确认',table(['工资条','员工','月份','发布','确认'],records.map(x=>[link(x.id),esc(employee(x.employeeId)?.name),esc(x.f.月份),x.checks.published?'已发布':'待发布',x.checks.confirmed?'已确认':'待确认'])),button('发布已复核工资条',"batchPublishDialog('24')",state.role!=='hr'));}
-  function completeLesson(){const r=H.get(),id=H.employeeForRole();if(r?.key!=='28'||r.stage!==3||!H.people(r).includes(id))return error('仅已下发学习任务的员工可登记');const row=ensure(r).rows.find(x=>x[0]===id);if(!row)return error('无本人学习任务');if(Number(row[3])>=100)return error('本课程已完成');row[3]=Math.min(100,Number(row[3])+50);if(row[3]===100)row[4]='通过';event(r,'完成本节学习',id+' / '+row[3]+'%');render();}
+  function completeLesson(){return error('本流程已改为培训计划与预算，学习任务登记请走培训考试流程');}
   function batchPublishDialog(key){if(state.role!=='hr')return error('仅人事可发布');const current=H.get();const records=H.store.records.filter(x=>x.key===key&&!x.historical&&x.stage===2&&!x.appealSteps&&H.visible(x)&&(key==='24'?x.f.导入批次===current.f.导入批次:true));dialog={type:'batch',role:state.role,key,records:records.map(x=>({id:x.id,stage:x.stage,version:x.version}))};openModal('确认定向发布',`<form id="hb-publish"><div id="hw-error"></div><p>本次仅发布已完成复核的${records.length}条记录，其他记录保持原状态。</p>${table(['单据','员工','版本'],records.map(x=>[esc(x.id),esc(employee(x.employeeId)?.name),'V'+x.version]))}${field('发布依据','')}</form>`,button('取消','close()')+button('确认批量发布','batchPublish()',!records.length,'primary'));}
   function batchPublish(){if(dialog?.type!=='batch'||state.role!==dialog.role)return error('身份已变化');const f=document.querySelector('#hb-publish');if(!f.reportValidity())return;const records=dialog.records.map(x=>H.get(x.id));for(const [i,r] of records.entries()){if(!r||r.version!==dialog.records[i].version||r.stage!==2||!H.canAct(r)||H.validate(r,true)||check(r))return error('存在状态变化或未通过校验的记录，请重新核对');}const note=new FormData(f).get('发布依据');for(const r of records)H.transition(r.id,'advance',{note});close();render();}
   function init(core){H=core;for(const e of db.employees){for(const category of ['平时','周末','节假日'])store.compLots.push({id:category==='平时'?'COMP-BASE-'+e.id.slice(-3):'COMP-'+category+'-'+e.id,employeeId:e.id,category,source:'历史余额',hours:e.hrBalance.comp[category],held:0,expires:e.hrBalance.compExpiry});}
