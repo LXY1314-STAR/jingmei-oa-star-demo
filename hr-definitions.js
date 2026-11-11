@@ -4758,7 +4758,13 @@ const HR_DEFINITIONS = [
       {
         "key": "职级",
         "label": "职级",
-        "type": "text",
+        "type": "select",
+        "options": [
+          "领导",
+          "组长",
+          "主管",
+          "员工"
+        ],
         "required": false
       }
     ]
