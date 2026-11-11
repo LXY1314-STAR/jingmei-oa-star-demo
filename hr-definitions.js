@@ -4393,6 +4393,25 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
+        "key": "员工姓名",
+        "label": "员工姓名",
+        "type": "text",
+        "value": "李明",
+        "required": false
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部"
+      },
+      {
+        "key": "岗位",
+        "label": "岗位",
+        "type": "text",
+        "value": "经营分析专员"
+      },
+      {
         "key": "计划类型",
         "label": "计划类型",
         "type": "select",
@@ -4403,49 +4422,16 @@ const HR_DEFINITIONS = [
         ]
       },
       {
-        "key": "考核类别",
-        "label": "考核类别",
-        "type": "select",
-        "value": "个人绩效",
-        "options": [
-          "组织绩效",
-          "个人绩效"
-        ]
+        "key": "新计划名称",
+        "label": "新计划名称",
+        "type": "text",
+        "value": "2026年第四季度个人绩效考核计划"
       },
       {
-        "key": "被考核单位",
-        "label": "被考核单位",
-        "type": "select",
-        "value": "经营发展部",
-        "options": [
-          "经营发展部",
-          "生产管理部",
-          "质量管理部",
-          "设备动力部",
-          "采购部",
-          "人力资源部",
-          "信息工程部",
-          "印刷二车间",
-          "后加工车间"
-        ],
-        "required": false,
-        "showWhen": {
-          "field": "考核类别",
-          "in": [
-            "组织绩效"
-          ]
-        }
-      },
-      {
-        "key": "考核年度",
-        "label": "考核年度",
-        "type": "select",
-        "value": "2026",
-        "options": [
-          "2027",
-          "2026",
-          "2025"
-        ]
+        "key": "新计划编号",
+        "label": "新计划编号",
+        "type": "text",
+        "value": "HR-PLAN-2026Q4-001"
       },
       {
         "key": "考核周期类型",
@@ -4458,61 +4444,67 @@ const HR_DEFINITIONS = [
         ]
       },
       {
-        "key": "考核季度",
-        "label": "考核季度",
-        "type": "select",
-        "value": "第四季度",
-        "options": [
-          "第一季度",
-          "第二季度",
-          "第三季度",
-          "第四季度"
-        ],
-        "required": false,
-        "showWhen": {
-          "field": "考核周期类型",
-          "in": [
-            "季度"
-          ]
-        }
-      },
-      {
-        "key": "适用开始日期",
-        "label": "适用开始日期",
+        "key": "考核开始日期",
+        "label": "考核开始日期",
         "type": "date",
         "value": "2026-10-01"
       },
       {
-        "key": "适用结束日期",
-        "label": "适用结束日期",
+        "key": "考核结束日期",
+        "label": "考核结束日期",
         "type": "date",
         "value": "2026-12-31"
       },
       {
-        "key": "原计划名称",
-        "label": "原计划名称",
+        "key": "考核周期（天）",
+        "label": "考核周期（天）",
+        "type": "number",
+        "value": "92",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "考核内容",
+        "label": "考核内容",
+        "type": "textarea",
+        "value": "重点工作任务 80%、工作能力与态度 20%，加减分项按制度加减。",
+        "full": true
+      },
+      {
+        "key": "绩效类别",
+        "label": "绩效类别",
+        "type": "select",
+        "value": "个人绩效",
+        "options": [
+          "组织绩效",
+          "个人绩效"
+        ]
+      },
+      {
+        "key": "考核对象",
+        "label": "考核对象",
         "type": "text",
-        "value": "",
-        "required": false,
-        "showWhen": {
-          "field": "计划类型",
-          "in": [
-            "调整"
-          ]
-        }
+        "value": "李明",
+        "required": false
+      },
+      {
+        "key": "岗位类别",
+        "label": "岗位类别",
+        "type": "select",
+        "value": "员工",
+        "options": [
+          "单位负责人",
+          "其他管理人员（含组长、主管）",
+          "员工"
+        ],
+        "required": false
       },
       {
         "key": "原计划编号",
         "label": "原计划编号",
         "type": "text",
         "value": "",
-        "required": false,
-        "showWhen": {
-          "field": "计划类型",
-          "in": [
-            "调整"
-          ]
-        }
+        "required": false
       },
       {
         "key": "调整原因",
@@ -4520,77 +4512,69 @@ const HR_DEFINITIONS = [
         "type": "textarea",
         "value": "",
         "full": true,
-        "required": false,
-        "showWhen": {
-          "field": "计划类型",
-          "in": [
-            "调整"
-          ]
-        }
-      },
-      {
-        "key": "附件",
-        "label": "附件",
-        "type": "attachment",
-        "value": "已附季度绩效指标考核表（模拟）",
-        "full": true,
         "required": false
       },
       {
-        "key": "备注",
-        "label": "备注",
-        "type": "textarea",
+        "key": "指标权重合计（%）",
+        "label": "指标权重合计（%）",
+        "type": "number",
+        "value": "100",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "审批依据",
+        "label": "审批依据",
+        "type": "text",
         "value": "",
+        "required": false
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
+        "type": "attachment",
+        "value": "已附季度绩效指标考核表（模拟）",
         "full": true,
         "required": false
       }
     ],
     "detail": [
       {
-        "key": "被考核组织",
-        "label": "被考核组织",
+        "key": "指标类型",
+        "label": "指标类型",
         "type": "select",
         "options": [
-          "经营发展部",
-          "生产管理部",
-          "质量管理部",
-          "设备动力部",
-          "采购部",
-          "人力资源部",
-          "信息工程部",
-          "印刷二车间",
-          "后加工车间"
+          "团队建设与管理",
+          "重点工作任务",
+          "关键业绩指标（KPI）",
+          "工作能力与态度",
+          "工作满意度",
+          "加减分项"
         ],
         "required": false
       },
       {
-        "key": "重点工作完成情况",
-        "label": "重点工作完成情况",
-        "type": "number",
+        "key": "指标",
+        "label": "指标",
+        "type": "text",
         "required": false
       },
       {
-        "key": "关键业绩",
-        "label": "关键业绩",
-        "type": "number",
+        "key": "目标",
+        "label": "目标",
+        "type": "text",
         "required": false
       },
       {
-        "key": "工作满意度评价",
-        "label": "工作满意度评价",
-        "type": "number",
+        "key": "评价标准",
+        "label": "评价标准",
+        "type": "text",
         "required": false
       },
       {
-        "key": "加减分项",
-        "label": "加减分项",
-        "type": "select",
-        "options": [
-          "不适用",
-          "加分项",
-          "减分项",
-          "否决项"
-        ],
+        "key": "权重",
+        "label": "权重%",
+        "type": "number",
         "required": false
       }
     ],
@@ -4658,21 +4642,43 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
-        "key": "绩效确认组织",
-        "label": "绩效确认组织",
-        "type": "select",
-        "value": "经营发展部",
-        "options": [
-          "经营发展部",
-          "生产管理部",
-          "质量管理部",
-          "设备动力部",
-          "采购部",
-          "人力资源部",
-          "信息工程部",
-          "印刷二车间",
-          "后加工车间"
-        ],
+        "key": "考核周期",
+        "label": "考核周期",
+        "type": "text",
+        "value": "2026年第四季度"
+      },
+      {
+        "key": "计划编号",
+        "label": "计划编号",
+        "type": "text",
+        "value": "HR-PLAN-2026Q4-001"
+      },
+      {
+        "key": "计划名称",
+        "label": "计划名称",
+        "type": "text",
+        "value": "2026年第四季度个人绩效考核计划"
+      },
+      {
+        "key": "考核分数",
+        "label": "考核分数",
+        "type": "number",
+        "value": "86",
+        "required": false
+      },
+      {
+        "key": "校准分",
+        "label": "校准分",
+        "type": "number",
+        "value": "88",
+        "required": false
+      },
+      {
+        "key": "考核等级",
+        "label": "考核等级",
+        "type": "text",
+        "value": "B（良好/称职）",
+        "readonly": true,
         "required": false
       },
       {
@@ -4689,22 +4695,176 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
-        "key": "加权总分",
-        "label": "加权总分",
-        "type": "number",
-        "value": "86",
+        "key": "校准记录",
+        "label": "校准记录",
+        "type": "textarea",
+        "value": "",
+        "full": true,
         "required": false
       },
       {
-        "key": "校准分",
-        "label": "校准分",
-        "type": "number",
-        "value": "88",
+        "key": "面谈记录",
+        "label": "面谈记录",
+        "type": "textarea",
+        "value": "",
+        "full": true,
         "required": false
       },
       {
-        "key": "附件",
-        "label": "附件",
+        "key": "结果应用",
+        "label": "结果应用",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false
+      },
+      {
+        "key": "确认结果",
+        "label": "确认结果",
+        "type": "select",
+        "value": "确认",
+        "options": [
+          "确认",
+          "有异议"
+        ]
+      },
+      {
+        "key": "绩效类别",
+        "label": "绩效类别",
+        "type": "select",
+        "value": "个人绩效",
+        "options": [
+          "组织绩效",
+          "个人绩效"
+        ]
+      },
+      {
+        "key": "申诉提交时间",
+        "label": "申诉提交时间",
+        "type": "datetime-local",
+        "value": "",
+        "required": false,
+        "showWhen": {
+          "field": "确认结果",
+          "in": [
+            "有异议"
+          ]
+        }
+      },
+      {
+        "key": "是否受理",
+        "label": "是否受理",
+        "type": "select",
+        "value": "受理",
+        "options": [
+          "受理",
+          "不予受理（逾期）"
+        ],
+        "required": false,
+        "showWhen": {
+          "field": "确认结果",
+          "in": [
+            "有异议"
+          ]
+        }
+      },
+      {
+        "key": "初步调查意见",
+        "label": "初步调查意见",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false,
+        "showWhen": {
+          "field": "确认结果",
+          "in": [
+            "有异议"
+          ]
+        }
+      },
+      {
+        "key": "仲裁意见",
+        "label": "仲裁意见",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false,
+        "showWhen": {
+          "field": "确认结果",
+          "in": [
+            "有异议"
+          ]
+        }
+      },
+      {
+        "key": "是否提请最终仲裁",
+        "label": "是否提请最终仲裁",
+        "type": "select",
+        "value": "否",
+        "options": [
+          "是",
+          "否"
+        ],
+        "required": false,
+        "showWhen": {
+          "field": "确认结果",
+          "in": [
+            "有异议"
+          ]
+        }
+      },
+      {
+        "key": "最终仲裁结果",
+        "label": "最终仲裁结果",
+        "type": "textarea",
+        "value": "",
+        "full": true,
+        "required": false,
+        "showWhen": {
+          "field": "确认结果",
+          "in": [
+            "有异议"
+          ]
+        }
+      },
+      {
+        "key": "参评人数（人）",
+        "label": "参评人数（人）",
+        "type": "number",
+        "value": "2",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "各等级人数上限",
+        "label": "各等级人数上限",
+        "type": "text",
+        "value": "A≤30%、B≤40%、C≥30%",
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "强制分布校验",
+        "label": "强制分布校验",
+        "type": "select",
+        "value": "符合",
+        "options": [
+          "符合",
+          "超比例"
+        ],
+        "readonly": true,
+        "required": false
+      },
+      {
+        "key": "组织绩效定级依据",
+        "label": "组织绩效定级依据",
+        "type": "text",
+        "value": "",
+        "required": false
+      },
+      {
+        "key": "相关附件",
+        "label": "相关附件",
         "type": "attachment",
         "value": "已附模拟绩效结果资料",
         "full": true,
@@ -4738,6 +4898,18 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
+        "key": "职级",
+        "label": "职级",
+        "type": "select",
+        "options": [
+          "领导",
+          "组长",
+          "主管",
+          "员工"
+        ],
+        "required": false
+      },
+      {
         "key": "考核分数",
         "label": "考核分数",
         "type": "number",
@@ -4756,15 +4928,19 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
-        "key": "职级",
-        "label": "职级",
+        "key": "等级校验",
+        "label": "等级校验",
         "type": "select",
         "options": [
-          "领导",
-          "组长",
-          "主管",
-          "员工"
+          "符合",
+          "超比例"
         ],
+        "required": false
+      },
+      {
+        "key": "备注",
+        "label": "备注",
+        "type": "text",
         "required": false
       }
     ]
