@@ -4756,8 +4756,8 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
-        "key": "考核池",
-        "label": "考核池",
+        "key": "职级",
+        "label": "职级",
         "type": "text",
         "required": false
       }

@@ -32,7 +32,7 @@ const HrBusiness = (() => {
     '19':spec('月度考勤行级确认','登记月度核对','员工编号|日期|排班与打卡|日结果|核验结论',[['EMP-2026-018','2026-09-06','行政班 / 缺卡','待补卡','待核验']]),
     '20':spec('年度汇总与输出条件','核验输出范围','员工编号|年度|输出类型|输出格式|核验结论',[['EMP-2026-018',2026,'年度汇总','Excel','待核验']]),
     '21':spec('考核指标与权重明细','维护考核指标','被考核组织|重点工作完成情况|关键业绩|工作满意度评价|加减分项',[]),
-    '22':spec('员工绩效结果明细','登记绩效结果','员工姓名|考核分数|绩效等级|考核池',[['李明',86,'A','管理池'],['王晓雨',82,'B','专业池']]),
+    '22':spec('员工绩效结果明细','登记绩效结果','员工姓名|考核分数|绩效等级|职级',[['李明',86,'A','专业序列P5'],['王晓雨',82,'B','专业序列P6']]),
     '23':spec('奖惩依据与档案预览','核验奖惩依据','事项|依据|来源|生效日期|核验结论',[['表彰','安全生产表彰决定（模拟）','本流程审批','2026-10-01','待核验']]),
     '24':spec('工资项目与定向发布','核验工资项目','员工编号|基本工资|加班工资|扣减|实发金额',[['EMP-2026-018',7500,500,0,8000]]),
     '25':spec('工资修订项目对比','核验修订差异','异议类型|原金额|现金额|处理说明|核验结论',[['加班工资',500,600,'核对加班确认记录','待核验']]),
@@ -49,7 +49,7 @@ const HrBusiness = (() => {
     else if(r.key==='03'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.办理事项,x.办理人,x.办理部门,x.办理日期]);
     else if(r.key==='05'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.调动人员,x.调出公司,x.调入公司,x.调出部门,x.调入部门,x.调出岗位,x.调入岗位,x.岗位资格,x.到岗日期]);
     else if(r.key==='11'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.变更前信息,x.变更后信息,x.变更原因]);
-    else if(r.key==='22'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.员工姓名,x.考核分数,x.绩效等级,x.考核池]);
+    else if(r.key==='22'&&r.items&&r.items.length)b.rows=r.items.map(x=>[x.员工姓名,x.考核分数,x.绩效等级,x.职级]);
     else for(const row of b.rows){s.columns.forEach((k,i)=>{if(k==='员工编号')row[i]=r.employeeId;if(r.f[k]!==undefined&&k!=='核验结论')row[i]=r.f[k];});}
     if(r.key==='21')b.rows=(r.items||[]).map(x=>[x.被考核组织,Number(x.重点工作完成情况)||0,Number(x.关键业绩)||0,Number(x.工作满意度评价)||0,x.加减分项]);
     if(r.key==='24')b.rows=r.items.map(x=>{const net=x.实发工资!==undefined?Number(x.实发工资):Number(x.金额)||0;return [x.员工编号,Math.max(0,net-500),500,0,net];});
@@ -130,7 +130,7 @@ const HrBusiness = (() => {
     if(r.key==='18'){r.f.开始日期=x[1];r.f.更正结果=x[3];}
     if(r.key==='20'){r.f.年度=x[1];r.f.输出类型=x[2];r.f.输出格式=x[3];}
     if(r.key==='21')r.items=rows.map(x=>({被考核组织:x[0],重点工作完成情况:Number(x[1])||0,关键业绩:Number(x[2])||0,工作满意度评价:Number(x[3])||0,加减分项:x[4]}));
-    if(r.key==='22')r.items=rows.map(x=>({员工姓名:x[0],考核分数:Number(x[1]),绩效等级:x[2],考核池:x[3]}));
+    if(r.key==='22')r.items=rows.map(x=>({员工姓名:x[0],考核分数:Number(x[1]),绩效等级:x[2],职级:x[3]}));
     if(r.key==='23'){r.f.奖惩类型=x[0];r.f.依据=x[1];r.f.审批来源=x[2];r.f.生效日期=x[3];}
     if(r.key==='24')r.items=r.items.map((it,i)=>{const net=Number(rows[i]?.[4]??it.实发工资??it.金额)||0;return {...it,员工编号:rows[i]?.[0]||it.员工编号,实发工资:net,金额:net};});
     if(r.key==='25'){const src=H.get(r.f.原单编号),item=copy(src?.items?.[0]||{});for(const row of rows)if(item[row[0]]!==undefined)item[row[0]]=Number(row[2]);H.payTotals(item);r.f.修订金额=String(item.实发工资??src?.items?.[0]?.金额??0);r.f.处理结论=rows.map(x=>x[0]+'：'+x[1]+'→'+x[2]).join('；');}
@@ -177,7 +177,7 @@ const HrBusiness = (() => {
   function check(r){const b=ensure(r),rows=b.rows,s=specs[r.key];if(!rows.length)return '请先填写'+s.title;
     if(r.key==='01'&&rows.some(x=>!x[0]||!x[1]||!Number.isInteger(Number(x[4]))||Number(x[4])<=0||Number(x[4])>Number(x[2])-Number(x[3])))return '招聘明细须填写岗位与年度计划，需求人数须为正整数且不超过编制余额';
     if(r.key==='02'&&!b.links.some(x=>H.get(x.id)?.key==='01'&&H.done(H.get(x.id))))return '请关联已批准的招聘需求';
-    if(r.key==='22'&&rows.some(x=>!x[0]||!employeeByName(x[0])||!Number.isFinite(Number(x[1]))||Number(x[1])<0||Number(x[1])>100||!['A','B','C','D'].includes(x[2])||!String(x[3]||'').trim()))return '员工姓名、0到100的考核分数、绩效等级与考核池必须完整';
+    if(r.key==='22'&&rows.some(x=>!x[0]||!employeeByName(x[0])||!Number.isFinite(Number(x[1]))||Number(x[1])<0||Number(x[1])>100||!['A','B','C','D'].includes(x[2])||!String(x[3]||'').trim()))return '员工姓名、0到100的考核分数、绩效等级与职级必须完整';
     if(r.key==='23'&&r.f.审批来源!=='本流程审批'){const src=H.get(r.f.审批来源);if(!src||!H.done(src)||src.employeeId!==r.employeeId||!['22','23'].includes(src.key))return '奖惩审批来源必须是该员工已确认的有效结果';}
     if(['12','15'].includes(r.key)&&r.f.开始时刻&&r.f.结束时刻&&Math.abs(hours(r)/8-Number(r.f.天数))>0.001)return '申请天数与演示工作日历计算不一致，请核对起止时段';
     if(r.key==='13'){const start=Date.parse(r.f.开始日期+'T08:30'),end=Date.parse(r.f.结束日期+'T17:30');if(H.store.records.some(x=>!x.historical&&x.id!==r.id&&x.id!==r.f.原单编号&&x.employeeId===r.employeeId&&['12','14','15','16'].includes(x.key)&&x.stage>=0&&Date.parse(x.f.开始日期+'T'+(x.f.开始时刻||'08:30'))<end&&Date.parse(x.f.结束日期+'T'+(x.f.结束时刻||'17:30'))>start))return '变更时段与其他已提交假勤冲突';}
