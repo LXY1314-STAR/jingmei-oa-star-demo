@@ -3151,92 +3151,75 @@ const ADMIN_DEFINITIONS = [
   "name": "宣传内容发布审批",
   "group": "宣传管理",
   "fields": [
-    {
-      "key": "宣传类型",
-      "label": "宣传类型",
-      "type": "select",
-      "value": "专题宣传",
-      "options": [
-        "新闻稿",
-        "专题宣传",
-        "公众号推文",
-        "视频",
-        "其他"
-      ]
-    },
-    {
-      "key": "发布渠道",
-      "label": "发布渠道",
-      "type": "select",
-      "value": "公司官网",
-      "options": [
-        "公司官网",
-        "微信公众号",
-        "内部平台",
-        "外部媒体"
-      ]
-    },
-    {
-      "key": "稿件标题",
-      "label": "稿件标题",
-      "type": "text",
-      "value": "2026年绿色印刷专题宣传稿"
-    },
-    {
-      "key": "拟发布时间",
-      "label": "拟发布时间",
-      "type": "date",
-      "value": "2026-09-05"
-    },
-    {
-      "key": "发布范围",
-      "label": "发布范围",
-      "type": "text",
-      "value": "社会公众"
-    },
-    {
-      "key": "是否对外发布",
-      "label": "是否对外发布",
-      "type": "select",
-      "value": "是",
-      "options": [
-        "是",
-        "否"
-      ]
-    },
-    {
-      "key": "密级",
-      "label": "密级",
-      "type": "select",
-      "value": "公开",
-      "options": [
-        "公开",
-        "内部",
-        "秘密"
-      ]
-    },
-    {
-      "key": "稿件正文",
-      "label": "稿件正文",
-      "type": "textarea",
-      "value": "围绕绿色印刷、环保材料和清洁生产形成的专题宣传稿。",
-      "full": true
-    },
-    {
-      "key": "宣传素材说明",
-      "label": "宣传素材说明",
-      "type": "textarea",
-      "value": "图片、视频及品牌标识使用说明。",
-      "full": true
-    },
-    {
-      "key": "审核依据",
-      "label": "审核依据",
-      "type": "textarea",
-      "value": "公司宣传管理制度及品牌保密要求。",
-      "full": true
-    }
-  ],
+      {
+        "key": "流转方式",
+        "label": "流转方式",
+        "type": "select",
+        "value": "宣传",
+        "options": [
+          "拍摄",
+          "宣传"
+        ]
+      },
+      {
+        "key": "宣传类型",
+        "label": "宣传类型",
+        "type": "select",
+        "value": "公众号推文",
+        "options": [
+          "公众号推文",
+          "视频",
+          "其他"
+        ]
+      },
+      {
+        "key": "发布渠道",
+        "label": "发布渠道",
+        "type": "select",
+        "value": "微信公众号",
+        "options": [
+          "公司官网",
+          "微信公众号",
+          "外部媒体"
+        ]
+      },
+      {
+        "key": "稿件标题",
+        "label": "稿件标题",
+        "type": "text",
+        "value": "2026年绿色印刷专题宣传稿"
+      },
+      {
+        "key": "拟发布时间",
+        "label": "拟发布时间",
+        "type": "date",
+        "value": "2026-09-05"
+      },
+      {
+        "key": "发布范围",
+        "label": "发布范围",
+        "type": "text",
+        "value": "社会公众"
+      },
+      {
+        "key": "稿件正文",
+        "label": "稿件正文",
+        "type": "attachment",
+        "value": "绿色印刷专题宣传稿.docx"
+      },
+      {
+        "key": "素材说明",
+        "label": "素材说明",
+        "type": "textarea",
+        "value": "图片、视频及品牌标识使用说明。"
+      },
+      {
+        "key": "图片",
+        "label": "图片",
+        "type": "attachment",
+        "value": "宣传配图.jpg"
+      }
+    ],
   "columns": [
     {
       "key": "审核项",
