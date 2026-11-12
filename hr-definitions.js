@@ -3242,32 +3242,12 @@ const HR_DEFINITIONS = [
         "required": false
       },
       {
-        "key": "标题",
-        "label": "标题",
-        "type": "text",
-        "value": "生产支持加班申请（演示）"
-      },
-      {
         "key": "附件",
         "label": "附件",
         "type": "attachment",
         "value": "已附模拟加班资料",
         "full": true,
         "required": false
-      },
-      {
-        "key": "相关部门审核人员",
-        "label": "相关部门审核人员",
-        "type": "multiselect",
-        "options": [
-          "刘强",
-          "周敏",
-          "何静",
-          "吴欣"
-        ],
-        "value": "",
-        "required": false,
-        "full": true
       }
     ],
     "detail": [
