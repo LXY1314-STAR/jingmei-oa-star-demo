@@ -3152,9 +3152,15 @@ const ADMIN_DEFINITIONS = [
   "group": "宣传管理",
   "fields": [
       {
+        "key": "标题",
+        "label": "标题",
+        "type": "text",
+        "value": "2026年绿色印刷专题宣传"
+      },
+      {
         "key": "流转方式",
         "label": "流转方式",
-        "type": "select",
+        "type": "multiselect",
         "value": "宣传",
         "options": [
           "拍摄",
@@ -3162,62 +3168,93 @@ const ADMIN_DEFINITIONS = [
         ]
       },
       {
-        "key": "宣传类型",
-        "label": "宣传类型",
-        "type": "select",
-        "value": "公众号推文",
-        "options": [
-          "公众号推文",
-          "视频",
-          "其他"
-        ]
-      },
-      {
-        "key": "发布渠道",
-        "label": "发布渠道",
-        "type": "select",
-        "value": "微信公众号",
-        "options": [
-          "公司官网",
-          "微信公众号",
-          "外部媒体"
-        ]
-      },
-      {
-        "key": "稿件标题",
-        "label": "稿件标题",
+        "key": "拍摄地点",
+        "label": "拍摄地点",
         "type": "text",
-        "value": "2026年绿色印刷专题宣传稿"
+        "value": "生产园区A区"
       },
       {
-        "key": "拟发布时间",
-        "label": "拟发布时间",
+        "key": "需求类型",
+        "label": "需求类型",
+        "type": "multiselect",
+        "value": "图片、视频",
+        "options": [
+          "图片",
+          "视频"
+        ]
+      },
+      {
+        "key": "拍摄日期",
+        "label": "拍摄日期",
         "type": "date",
         "value": "2026-09-05"
       },
       {
-        "key": "发布范围",
-        "label": "发布范围",
-        "type": "text",
-        "value": "社会公众"
+        "key": "拍摄时间",
+        "label": "拍摄时间",
+        "type": "time",
+        "value": "09:00"
       },
       {
-        "key": "稿件正文",
-        "label": "稿件正文",
-        "type": "attachment",
-        "value": "绿色印刷专题宣传稿.docx"
-      },
-      {
-        "key": "素材说明",
-        "label": "素材说明",
+        "key": "需求描述",
+        "label": "需求描述",
         "type": "textarea",
-        "value": "图片、视频及品牌标识使用说明。"
+        "value": "拍摄绿色印刷生产线、环保材料与清洁生产场景，用于专题宣传。"
       },
       {
-        "key": "图片",
-        "label": "图片",
+        "key": "核心素材清单",
+        "label": "核心素材清单",
         "type": "attachment",
-        "value": "宣传配图.jpg"
+        "value": "核心素材清单.docx"
+      },
+      {
+        "key": "宣讲稿",
+        "label": "宣讲稿",
+        "type": "attachment",
+        "value": "绿色印刷宣讲稿.docx"
+      },
+      {
+        "key": "宣传需求",
+        "label": "宣传需求",
+        "type": "multiselect",
+        "value": "公众号、官网",
+        "options": [
+          "公众号",
+          "视频号",
+          "官网",
+          "其他",
+          "无"
+        ]
+      },
+      {
+        "key": "经办人",
+        "label": "经办人",
+        "type": "text",
+        "value": "李明"
+      },
+      {
+        "key": "所属部门",
+        "label": "所属部门",
+        "type": "text",
+        "value": "经营发展部"
+      },
+      {
+        "key": "联系人",
+        "label": "联系人",
+        "type": "text",
+        "value": "李明"
+      },
+      {
+        "key": "联系方式",
+        "label": "联系方式",
+        "type": "text",
+        "value": "138****6218"
+      },
+      {
+        "key": "签字意见",
+        "label": "签字意见",
+        "type": "textarea",
+        "value": "同意按计划拍摄并发布。"
       }
     ],
   "columns": [
